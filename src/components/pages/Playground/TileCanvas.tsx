@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Tile from "./Tile/Tile";
+import Tile from "../../shared/Tile/Tile";
 
 const TileCanvasContainer = styled.div`
   width: 100%;

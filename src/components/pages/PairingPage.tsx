@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../atoms/Button";
+import Button from "../shared/Button";
 import { FullWidthHeightCenteredContainer } from "../Containers";
 
 const PairingPage = () => {
@@ -16,7 +16,13 @@ const PairingPage = () => {
     [isPairing, isPaired]
   );
 
-  const onPairAttempt = () => {};
+  const attemptToPair: () => void = () => {
+    // TODO Specify the right library for this and actually set up pairing alg.
+  };
+
+  useEffect(() => {
+    attemptToPair();
+  }, []);
 
   const onReturnHome = () => {
     navigate("/");
@@ -31,24 +37,24 @@ const PairingPage = () => {
   return (
     <FullWidthHeightCenteredContainer>
       {isPairing && (
-        <div>
+        <>
           <h2>Pairing device...</h2>
-        </div>
+        </>
       )}
       {failedToPair && (
-        <div>
+        <>
           <h2>Failed to pair</h2>
           <div>
             <Button onClick={onReturnHome}>Return home</Button>
             <Button onClick={onTryAgain}>Try again</Button>
           </div>
-        </div>
+        </>
       )}
       {pairedSuccessfully && (
-        <div>
+        <>
           <h2>Device paired successfully!</h2>
           <Button onClick={onGoToPlayground}>Go to playground</Button>
-        </div>
+        </>
       )}
     </FullWidthHeightCenteredContainer>
   );

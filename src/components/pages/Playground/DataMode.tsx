@@ -2,7 +2,7 @@ import {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
 } from "../../Containers";
-import Sidebar from "./Sidebar/Sidebar";
+import Sidebar from "../../shared/Sidebar/Sidebar";
 import TileCanvas from "./TileCanvas";
 
 const DataMode = () => {
