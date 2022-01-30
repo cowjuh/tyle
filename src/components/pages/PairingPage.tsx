@@ -31,7 +31,7 @@ const PairingPage = () => {
   const onTryAgain = () => {};
 
   const onGoToPlayground = () => {
-    navigate("/playground");
+    navigate("/playground/data");
   };
 
   return (
