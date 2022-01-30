@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { constructLEDId } from "../../../utils/helpers";
 import { SingleLEDPattern } from "../../types/types";
 
 interface LEDProps {
   tileId: string;
-  ledId: string;
+  ledId: number;
+  ledRowId: number;
   ledObject: SingleLEDPattern;
 }
 
@@ -16,8 +18,17 @@ const LEDContainer = styled.div<LEDProps>`
   height: 20px;
 `;
 
-const LED: React.FC<LEDProps> = ({ tileId, ledId, ledObject }) => {
-  return <LEDContainer tileId={tileId} ledId={ledId} ledObject={ledObject} />;
+const LED: React.FC<LEDProps> = ({ tileId, ledId, ledRowId, ledObject }) => {
+  const id = constructLEDId(tileId, ledRowId, ledId);
+  return (
+    <LEDContainer
+      tileId={tileId}
+      ledId={ledId}
+      ledObject={ledObject}
+      ledRowId={ledRowId}
+      id={id}
+    />
+  );
 };
 
 export default LED;

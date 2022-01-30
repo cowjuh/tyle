@@ -17,3 +17,7 @@ export const findTileByIDandDelete = (tileObjects: Array<TileObject>, tileId: st
 export const detectPhysicalTiles = async (): Promise<Array<TileObject>> => {
     return mockTileGrid[0];
 }
+
+export const constructLEDId = (tileId: string, ledRowId: number, ledId: number): string => {
+    return `${tileId}_${ledRowId}_${ledId}`;
+}

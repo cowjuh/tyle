@@ -9,6 +9,11 @@ interface TileProps {
 interface LEDRowProps {
   ledRow: LEDRowT;
   tileObject: TileObject;
+  ledRowId: number;
+}
+
+interface LEDRowContainerProps {
+  ledRowId: number;
 }
 
 const TileContainer = styled.div`
@@ -24,7 +29,7 @@ const TileContainer = styled.div`
   justify-content: center;
 `;
 
-const LEDRowContainer = styled.div`
+const LEDRowContainer = styled.div<LEDRowContainerProps>`
   display: flex;
   gap: 15px;
   width: 100%;
@@ -35,8 +40,10 @@ const Tile: React.FC<TileProps> = ({ tileObject }) => {
   return (
     <TileContainer>
       {tileObject.tileId !== "empty" &&
-        tileObject.ledConfig.map((ledRow: LEDRowT) => {
-          return <LEDRow ledRow={ledRow} tileObject={tileObject} />;
+        tileObject.ledConfig.map((ledRow: LEDRowT, i: number) => {
+          return (
+            <LEDRow ledRow={ledRow} tileObject={tileObject} ledRowId={i} />
+          );
         })}
     </TileContainer>
   );
@@ -44,12 +51,17 @@ const Tile: React.FC<TileProps> = ({ tileObject }) => {
 
 // TODO - Fix key and parentKey props for LED
 
-const LEDRow: React.FC<LEDRowProps> = ({ ledRow, tileObject }) => {
+const LEDRow: React.FC<LEDRowProps> = ({ ledRow, tileObject, ledRowId }) => {
   return (
-    <LEDRowContainer>
-      {ledRow.map((ledObject: SingleLEDPattern) => {
+    <LEDRowContainer ledRowId={ledRowId}>
+      {ledRow.map((ledObject: SingleLEDPattern, i: number) => {
         return (
-          <LED ledObject={ledObject} ledId={"key"} tileId={tileObject.tileId} />
+          <LED
+            ledObject={ledObject}
+            ledId={i}
+            tileId={tileObject.tileId}
+            ledRowId={ledRowId}
+          />
         );
       })}
     </LEDRowContainer>
