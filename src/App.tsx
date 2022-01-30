@@ -9,6 +9,9 @@ import DataMode from "./components/pages/Playground/DataMode";
 import DrawingMode from "./components/pages/Playground/DrawingMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
 
+// TODO Change element that gets displayed depending on playground route
+// TODO Update routes to use enum
+
 function App() {
   return (
     <div className="App">
@@ -17,6 +20,8 @@ function App() {
           <Route path="/" element={<WelcomePage />}></Route>
           <Route path="/pairing" element={<PairingPage />}></Route>
           <Route path="/playground/data" element={<DataMode />}></Route>
+          <Route path="/playground/draw" element={<DataMode />}></Route>
+          <Route path="/playground/program" element={<DataMode />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </Router>

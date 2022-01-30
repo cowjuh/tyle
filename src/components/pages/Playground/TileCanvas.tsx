@@ -3,6 +3,8 @@ import Tile from "../../shared/Tile/Tile";
 import { TileGrid, TileObject } from "../../types/types";
 import Selecto, { OnSelect } from "react-selecto";
 
+const TILE_CANVAS_ID = "tile-canvas-container";
+
 interface TileCanvasProps {
   tileGrid: TileGrid;
 }
@@ -30,9 +32,9 @@ const TileCanvas: React.FC<TileCanvasProps> = ({ tileGrid }) => {
     });
   };
   return (
-    <TileCanvasContainer id="tile-canvas-container">
+    <TileCanvasContainer id={TILE_CANVAS_ID}>
       <Selecto
-        container={document.body}
+        container={document.getElementById(TILE_CANVAS_ID)}
         dragContainer={window}
         selectableTargets={[".led"]}
         selectFromInside={false}

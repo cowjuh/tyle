@@ -18,6 +18,7 @@ const LEDContainer = styled.div<LEDProps>`
   width: 20px;
   height: 20px;
   background: ${(p) => (p.className?.includes("selected") ? "white" : "")};
+  cursor: pointer;
 `;
 
 const LED: React.FC<LEDProps> = ({ tileId, ledId, ledRowId, ledObject }) => {

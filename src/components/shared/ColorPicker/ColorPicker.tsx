@@ -2,11 +2,7 @@ import styled from "styled-components";
 import { Colors } from "../../types/types";
 import ColorPickerButton from "./ColorPickerButton";
 
-const ColorPickerContainer = styled.div`
-  padding: 10px;
-  border: 1px solid #ffffff50;
-  border-radius: 10px;
-`;
+const ColorPickerContainer = styled.div``;
 
 const ColorPaletteContainer = styled.div`
   display: grid;

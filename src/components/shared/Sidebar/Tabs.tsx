@@ -15,20 +15,24 @@ interface ClickableTextProps {
 
 const ClickableText = styled.button<ClickableTextProps>`
   font-weight: 800;
+  font-size: 16px;
   border: none;
   padding: 0;
   background: none;
-  color: white;
+  color: #ffffff70;
   &:hover {
     text-decoration: underline;
     cursor: pointer;
+    color: white;
   }
 `;
 
 const TabsContainer = styled.div`
   display: flex;
   gap: 20px;
-  align-items: start;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const Tabs = () => {
