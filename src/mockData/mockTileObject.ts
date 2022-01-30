@@ -1,4 +1,4 @@
-import { Colors, TileGrid, TileObject } from "../components/types/tileObject";
+import { Colors, TileGrid, TileObject } from "../components/types/types";
 
 export const mockTileGrid: TileGrid = [
     [

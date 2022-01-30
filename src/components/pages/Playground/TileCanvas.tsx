@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Tile from "../../shared/Tile/Tile";
-import { TileGrid, TileObject } from "../../types/tileObject";
+import { TileGrid, TileObject } from "../../types/types";
 
 interface TileCanvasProps {
   tileGrid: TileGrid;

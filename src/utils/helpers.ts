@@ -1,4 +1,4 @@
-import { TileObject } from "../components/types/tileObject"
+import { TileObject } from "../components/types/types"
 import { mockTileGrid } from "../mockData/mockTileObject"
 
 // TODO findTileByIDandDelete function

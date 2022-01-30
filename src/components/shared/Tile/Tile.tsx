@@ -1,8 +1,13 @@
-import { useEffect } from "react";
 import styled from "styled-components";
-import { TileObject } from "../../types/tileObject";
+import { LEDRowT, SingleLEDPattern, TileObject } from "../../types/types";
+import LED from "./LED";
 
 interface TileProps {
+  tileObject: TileObject;
+}
+
+interface LEDRowProps {
+  ledRow: LEDRowT;
   tileObject: TileObject;
 }
 
@@ -12,27 +17,42 @@ const TileContainer = styled.div`
   padding: 10px;
   width: 120px;
   height: 120px;
-  display: grid;
-  grid-gap: 15px;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
 `;
 
-const LED = styled.div`
-  border-radius: 100%;
-  background: #ffffff40;
+const LEDRowContainer = styled.div`
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  justify-content: space-between;
 `;
 
 const Tile: React.FC<TileProps> = ({ tileObject }) => {
-  useEffect(() => {
-    console.log(tileObject.toString());
-  }, [tileObject]);
   return (
     <TileContainer>
       {tileObject.tileId !== "empty" &&
-        [...Array(16)].map(() => {
-          return <LED />;
+        tileObject.ledConfig.map((ledRow: LEDRowT) => {
+          return <LEDRow ledRow={ledRow} tileObject={tileObject} />;
         })}
     </TileContainer>
+  );
+};
+
+// TODO - Fix key and parentKey props for LED
+
+const LEDRow: React.FC<LEDRowProps> = ({ ledRow, tileObject }) => {
+  return (
+    <LEDRowContainer>
+      {ledRow.map((ledObject: SingleLEDPattern) => {
+        return (
+          <LED ledObject={ledObject} ledId={"key"} tileId={tileObject.tileId} />
+        );
+      })}
+    </LEDRowContainer>
   );
 };
 
