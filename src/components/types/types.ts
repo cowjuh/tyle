@@ -3,7 +3,7 @@ export type TileRow = Array<TileObject>
 
 export interface TileObject {
     tileId: string | "empty";
-    ledConfig: Array<LEDRow>;
+    ledConfig: Array<LEDRowT>;
 }
 
 export interface SingleLEDPattern {
@@ -11,7 +11,7 @@ export interface SingleLEDPattern {
     opacity: number;
 }
 
-export type LEDRow = Array<SingleLEDPattern>;
+export type LEDRowT = Array<SingleLEDPattern>;
 export enum Colors {
     red = "#FF5B5B",
     orange = "#FF9820",
@@ -24,3 +24,5 @@ export enum Colors {
     white = "#FFFFFF",
     none = "",
 }
+
+export type PlaygroundMode = "data" | "draw" | "program";
