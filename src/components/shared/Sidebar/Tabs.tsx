@@ -1,6 +1,7 @@
 import { ReactChildren } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { PlaygroundMode } from "../../types/types";
 
 interface ClickableTextProps {
   onClick: (
@@ -9,7 +10,7 @@ interface ClickableTextProps {
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   children: string;
-  id: "data" | "draw" | "program";
+  id: PlaygroundMode;
 }
 
 const ClickableText = styled.button<ClickableTextProps>`
