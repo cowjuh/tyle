@@ -1,15 +1,17 @@
+export type TileGrid = Array<TileRow>
+export type TileRow = Array<TileObject>
+
 export interface TileObject {
-    tileId: string;
+    tileId: string | "empty";
     ledConfig: Array<LEDRow>;
 }
 
 export interface SingleLEDPattern {
-    color: LEDColours;
+    color: Colors;
     opacity: number;
 }
 
 export type LEDRow = Array<SingleLEDPattern>;
-export type LEDColours = Colors
 export enum Colors {
     red = "#FF5B5B",
     orange = "#FF9820",

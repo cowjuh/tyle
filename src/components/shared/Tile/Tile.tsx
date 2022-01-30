@@ -1,4 +1,10 @@
+import { useEffect } from "react";
 import styled from "styled-components";
+import { TileObject } from "../../types/tileObject";
+
+interface TileProps {
+  tileObject: TileObject;
+}
 
 const TileContainer = styled.div`
   border: 3px solid #ffffff40;
@@ -16,12 +22,16 @@ const LED = styled.div`
   background: #ffffff40;
 `;
 
-const Tile = () => {
+const Tile: React.FC<TileProps> = ({ tileObject }) => {
+  useEffect(() => {
+    console.log(tileObject.toString());
+  }, [tileObject]);
   return (
     <TileContainer>
-      {[...Array(16)].map(() => {
-        return <LED />;
-      })}
+      {tileObject.tileId !== "empty" &&
+        [...Array(16)].map(() => {
+          return <LED />;
+        })}
     </TileContainer>
   );
 };

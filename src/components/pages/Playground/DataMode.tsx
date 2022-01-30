@@ -1,3 +1,4 @@
+import { mockTileGrid } from "../../../mockData/mockTileObject";
 import {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
@@ -10,7 +11,7 @@ const DataMode = () => {
     <FullWidthHeightCenteredContainer>
       <PlayGroundParentContainer>
         <Sidebar />
-        <TileCanvas />
+        <TileCanvas tileGrid={mockTileGrid} />
       </PlayGroundParentContainer>
     </FullWidthHeightCenteredContainer>
   );
