@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { applyColorToTileGridObject } from "../../../utils/helpers";
 import { Colors } from "../../types/types";
 
 interface ColorPickerButtonProps {
@@ -19,10 +20,17 @@ const ColorPickerButtonContainer = styled.button`
 `;
 
 const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({ color }) => {
-  const onClick = () => {
+  const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     console.log("I got clicked");
+    applyColorToTileGridObject(Colors[color as keyof typeof Colors]);
   };
-  return <ColorPickerButtonContainer color={color} onClick={onClick} />;
+  return (
+    <ColorPickerButtonContainer
+      color={Colors[color as keyof typeof Colors]}
+      onMouseDown={(e) => onClick(e)}
+    />
+  );
 };
 
 export default ColorPickerButton;

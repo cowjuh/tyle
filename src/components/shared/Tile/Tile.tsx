@@ -49,8 +49,6 @@ const Tile: React.FC<TileProps> = ({ tileObject }) => {
   );
 };
 
-// TODO - Fix key and parentKey props for LED
-
 const LEDRow: React.FC<LEDRowProps> = ({ ledRow, tileObject, ledRowId }) => {
   return (
     <LEDRowContainer ledRowId={ledRowId}>

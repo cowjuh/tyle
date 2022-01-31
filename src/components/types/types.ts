@@ -13,6 +13,8 @@ export interface SingleLEDPattern {
 
 export type LEDRowT = Array<SingleLEDPattern>;
 export enum Colors {
+    none = "",
+    white = "#FFFFFF",
     red = "#FF5B5B",
     orange = "#FF9820",
     yellow = "#FFDB7D",
@@ -20,9 +22,7 @@ export enum Colors {
     cyan = "#82DCD7",
     blue = "#3443C7",
     purple = "#807EE7",
-    pink = "#E767DA",
-    white = "#FFFFFF",
-    none = "",
+    pink = "#E767DA"
 }
 
 export type PlaygroundMode = "data" | "draw" | "program";

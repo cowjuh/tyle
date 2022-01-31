@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -8,11 +8,22 @@ import NotFound from "./components/pages/NotFound";
 import DataMode from "./components/pages/Playground/DataMode";
 import DrawingMode from "./components/pages/Playground/DrawingMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
+import { mockTileGrid } from "./mockData/mockTileObject";
+import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./utils/helpers";
 
 // TODO Change element that gets displayed depending on playground route
 // TODO Update routes to use enum
 
 function App() {
+  useEffect(() => {
+    if (localStorage.getItem(DRAW_MODE_TILE_GRID_LS_OBJ) === null) {
+      localStorage.setItem(
+        DRAW_MODE_TILE_GRID_LS_OBJ,
+        JSON.stringify(mockTileGrid)
+      );
+    }
+  }, []);
+
   return (
     <div className="App">
       <Router>
