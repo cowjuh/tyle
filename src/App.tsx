@@ -15,15 +15,6 @@ import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./utils/helpers";
 // TODO Update routes to use enum
 
 function App() {
-  useEffect(() => {
-    if (localStorage.getItem(DRAW_MODE_TILE_GRID_LS_OBJ) === null) {
-      localStorage.setItem(
-        DRAW_MODE_TILE_GRID_LS_OBJ,
-        JSON.stringify(mockTileGrid)
-      );
-    }
-  }, []);
-
   return (
     <div className="App">
       <Router>

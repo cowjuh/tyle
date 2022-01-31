@@ -37,8 +37,13 @@ export const mockTileGrid: TileGrid = [
             ]
         },
         {
-            tileId: 'empty',
-            ledConfig: []
+            tileId: 'tileD',
+            ledConfig: [
+                [{color: Colors.red, opacity: 100}, {color: Colors.red, opacity: 100}, {color: Colors.red, opacity: 100}, {color: Colors.red, opacity: 100}, ],
+                [{color: Colors.cyan, opacity: 100}, {color: Colors.cyan, opacity: 100}, {color: Colors.cyan, opacity: 100}, {color: Colors.cyan, opacity: 100}, ],
+                [{color: Colors.pink, opacity: 100}, {color: Colors.pink, opacity: 100}, {color: Colors.pink, opacity: 100}, {color: Colors.pink, opacity: 100}, ],
+                [{color: Colors.green, opacity: 100}, {color: Colors.green, opacity: 100}, {color: Colors.green, opacity: 100}, {color: Colors.green, opacity: 100}, ],
+            ]
         },
         {
             tileId: 'empty',
