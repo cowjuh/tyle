@@ -31,7 +31,7 @@ const TileContainer = styled.div`
 
 const LEDRowContainer = styled.div<LEDRowContainerProps>`
   display: flex;
-  gap: 15px;
+  gap: 12px;
   width: 100%;
   justify-content: space-between;
 `;
