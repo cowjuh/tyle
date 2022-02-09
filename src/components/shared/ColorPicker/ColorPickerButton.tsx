@@ -1,5 +1,11 @@
+import { useContext } from "react";
 import styled from "styled-components";
-import { applyColorToTileGridObject } from "../../../utils/helpers";
+import {
+  getUpdatedTileGridObject,
+  setDrawModeTileGridObject,
+} from "../../../utils/helpers";
+import { TileGridContext } from "../../context/tileGridContext";
+import { useGlobalContext } from "../../hooks/globalContext";
 import { Colors } from "../../types/types";
 
 interface ColorPickerButtonProps {
@@ -20,14 +26,15 @@ const ColorPickerButtonContainer = styled.button`
 `;
 
 const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({ color }) => {
+  const colorEnum = Colors[color as keyof typeof Colors];
+  const [updateTileGridObject] = useGlobalContext(colorEnum);
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    console.log("I got clicked");
-    applyColorToTileGridObject(Colors[color as keyof typeof Colors]);
+    updateTileGridObject();
   };
   return (
     <ColorPickerButtonContainer
-      color={Colors[color as keyof typeof Colors]}
+      color={colorEnum}
       onMouseDown={(e) => onClick(e)}
     />
   );

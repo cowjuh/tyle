@@ -1,14 +1,10 @@
 import styled from "styled-components";
 import Tile from "../../shared/Tile/Tile";
-import { TileGrid, TileObject } from "../../types/types";
 import Selecto, { OnSelect } from "react-selecto";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { TileGridContext } from "../../context/tileGridContext";
 
 const TILE_CANVAS_ID = "tile-canvas-container";
-
-interface TileCanvasProps {
-  tileGrid: TileGrid;
-}
 
 const TileCanvasContainer = styled.div`
   width: 100%;
@@ -23,7 +19,8 @@ const TileRowContainer = styled.div`
   gap: 5px;
 `;
 
-const TileCanvas: React.FC<TileCanvasProps> = ({ tileGrid }) => {
+const TileCanvas = () => {
+  const { tileGridObject } = useContext(TileGridContext);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
       el.classList.add("selected");
@@ -47,7 +44,7 @@ const TileCanvas: React.FC<TileCanvasProps> = ({ tileGrid }) => {
         onSelect={onSelect}
         selectByClick={false}
       />
-      {tileGrid.map((tileRow) => {
+      {tileGridObject.map((tileRow) => {
         return (
           <TileRowContainer>
             {tileRow.map((tile) => {

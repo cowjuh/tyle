@@ -10,6 +10,7 @@ import DrawingMode from "./components/pages/Playground/DrawingMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
 import { mockTileGrid } from "./mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./utils/helpers";
+import { TileGridContext } from "./components/context/tileGridContext";
 
 // TODO Change element that gets displayed depending on playground route
 // TODO Update routes to use enum

@@ -1,44 +1,36 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { mockTileGrid } from "../../../mockData/mockTileObject";
-import {
-  DRAW_MODE_TILE_GRID_LS_OBJ,
-  getDrawModeTileGridObject,
-} from "../../../utils/helpers";
+import { getDrawModeTileGridObject } from "../../../utils/helpers";
 import {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
 } from "../../Containers";
+import { TileGridContext } from "../../context/tileGridContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
+import { TileGrid } from "../../types/types";
 import TileCanvas from "./TileCanvas";
 
 const DataMode = () => {
-  const [tileGridObject, setTileGridObject] = useState(
-    getDrawModeTileGridObject()
+  const [tileGridObject, setTileGridObject] = useState<TileGrid>(
+    getDrawModeTileGridObject || mockTileGrid
   );
-
-  useEffect(() => {
-    if (localStorage.getItem(DRAW_MODE_TILE_GRID_LS_OBJ) === null) {
-      localStorage.setItem(
-        DRAW_MODE_TILE_GRID_LS_OBJ,
-        JSON.stringify(mockTileGrid)
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("storage", () => {
-      console.log("Hellooo");
-      setTileGridObject(getDrawModeTileGridObject());
-    });
-  }, []);
+  const [tempVal, setTempVal] = useState(true);
+  const tileGridContextValue = {
+    tileGridObject,
+    setTileGridObject,
+    tempVal,
+    setTempVal,
+  };
 
   return (
-    <FullWidthHeightCenteredContainer>
-      <PlayGroundParentContainer>
-        <Sidebar />
-        <TileCanvas tileGrid={tileGridObject} />
-      </PlayGroundParentContainer>
-    </FullWidthHeightCenteredContainer>
+    <TileGridContext.Provider value={tileGridContextValue}>
+      <FullWidthHeightCenteredContainer>
+        <PlayGroundParentContainer>
+          <Sidebar />
+          <TileCanvas />
+        </PlayGroundParentContainer>
+      </FullWidthHeightCenteredContainer>
+    </TileGridContext.Provider>
   );
 };
 
