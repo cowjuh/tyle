@@ -12,6 +12,7 @@ interface ClickableTextProps {
   ) => void;
   children: string;
   id: PlaygroundMode;
+  selected: boolean;
 }
 
 const ClickableText = styled.button<ClickableTextProps>`
@@ -20,7 +21,7 @@ const ClickableText = styled.button<ClickableTextProps>`
   border: none;
   padding: 0;
   background: none;
-  color: #ffffff70;
+  color: ${(p) => (p.selected ? "#ffffff" : "#ffffff70")};
   &:hover {
     text-decoration: underline;
     cursor: pointer;
@@ -38,7 +39,7 @@ const TabsContainer = styled.div`
 
 const Tabs = () => {
   const navigate = useNavigate();
-  const { setPlaygroundMode } = useContext(GlobalContext);
+  const { setPlaygroundMode, playgroundMode } = useContext(GlobalContext);
 
   const onNavigate = (
     e:
@@ -53,13 +54,25 @@ const Tabs = () => {
 
   return (
     <TabsContainer>
-      <ClickableText onClick={onNavigate} id={PlaygroundModeEnum.data}>
+      <ClickableText
+        onClick={onNavigate}
+        id={PlaygroundModeEnum.data}
+        selected={playgroundMode === PlaygroundModeEnum.data}
+      >
         Data
       </ClickableText>
-      <ClickableText onClick={onNavigate} id={PlaygroundModeEnum.draw}>
+      <ClickableText
+        onClick={onNavigate}
+        id={PlaygroundModeEnum.draw}
+        selected={playgroundMode === PlaygroundModeEnum.draw}
+      >
         Draw
       </ClickableText>
-      <ClickableText onClick={onNavigate} id={PlaygroundModeEnum.program}>
+      <ClickableText
+        onClick={onNavigate}
+        id={PlaygroundModeEnum.program}
+        selected={playgroundMode === PlaygroundModeEnum.program}
+      >
         Program
       </ClickableText>
     </TabsContainer>
