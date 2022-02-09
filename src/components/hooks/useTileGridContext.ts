@@ -6,7 +6,7 @@ import {
 import { TileGridContext } from "../context/tileGridContext";
 import { Colors } from "../types/types";
 
-export const useGlobalContext = (color: Colors) => {
+export const useTileGridContext = (color: Colors) => {
   const { tileGridObject, setTileGridObject } = useContext(TileGridContext);
   const updateTileGridObject = () => {
     let udpdatedTileGridObject = getUpdatedTileGridObject(
