@@ -1,16 +1,11 @@
-import React, { useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./components/pages/WelcomePage";
 import PairingPage from "./components/pages/PairingPage";
 import NotFound from "./components/pages/NotFound";
 import DataMode from "./components/pages/Playground/DataMode";
-import DrawingMode from "./components/pages/Playground/DrawingMode";
+import DrawingMode from "./components/pages/Playground/DrawMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
-import { mockTileGrid } from "./mockData/mockTileObject";
-import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./utils/helpers";
-import { TileGridContext } from "./components/context/tileGridContext";
 
 // TODO Change element that gets displayed depending on playground route
 // TODO Update routes to use enum
