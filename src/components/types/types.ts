@@ -1,5 +1,5 @@
-export type TileGrid = Array<TileRow>;
-export type TileRow = Array<TileObject>;
+export type TileGridObject = Array<TileRowObject>;
+export type TileRowObject = Array<TileObject>;
 
 export interface TileObject {
   tileId: string | "empty";
@@ -7,12 +7,12 @@ export interface TileObject {
 }
 
 export interface SingleLEDPattern {
-  color: Colors;
+  color: Color;
   opacity: number;
 }
 
 export type LEDRowT = Array<SingleLEDPattern>;
-export enum Colors {
+export enum Color {
   none = "",
   white = "#FFFFFF",
   red = "#FF5B5B",
@@ -30,4 +30,26 @@ export enum PlaygroundModeEnum {
   data = "data",
   draw = "draw",
   program = "program",
+}
+
+/**
+ * -----------------------------------------------------
+ *  PROGRAM MODE TYPES
+ * -----------------------------------------------------
+ */
+
+export enum StateOperator {
+  greaterThan = "greaterThan",
+  lessThan = "lessThan",
+  between = "between",
+  equalTo = "equalTo",
+  notEqualTo = "notEqualTo",
+}
+
+export interface ProgramModeStateObject {
+  operator: StateOperator;
+  color: Color;
+  primaryInputValue: number;
+  secondaryInputValue?: number;
+  selectedLEDs: Array<string>;
 }
