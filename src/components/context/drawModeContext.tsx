@@ -1,12 +1,12 @@
 import { createContext } from "react";
 import { TileGridObject } from "../types/types";
 
-interface TileGridContextProps {
+interface DrawModeContextProps {
   tileGridObject: TileGridObject;
   setTileGridObject: (tileGridObject: TileGridObject) => void;
 }
 
-export const TileGridContext = createContext<TileGridContextProps>({
+export const DrawModeContext = createContext<DrawModeContextProps>({
   tileGridObject: [],
   setTileGridObject: () => {},
 });

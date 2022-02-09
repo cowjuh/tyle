@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useTileGridContext } from "../../hooks/useTileGridContext";
+import { useDrawModeContext } from "../../hooks/useDrawModeContext";
 import { Color } from "../../types/types";
 
 interface ColorPickerButtonProps {

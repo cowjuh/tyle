@@ -1,5 +1,7 @@
 import {
   Color,
+  ProgramModeStateObject,
+  StateOperator,
   TileGridObject,
   TileObject,
   TileRowObject,
@@ -85,16 +87,26 @@ export const getUpdatedTileGridObject = (
   var selectedIDs = [];
   var selectedTileIds = [];
   var selectedHash: SelectedHash = {};
+
+  // Find all elements with the "selected" class name
   const selectedLEDs: HTMLCollectionOf<Element> =
     document.getElementsByClassName(SELECTED_CLASSNAME);
 
-  // Construct an array of the LED ids that have been selected
+  /**
+   * Construct a hashtable of the LED ids that have been selected
+   * using tileIDs as keys
+   */
   for (let i = 0; i < selectedLEDs.length; i++) {
+    /**
+     * Get the LED's full string ID (includes tile, row, and LED info)
+     * Separate this string into its 3 individual components
+     */
     var elementId: string = selectedLEDs[i].id;
     var elementIdSubstring = elementId.split("_");
     var tileId = elementIdSubstring[0];
     var rowId = parseInt(elementIdSubstring[1]);
     var ledId = parseInt(elementIdSubstring[2]);
+
     selectedIDs.push(elementId);
     selectedTileIds.push(elementId.substring(0, elementId.indexOf("_")));
 
@@ -126,4 +138,34 @@ export const getUpdatedTileGridObject = (
   }
 
   return updatedDrawModeTileObject;
+};
+
+/**
+ * ---------------------------------------------------
+ * PROGRAM MODE LOGIC
+ * ---------------------------------------------------
+ */
+
+// Constructs a ProgramModeStateObject
+export const constructStateObject = (
+  color: Color,
+  operator: StateOperator,
+  input1: number,
+  input2?: number
+) => {
+  const selectedIDs = [];
+  const selectedLEDs: HTMLCollectionOf<Element> =
+    document.getElementsByClassName(SELECTED_CLASSNAME);
+  for (let i = 0; i < selectedLEDs.length; i++) {
+    selectedIDs.push(selectedLEDs[i].id);
+  }
+  const stateObject: ProgramModeStateObject = {
+    color: color,
+    operator: operator,
+    primaryInputValue: input1,
+    secondaryInputValue: input2,
+    selectedLEDs: selectedIDs,
+  };
+
+  return stateObject;
 };

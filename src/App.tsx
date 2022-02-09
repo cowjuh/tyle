@@ -18,6 +18,7 @@ import { useRouteLocation } from "./components/hooks/useRouteLocation";
 
 // TODO Change element that gets displayed depending on playground route
 // TODO Update routes to use enum
+// TODO Put program mode in
 
 function App() {
   const [currentRoute] = useRouteLocation();

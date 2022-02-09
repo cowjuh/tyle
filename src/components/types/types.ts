@@ -38,6 +38,8 @@ export enum PlaygroundModeEnum {
  * -----------------------------------------------------
  */
 
+export type ProgramModeStatesObject = Array<ProgramModeStateObject>;
+
 export enum StateOperator {
   greaterThan = "greaterThan",
   lessThan = "lessThan",

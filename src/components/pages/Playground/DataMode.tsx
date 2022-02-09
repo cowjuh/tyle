@@ -5,7 +5,7 @@ import {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
 } from "../../Containers";
-import { TileGridContext } from "../../context/tileGridContext";
+import { DrawModeContext } from "../../context/drawModeContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
 import { TileGridObject } from "../../types/types";
 import TileCanvas from "./TileCanvas";
@@ -23,14 +23,14 @@ const DataMode = () => {
   };
 
   return (
-    <TileGridContext.Provider value={tileGridContextValue}>
+    <DrawModeContext.Provider value={tileGridContextValue}>
       <FullWidthHeightCenteredContainer>
         <PlayGroundParentContainer>
           <Sidebar />
           <TileCanvas />
         </PlayGroundParentContainer>
       </FullWidthHeightCenteredContainer>
-    </TileGridContext.Provider>
+    </DrawModeContext.Provider>
   );
 };
 
