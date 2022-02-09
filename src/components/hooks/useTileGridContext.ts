@@ -15,7 +15,7 @@ export const useTileGridContext = (color: Colors) => {
     );
     setTileGridObject(udpdatedTileGridObject);
     setDrawModeTileGridObject(udpdatedTileGridObject);
-    Array.from(document.querySelectorAll("led")).forEach((el) =>
+    Array.from(document.querySelectorAll(".led")).forEach((el) =>
       el.classList.remove("selected")
     );
   };

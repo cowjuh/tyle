@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { TileGridContext } from "../../context/tileGridContext";
 
 const TILE_CANVAS_ID = "tile-canvas-container";
@@ -19,6 +19,7 @@ const TileRowContainer = styled.div`
   gap: 5px;
 `;
 
+// TODO: LED selection bug
 const TileCanvas = () => {
   const { tileGridObject } = useContext(TileGridContext);
   const onSelect: any = (e: OnSelect<Selecto>) => {
@@ -42,7 +43,7 @@ const TileCanvas = () => {
         keyContainer={window}
         hitRate={20}
         onSelect={onSelect}
-        selectByClick={false}
+        selectByClick={true}
       />
       {tileGridObject.map((tileRow) => {
         return (

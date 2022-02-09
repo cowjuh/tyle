@@ -23,7 +23,7 @@ function App() {
           <Route path="/" element={<WelcomePage />}></Route>
           <Route path="/pairing" element={<PairingPage />}></Route>
           <Route path="/playground/data" element={<DataMode />}></Route>
-          <Route path="/playground/draw" element={<DataMode />}></Route>
+          <Route path="/playground/draw" element={<DrawingMode />}></Route>
           <Route path="/playground/program" element={<DataMode />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
