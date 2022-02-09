@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { GlobalContext } from "../../context/globalContext";
 import { PlaygroundModeEnum } from "../../types/types";
 import ColorPicker from "../ColorPicker/ColorPicker";
+import SidebarDrawMode from "./SidebarDrawMode";
 import SidebarProgramMode from "./SidebarProgramMode";
 import Tabs from "./Tabs";
 
@@ -23,7 +24,7 @@ const Sidebar = () => {
   return (
     <SidebarContainer>
       <Tabs />
-      {playgroundMode == PlaygroundModeEnum.draw && <ColorPicker />}
+      {playgroundMode == PlaygroundModeEnum.draw && <SidebarDrawMode />}
       {playgroundMode == PlaygroundModeEnum.program && <SidebarProgramMode />}
     </SidebarContainer>
   );

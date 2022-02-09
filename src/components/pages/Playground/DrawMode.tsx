@@ -7,11 +7,11 @@ import {
 } from "../../Containers";
 import { TileGridContext } from "../../context/tileGridContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import { TileGrid } from "../../types/types";
+import { TileGridObject } from "../../types/types";
 import TileCanvas from "./TileCanvas";
 
 const DrawingMode = () => {
-  const [tileGridObject, setTileGridObject] = useState<TileGrid>(
+  const [tileGridObject, setTileGridObject] = useState<TileGridObject>(
     getDrawModeTileGridObject || mockTileGrid
   );
   const [tempVal, setTempVal] = useState(true);

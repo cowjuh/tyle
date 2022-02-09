@@ -1,8 +1,8 @@
 import {
-  Colors,
-  TileGrid,
+  Color,
+  TileGridObject,
   TileObject,
-  TileRow,
+  TileRowObject,
 } from "../components/types/types";
 import { mockTileGrid } from "../mockData/mockTileObject";
 
@@ -46,8 +46,8 @@ export const DRAW_MODE_TILE_GRID_LS_OBJ = "tileGridDrawMode";
 export const PROGRAM_MODE_TILE_GRID_LS_OBJ = "tileGridProgramMode";
 
 // Wrapper to retrieve the local storage draw mode tile grid object
-export const getDrawModeTileGridObject = (): TileGrid => {
-  const tileObject: TileGrid = JSON.parse(
+export const getDrawModeTileGridObject = (): TileGridObject => {
+  const tileObject: TileGridObject = JSON.parse(
     localStorage.getItem(DRAW_MODE_TILE_GRID_LS_OBJ) ||
       JSON.stringify(mockTileGrid)
   );
@@ -55,7 +55,7 @@ export const getDrawModeTileGridObject = (): TileGrid => {
 };
 
 // Wrapper to set the local storage draw mode tile grid object
-export const setDrawModeTileGridObject = (tileObject: TileGrid) => {
+export const setDrawModeTileGridObject = (tileObject: TileGridObject) => {
   localStorage.setItem(DRAW_MODE_TILE_GRID_LS_OBJ, JSON.stringify(tileObject));
 };
 
@@ -72,8 +72,8 @@ interface SelectedHash {
 }
 
 export const getUpdatedTileGridObject = (
-  color: Colors,
-  drawModeTileObject: TileGrid
+  color: Color,
+  drawModeTileObject: TileGridObject
 ) => {
   /**
    * We create a clone of the drawModeTileObject because JavaScript SUCKS
@@ -106,7 +106,7 @@ export const getUpdatedTileGridObject = (
   }
 
   for (let i = 0; i < updatedDrawModeTileObject.length; i++) {
-    let tileRow: TileRow = updatedDrawModeTileObject[i];
+    let tileRow: TileRowObject = updatedDrawModeTileObject[i];
     for (let j = 0; j < tileRow.length; j++) {
       let tileObject: TileObject = tileRow[j];
       let tileObjectId = tileObject.tileId;

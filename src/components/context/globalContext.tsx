@@ -1,5 +1,9 @@
 import { createContext, useContext } from "react";
-import { PlaygroundMode, PlaygroundModeEnum, TileGrid } from "../types/types";
+import {
+  PlaygroundMode,
+  PlaygroundModeEnum,
+  TileGridObject,
+} from "../types/types";
 
 interface GlobalContextProps {
   playgroundMode: PlaygroundMode;

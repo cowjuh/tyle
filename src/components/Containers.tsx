@@ -21,10 +21,20 @@ const SidebarInnerContainer = styled.div`
   border-radius: 5px;
   width: 100%;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+
+const SidebarHorizContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
   SidebarInnerContainer,
+  SidebarHorizContainer,
 };

@@ -1,6 +1,13 @@
 import styled from "styled-components";
-import { Colors } from "../../types/types";
+import { Color } from "../../types/types";
 import ColorPickerButton from "./ColorPickerButton";
+
+interface ColorPickerProps {
+  onSetColor: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    color: Color
+  ) => void;
+}
 
 const ColorPickerContainer = styled.div``;
 
@@ -11,13 +18,12 @@ const ColorPaletteContainer = styled.div`
 `;
 
 // TODO: Add clear all button
-const ColorPicker = () => {
+const ColorPicker: React.FC<ColorPickerProps> = ({ onSetColor }) => {
   return (
     <ColorPickerContainer>
-      <h4>LED Color</h4>
       <ColorPaletteContainer>
-        {Object.keys(Colors).map((color: string) => {
-          return <ColorPickerButton color={color} />;
+        {Object.keys(Color).map((color: string) => {
+          return <ColorPickerButton color={color} onSetColor={onSetColor} />;
         })}
       </ColorPaletteContainer>
     </ColorPickerContainer>

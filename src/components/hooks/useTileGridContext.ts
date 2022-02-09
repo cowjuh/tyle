@@ -4,11 +4,11 @@ import {
   setDrawModeTileGridObject,
 } from "../../utils/helpers";
 import { TileGridContext } from "../context/tileGridContext";
-import { Colors } from "../types/types";
+import { Color } from "../types/types";
 
-export const useTileGridContext = (color: Colors) => {
+export const useTileGridContext = () => {
   const { tileGridObject, setTileGridObject } = useContext(TileGridContext);
-  const updateTileGridObject = () => {
+  const updateTileGridObject = (color: Color) => {
     let udpdatedTileGridObject = getUpdatedTileGridObject(
       color,
       tileGridObject
