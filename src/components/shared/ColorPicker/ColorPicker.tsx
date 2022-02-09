@@ -10,6 +10,7 @@ const ColorPaletteContainer = styled.div`
   grid-gap: 10px;
 `;
 
+// TODO: Add clear all button
 const ColorPicker = () => {
   return (
     <ColorPickerContainer>

@@ -1,7 +1,8 @@
-import { ReactChildren } from "react";
+import { ReactChildren, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { PlaygroundMode } from "../../types/types";
+import { GlobalContext } from "../../context/globalContext";
+import { PlaygroundMode, PlaygroundModeEnum } from "../../types/types";
 
 interface ClickableTextProps {
   onClick: (
@@ -37,24 +38,28 @@ const TabsContainer = styled.div`
 
 const Tabs = () => {
   const navigate = useNavigate();
+  const { setPlaygroundMode } = useContext(GlobalContext);
 
   const onNavigate = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
+    setPlaygroundMode(
+      PlaygroundModeEnum[e.currentTarget.id as keyof typeof PlaygroundModeEnum]
+    );
     navigate(`/playground/${e.currentTarget.id}`);
   };
 
   return (
     <TabsContainer>
-      <ClickableText onClick={onNavigate} id="data">
+      <ClickableText onClick={onNavigate} id={PlaygroundModeEnum.data}>
         Data
       </ClickableText>
-      <ClickableText onClick={onNavigate} id="draw">
+      <ClickableText onClick={onNavigate} id={PlaygroundModeEnum.draw}>
         Draw
       </ClickableText>
-      <ClickableText onClick={onNavigate} id="program">
+      <ClickableText onClick={onNavigate} id={PlaygroundModeEnum.program}>
         Program
       </ClickableText>
     </TabsContainer>

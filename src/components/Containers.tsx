@@ -16,4 +16,15 @@ const PlayGroundParentContainer = styled.div`
   justify-content: space-between;
 `;
 
-export { FullWidthHeightCenteredContainer, PlayGroundParentContainer };
+const SidebarInnerContainer = styled.div`
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 100%;
+  padding: 5px;
+`;
+
+export {
+  FullWidthHeightCenteredContainer,
+  PlayGroundParentContainer,
+  SidebarInnerContainer,
+};
