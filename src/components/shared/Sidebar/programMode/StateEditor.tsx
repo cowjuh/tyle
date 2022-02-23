@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { generateStateId } from "../../../../utils/helpers";
 import { Color, StateOperator } from "../../../types/types";
 import Button from "../../Button";
 import ColorPicker from "../../ColorPicker/ColorPicker";
@@ -14,7 +15,9 @@ const dropdownOptions = [
 ];
 
 interface StateProps {
+  id?: string;
   onSave: (
+    id: string,
     color: Color,
     operator: StateOperator,
     input1: number,
@@ -22,7 +25,7 @@ interface StateProps {
   ) => void;
 }
 
-const State: React.FC<StateProps> = ({ onSave }) => {
+const StateEditor: React.FC<StateProps> = ({ onSave, id }) => {
   const [operator, setOperator] = useState<StateOperator>(
     StateOperator.greaterThan
   );
@@ -42,8 +45,9 @@ const State: React.FC<StateProps> = ({ onSave }) => {
     setSelectedColor(color);
   };
 
+  // TODO: This currently uses the date as an ID which is NON IDEAL!!
   const handleOnSave = () => {
-    onSave(selectedColor, operator, input1, input2);
+    onSave(id || generateStateId(), selectedColor, operator, input1, input2);
   };
 
   return (
@@ -54,9 +58,11 @@ const State: React.FC<StateProps> = ({ onSave }) => {
       {!singleInputOperator && <NumericalInput />}
       <h4>Set color to</h4>
       <ColorPicker onSetColor={onSetColor} />
-      <Button onClick={handleOnSave}>Save state</Button>
+      <Button onClick={handleOnSave}>
+        {id ? "Save state" : "Create state"}
+      </Button>
     </>
   );
 };
 
-export default State;
+export default StateEditor;
