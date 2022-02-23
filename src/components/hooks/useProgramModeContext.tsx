@@ -7,12 +7,14 @@ export const useProgramModeContext = () => {
   const { programModeStates, setProgramModeStates } =
     useContext(ProgramModeContext);
   const updateProgramModeStates = (
+    id: string,
     color: Color,
     operator: StateOperator,
     input1: number,
     input2?: number
   ) => {
     const newStateObject: ProgramModeStateObject = constructStateObject(
+      id,
       color,
       operator,
       input1,

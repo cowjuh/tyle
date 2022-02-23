@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { SidebarHorizContainer, SidebarInnerContainer } from "../../Containers";
 import { useProgramModeContext } from "../../hooks/useProgramModeContext";
-import {
-  Color,
-  ProgramModeStateObject,
-  StateOperator,
-} from "../../types/types";
-import State from "./programMode/State";
+import { Color, StateOperator } from "../../types/types";
+import StateEditor from "./programMode/StateEditor";
 import StatePreview from "./programMode/StatePreview";
 
 const SidebarProgramMode = () => {
@@ -18,24 +14,25 @@ const SidebarProgramMode = () => {
 
   // TODO: Turn the props into a type
   const onSave = (
+    id: string,
     color: Color,
     operator: StateOperator,
     input1: number,
     input2?: number
   ) => {
-    updateProgramModeStates(color, operator, input1, input2);
+    updateProgramModeStates(id, color, operator, input1, input2);
     setPreviewing(true);
   };
   return (
     <>
       <SidebarHorizContainer>
         <span>States</span>
-        <span>+</span>
+        <button>New State</button>
       </SidebarHorizContainer>
 
       <SidebarInnerContainer onClick={onExpand}>
         {previewing && <StatePreview />}
-        {!previewing && <State onSave={onSave} />}
+        {!previewing && <StateEditor onSave={onSave} />}
       </SidebarInnerContainer>
     </>
   );
