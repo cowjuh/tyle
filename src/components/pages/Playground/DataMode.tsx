@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { mockTileGrid } from "../../../mockData/mockTileObject";
+import { useState } from "react";
+import { mockDrawModeTileGrid } from "../../../mockData/mockTileObject";
 import { getDrawModeTileGridObject } from "../../../utils/helpers";
 import {
   FullWidthHeightCenteredContainer,
@@ -12,7 +12,7 @@ import TileCanvas from "./TileCanvas";
 
 const DataMode = () => {
   const [tileGridObject, setTileGridObject] = useState<TileGridObject>(
-    getDrawModeTileGridObject || mockTileGrid
+    getDrawModeTileGridObject || mockDrawModeTileGrid
   );
   const [tempVal, setTempVal] = useState(true);
   const tileGridContextValue = {
