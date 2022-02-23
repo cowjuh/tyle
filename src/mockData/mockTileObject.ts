@@ -1,6 +1,6 @@
 import { Color, TileGridObject } from "../components/types/types";
 
-export const mockTileGrid: TileGridObject = [
+export const mockDrawModeTileGrid: TileGridObject = [
   [
     {
       tileId: "tileA",
