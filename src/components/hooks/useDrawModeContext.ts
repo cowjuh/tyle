@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import {
   getUpdatedTileGridObject,
-  setDrawModeTileGridObject,
+  setLocalStorageItem,
 } from "../../utils/helpers";
 import { DrawModeContext } from "../context/drawModeContext";
-import { Color } from "../types/types";
+import { Color, LocalStorageKeys } from "../types/types";
 
 export const useDrawModeContext = () => {
   const { tileGridObject, setTileGridObject } = useContext(DrawModeContext);
@@ -14,7 +14,10 @@ export const useDrawModeContext = () => {
       tileGridObject
     );
     setTileGridObject(udpdatedTileGridObject);
-    setDrawModeTileGridObject(udpdatedTileGridObject);
+    setLocalStorageItem(
+      LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
+      udpdatedTileGridObject
+    );
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
       el.classList.remove("selected")
     );

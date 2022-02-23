@@ -1,12 +1,15 @@
 import {
   Color,
+  LocalStorageKeys as LocalStorageKey,
   ProgramModeStateObject,
+  ProgramModeStatesObject,
   StateOperator,
   TileGridObject,
   TileObject,
   TileRowObject,
 } from "../components/types/types";
-import { mockTileGrid } from "../mockData/mockTileObject";
+import { mockDrawModeTileGrid } from "../mockData/mockTileObject";
+import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./constants";
 
 // TODO findTileByIDandDelete function
 // This will help manage existing tiles being removed from the grid
@@ -25,7 +28,7 @@ export const findTileByIDandDelete = (
 
 // TODO detectPhysicalTiles Wifi integration
 export const detectPhysicalTiles = async (): Promise<Array<TileObject>> => {
-  return mockTileGrid[0];
+  return mockDrawModeTileGrid[0];
 };
 
 // Creates a unique LED ID from the tile id, led row index, and led index
@@ -43,15 +46,11 @@ export const constructLEDId = (
  * ---------------------------------------------------
  */
 
-// LS - Local Storage
-export const DRAW_MODE_TILE_GRID_LS_OBJ = "tileGridDrawMode";
-export const PROGRAM_MODE_TILE_GRID_LS_OBJ = "tileGridProgramMode";
-
 // Wrapper to retrieve the local storage draw mode tile grid object
 export const getDrawModeTileGridObject = (): TileGridObject => {
   const tileObject: TileGridObject = JSON.parse(
-    localStorage.getItem(DRAW_MODE_TILE_GRID_LS_OBJ) ||
-      JSON.stringify(mockTileGrid)
+    localStorage.getItem(LocalStorageKey.DRAW_MODE_TILE_GRID_LS_OBJ) ||
+      JSON.stringify(mockDrawModeTileGrid)
   );
   return tileObject;
 };
@@ -59,6 +58,20 @@ export const getDrawModeTileGridObject = (): TileGridObject => {
 // Wrapper to set the local storage draw mode tile grid object
 export const setDrawModeTileGridObject = (tileObject: TileGridObject) => {
   localStorage.setItem(DRAW_MODE_TILE_GRID_LS_OBJ, JSON.stringify(tileObject));
+};
+
+export const getLocalStorageItem = (localStorageKey: LocalStorageKey) => {
+  const localStorageObj: TileGridObject = JSON.parse(
+    localStorage.getItem(localStorageKey) || ""
+  );
+  return localStorageObj;
+};
+
+export const setLocalStorageItem = (
+  localStorageKey: LocalStorageKey,
+  object: TileGridObject | ProgramModeStatesObject
+) => {
+  localStorage.setItem(localStorageKey, JSON.stringify(object));
 };
 
 /**
@@ -148,6 +161,7 @@ export const getUpdatedTileGridObject = (
 
 // Constructs a ProgramModeStateObject
 export const constructStateObject = (
+  id: string,
   color: Color,
   operator: StateOperator,
   input1: number,
@@ -160,6 +174,7 @@ export const constructStateObject = (
     selectedIDs.push(selectedLEDs[i].id);
   }
   const stateObject: ProgramModeStateObject = {
+    id: id,
     color: color,
     operator: operator,
     primaryInputValue: input1,
@@ -168,4 +183,55 @@ export const constructStateObject = (
   };
 
   return stateObject;
+};
+
+// Appends a newly created state to the states list and returns the updated states object
+export const addNewStateObject = (
+  newState: ProgramModeStateObject,
+  statesObject: ProgramModeStatesObject
+) => {
+  var updatedStatesObject = JSON.parse(JSON.stringify(statesObject));
+  return updatedStatesObject.push(newState);
+};
+
+// Modifies an existing state to the states list and returns the updated states object
+export const updateStateObject = (
+  stateId: string,
+  statesObject: ProgramModeStateObject
+) => {
+  var found = false;
+  var updatedStatesObject = JSON.parse(JSON.stringify(statesObject));
+  for (let i = 0; i < updatedStatesObject.length; i++) {
+    let currentStateObj = updatedStatesObject[i];
+    if (currentStateObj.id === stateId) {
+      currentStateObj = updatedStatesObject;
+      found = true;
+    }
+  }
+
+  if (!found) console.log(`Could not find the state with id "${stateId}"`);
+  else return updatedStatesObject;
+};
+
+// Deletes an existing state from the states list and returns the updated states list
+export const deleteStateObject = (
+  stateId: string,
+  statesObject: ProgramModeStateObject
+) => {
+  var updatedStatesObject: ProgramModeStatesObject = JSON.parse(
+    JSON.stringify(statesObject)
+  );
+  for (let i = 0; i < updatedStatesObject.length; i++) {
+    let currentStateObj = updatedStatesObject[i];
+    if (currentStateObj.id === stateId) {
+      updatedStatesObject.splice(i);
+    }
+  }
+
+  return updatedStatesObject;
+};
+
+// TODO: Create an actually unique ID
+export const generateStateId = () => {
+  return Date.UTC.toString();
 };
