@@ -1,3 +1,23 @@
+import { DRAW_MODE_TILE_GRID_LS_OBJ } from "../../utils/constants";
+
+/**
+ * ---------------------------------------------------------------------
+ * LOCAL STORAGE TYPES
+ * ---------------------------------------------------------------------
+ */
+export enum LocalStorageKeys {
+  DRAW_MODE_TILE_GRID_LS_OBJ = "tileGridDrawMode",
+  PROGRAM_MODE_TILE_GRID_LS_OBJ = "tileGridProgramMode",
+  PROGRAM_MODE_STATES_LIST_LS_OBJ = "statesList",
+}
+/**
+ * ---------------------------------------------------------------------
+ * USER INTERFACE OUTPUT TYPES
+ * All types describing the UI's output types to the ESP32
+ * along with intermediary artifacts used in the UI.
+ * ---------------------------------------------------------------------
+ */
+
 export type TileGridObject = Array<TileRowObject>;
 export type TileRowObject = Array<TileObject>;
 
@@ -49,9 +69,37 @@ export enum StateOperator {
 }
 
 export interface ProgramModeStateObject {
+  id: string;
   operator: StateOperator;
   color: Color;
   primaryInputValue: number;
   secondaryInputValue?: number;
   selectedLEDs: Array<string>;
+}
+
+/**
+ * ---------------------------------------------------------------------
+ * ESP32 STREAM IN TYPES
+ * All types describing ESP32's input data stream into the UI
+ * ---------------------------------------------------------------------
+ */
+
+export type DStreamTileGridObject = Array<DstreamTileRowObject>;
+export type DstreamTileRowObject = Array<DStreamTileObject>;
+
+// TODO: Change pressureData type to an array of 4 values?
+// Tile grid object for the incoming data stream from the ESP32
+export interface DStreamTileObject {
+  tileId: string | "empty";
+  pressureData: PressureDataObject;
+  pressureValue: number;
+}
+
+// Includes values from each individual strain gauge
+// Allows user to calculate precise pressure location
+export interface PressureDataObject {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
 }
