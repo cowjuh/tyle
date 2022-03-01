@@ -7,10 +7,14 @@ import StatePreview from "./programMode/StatePreview";
 
 const SidebarProgramMode = () => {
   const [previewing, setPreviewing] = useState<boolean>(true);
+  const [creatingNewState, setCreatingNewState] = useState<boolean>(false);
   const onExpand = () => {
     previewing && setPreviewing(!previewing);
   };
   const [updateProgramModeStates] = useProgramModeContext();
+  const onNewState = () => {
+    setCreatingNewState(true);
+  };
 
   // TODO: Turn the props into a type
   const onSave = (
@@ -27,13 +31,17 @@ const SidebarProgramMode = () => {
     <>
       <SidebarHorizContainer>
         <span>States</span>
-        <button>New State</button>
+        <button onClick={onNewState}>New State</button>
       </SidebarHorizContainer>
 
       <SidebarInnerContainer onClick={onExpand}>
         {previewing && <StatePreview />}
-        {!previewing && <StateEditor onSave={onSave} />}
       </SidebarInnerContainer>
+      {creatingNewState && (
+        <SidebarInnerContainer onClick={onExpand}>
+          <StateEditor onSave={onSave} />
+        </SidebarInnerContainer>
+      )}
     </>
   );
 };

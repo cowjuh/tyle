@@ -16,9 +16,7 @@ import { useState } from "react";
 import { PlaygroundMode, PlaygroundModeEnum } from "./components/types/types";
 import { useRouteLocation } from "./components/hooks/useRouteLocation";
 
-// TODO Change element that gets displayed depending on playground route
 // TODO Update routes to use enum
-// TODO Put program mode in
 
 function App() {
   const [currentRoute] = useRouteLocation();
