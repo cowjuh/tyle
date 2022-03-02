@@ -1,6 +1,7 @@
 import {
   Color,
   LocalStorageKeys as LocalStorageKey,
+  NewProgramModeStateObject,
   ProgramModeStateObject,
   ProgramModeStatesObject,
   StateOperator,
@@ -187,7 +188,7 @@ export const constructStateObject = (
 
 // Appends a newly created state to the states list and returns the updated states object
 export const addNewStateObject = (
-  newState: ProgramModeStateObject,
+  newState: NewProgramModeStateObject,
   statesObject: ProgramModeStatesObject
 ) => {
   var updatedStatesObject = JSON.parse(JSON.stringify(statesObject));
@@ -233,5 +234,5 @@ export const deleteStateObject = (
 
 // TODO: Create an actually unique ID
 export const generateStateId = () => {
-  return Date.UTC.toString();
+  return "someId";
 };
