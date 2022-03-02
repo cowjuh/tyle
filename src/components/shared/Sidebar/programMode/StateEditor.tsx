@@ -53,9 +53,9 @@ const StateEditor: React.FC<StateProps> = ({ onSave, id }) => {
   return (
     <>
       <h4>When tile force is</h4>
-      <Dropdown options={dropdownOptions} />
-      {singleInputOperator && <NumericalInput />}
-      {!singleInputOperator && <NumericalInput />}
+      {/* <Dropdown options={dropdownOptions} /> */}
+      {/* {singleInputOperator && <NumericalInput />}
+      {!singleInputOperator && <NumericalInput />} */}
       <h4>Set color to</h4>
       <ColorPicker onSetColor={onSetColor} />
       <Button onClick={handleOnSave}>
