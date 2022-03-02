@@ -14,12 +14,9 @@ const DrawingMode = () => {
   const [tileGridObject, setTileGridObject] = useState<TileGridObject>(
     getDrawModeTileGridObject || mockDrawModeTileGrid
   );
-  const [tempVal, setTempVal] = useState(true);
   const tileGridContextValue = {
     tileGridObject,
     setTileGridObject,
-    tempVal,
-    setTempVal,
   };
 
   return (
