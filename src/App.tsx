@@ -35,7 +35,7 @@ function App() {
             <Route path="/pairing" element={<PairingPage />}></Route>
             <Route path="/playground/data" element={<DataMode />}></Route>
             <Route path="/playground/draw" element={<DrawingMode />}></Route>
-            <Route path="/playground/program" element={<DataMode />}></Route>
+            <Route path="/playground/program" element={<ProgramMode />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </Router>
