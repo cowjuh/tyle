@@ -1,22 +1,44 @@
 import { SidebarHorizContainer } from "../../../Containers";
-import { Color } from "../../../types/types";
+import {
+  Color,
+  ProgramModeStateObject,
+  StateOperator,
+  StateOperatorSymbols,
+} from "../../../types/types";
 import ColorPickerButton from "../../ColorPicker/ColorPickerButton";
 import styled from "styled-components";
 
-interface StatePreviewProps {}
+interface StatePreviewProps {
+  stateObject: ProgramModeStateObject;
+  index: number;
+}
 
 const StatePreviewContainer = styled(SidebarHorizContainer)`
   cursor: pointer;
 `;
 
-const StatePreview: React.FC<StatePreviewProps> = () => {
+const StatePreview: React.FC<StatePreviewProps> = ({ stateObject, index }) => {
+  const {
+    color,
+    id,
+    operator,
+    primaryInputValue,
+    selectedLEDs,
+    secondaryInputValue,
+  } = stateObject;
+  const isBetweenOperator = operator == StateOperator.between;
   return (
     <StatePreviewContainer>
       <span>
-        <b>1</b>
+        <b>{index + 1}</b>
       </span>
-      <span>P {">"} 120 N</span>
-      <ColorPickerButton disabled={true} color={Color.pink} />
+      <span>
+        {isBetweenOperator &&
+          `${primaryInputValue} < P < ${secondaryInputValue}`}
+        {!isBetweenOperator &&
+          `P ${StateOperatorSymbols[operator]} ${primaryInputValue}`}
+      </span>
+      <ColorPickerButton disabled={true} color={color} />
     </StatePreviewContainer>
   );
 };

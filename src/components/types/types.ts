@@ -68,6 +68,14 @@ export enum StateOperator {
   notEqualTo = "notEqualTo",
 }
 
+export enum StateOperatorSymbols {
+  greaterThan = ">",
+  lessThan = "<",
+  between = "-",
+  equalTo = "=",
+  notEqualTo = "!=",
+}
+
 export interface ProgramModeStateObject {
   id: string;
   operator: StateOperator;
@@ -76,6 +84,9 @@ export interface ProgramModeStateObject {
   secondaryInputValue?: number;
   selectedLEDs: Array<string>;
 }
+
+export interface NewProgramModeStateObject
+  extends Omit<ProgramModeStateObject, "id"> {}
 
 /**
  * ---------------------------------------------------------------------
