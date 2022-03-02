@@ -5,15 +5,31 @@ import {
 } from "../../Containers";
 import { ProgramModeContext } from "../../context/programModeContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import { ProgramModeStatesObject } from "../../types/types";
+import {
+  Color,
+  ProgramModeStateObject,
+  ProgramModeStatesObject,
+  StateOperator,
+} from "../../types/types";
 import TileCanvas from "./TileCanvas";
+
+const mockProgramModeState: ProgramModeStateObject = {
+  color: Color.blue,
+  id: "1",
+  operator: StateOperator.greaterThan,
+  primaryInputValue: 200,
+  selectedLEDs: ["hello"],
+};
 
 const ProgramMode = () => {
   const [programModeStates, setProgramModeStates] =
     useState<ProgramModeStatesObject>([]);
+  const [tempVal, setTempVal] = useState("MY TEMP VAL");
   const tileGridContextValue = {
     programModeStates,
     setProgramModeStates,
+    tempVal,
+    setTempVal,
   };
 
   return (
