@@ -32,11 +32,11 @@ const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
   color,
   disabled,
 }) => {
-  const colorEnum = Color[color as keyof typeof Color];
+  const colorHEX = Color[color as keyof typeof Color];
   return (
     <ColorPickerButtonContainer
-      color={colorEnum}
-      onMouseDown={(e) => onSetColor && onSetColor(e, colorEnum)}
+      color={color}
+      onMouseDown={(e) => onSetColor && onSetColor(e, colorHEX)}
       disabled={disabled}
     />
   );
