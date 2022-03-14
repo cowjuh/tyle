@@ -37,14 +37,16 @@ const LEDRowContainer = styled.div<LEDRowContainerProps>`
 `;
 
 const Tile: React.FC<TileProps> = ({ tileObject }) => {
+  const isEmpty = tileObject.tileId == "empty";
   return (
     <TileContainer>
-      {tileObject.tileId !== "empty" &&
+      {!isEmpty &&
         tileObject.ledConfig.map((ledRow: LEDRowT, i: number) => {
           return (
             <LEDRow ledRow={ledRow} tileObject={tileObject} ledRowId={i} />
           );
         })}
+      {isEmpty && "Empty space"}
     </TileContainer>
   );
 };
