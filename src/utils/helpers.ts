@@ -62,8 +62,8 @@ export const setDrawModeTileGridObject = (tileObject: TileGridObject) => {
 };
 
 export const getLocalStorageItem = (localStorageKey: LocalStorageKey) => {
-  const localStorageObj: TileGridObject = JSON.parse(
-    localStorage.getItem(localStorageKey) || ""
+  const localStorageObj = JSON.parse(
+    localStorage.getItem(localStorageKey) || "[]"
   );
   return localStorageObj;
 };

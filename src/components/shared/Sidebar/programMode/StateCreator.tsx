@@ -50,6 +50,7 @@ const StateCreator: React.FC<StateProps> = ({ onCreate }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     color: Color
   ) => {
+    e.preventDefault();
     setSelectedColor(color);
   };
 

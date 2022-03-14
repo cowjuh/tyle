@@ -1,7 +1,16 @@
 import { useContext } from "react";
-import { constructStateObject, generateStateId } from "../../utils/helpers";
+import {
+  constructStateObject,
+  generateStateId,
+  setLocalStorageItem,
+} from "../../utils/helpers";
 import { ProgramModeContext } from "../context/programModeContext";
-import { Color, ProgramModeStateObject, StateOperator } from "../types/types";
+import {
+  Color,
+  LocalStorageKeys,
+  ProgramModeStateObject,
+  StateOperator,
+} from "../types/types";
 
 export const useProgramModeContext = () => {
   const { programModeStates, setProgramModeStates } =
@@ -47,6 +56,10 @@ export const useProgramModeContext = () => {
       input2
     );
     setProgramModeStates([...programModeStates, newStateObject]);
+    setLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ, [
+      ...programModeStates,
+      newStateObject,
+    ]);
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
       el.classList.remove("selected")
     );

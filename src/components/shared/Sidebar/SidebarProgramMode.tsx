@@ -18,8 +18,7 @@ const SidebarProgramMode = () => {
   const onNewState = () => {
     setCreatingNewState(true);
   };
-  const { programModeStates, tempVal, setTempVal } =
-    useContext(ProgramModeContext);
+  const { programModeStates } = useContext(ProgramModeContext);
 
   const noStatesSet = useMemo(() => {
     return programModeStates.length == 0;
