@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getLocalStorageItem } from "../../../utils/helpers";
 import {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
@@ -7,6 +8,7 @@ import { ProgramModeContext } from "../../context/programModeContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
 import {
   Color,
+  LocalStorageKeys,
   ProgramModeStateObject,
   ProgramModeStatesObject,
   StateOperator,
@@ -23,13 +25,13 @@ const mockProgramModeState: ProgramModeStateObject = {
 
 const ProgramMode = () => {
   const [programModeStates, setProgramModeStates] =
-    useState<ProgramModeStatesObject>([]);
-  const [tempVal, setTempVal] = useState("MY TEMP VAL");
+    useState<ProgramModeStatesObject>(
+      getLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ) ||
+        []
+    );
   const tileGridContextValue = {
     programModeStates,
     setProgramModeStates,
-    tempVal,
-    setTempVal,
   };
 
   return (

@@ -9,8 +9,6 @@ import {
 interface ProgramModeContextProps {
   programModeStates: ProgramModeStatesObject;
   setProgramModeStates: (statesObject: ProgramModeStatesObject) => void;
-  tempVal: string;
-  setTempVal: (newString: string) => void;
 }
 
 const mockProgramModeState: ProgramModeStateObject = {
@@ -24,6 +22,4 @@ const mockProgramModeState: ProgramModeStateObject = {
 export const ProgramModeContext = createContext<ProgramModeContextProps>({
   programModeStates: [mockProgramModeState],
   setProgramModeStates: () => {},
-  tempVal: "this should not be displaying",
-  setTempVal: () => {},
 });
