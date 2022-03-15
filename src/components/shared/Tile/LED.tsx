@@ -23,7 +23,6 @@ const LEDContainer = styled.div<LEDProps>`
 
 const LED: React.FC<LEDProps> = ({ tileId, ledId, ledRowId, ledObject }) => {
   const id = constructLEDId(tileId, ledRowId, ledId);
-
   return (
     <LEDContainer
       className="led"

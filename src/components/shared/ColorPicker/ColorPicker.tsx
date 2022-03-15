@@ -24,6 +24,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onSetColor }) => {
       <ColorPaletteContainer>
         {Object.keys(Color).map((color: string) => {
           const colorHEX = Color[color as keyof typeof Color];
+
           return <ColorPickerButton color={colorHEX} onSetColor={onSetColor} />;
         })}
       </ColorPaletteContainer>

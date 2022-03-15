@@ -7,7 +7,7 @@ interface ColorPickerButtonProps {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     color: Color
   ) => void;
-  color: string;
+  color: Color;
   disabled?: boolean;
 }
 
@@ -32,11 +32,11 @@ const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
   color,
   disabled,
 }) => {
-  const colorHEX = Color[color as keyof typeof Color];
+  console.log("the color", color);
   return (
     <ColorPickerButtonContainer
       color={color}
-      onMouseDown={(e) => onSetColor && onSetColor(e, colorHEX)}
+      onMouseDown={(e) => onSetColor && onSetColor(e, color)}
       disabled={disabled}
     />
   );

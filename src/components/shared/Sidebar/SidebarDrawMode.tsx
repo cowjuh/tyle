@@ -1,9 +1,6 @@
-import { useState } from "react";
-import { SidebarHorizContainer, SidebarInnerContainer } from "../../Containers";
 import { useDrawModeContext } from "../../hooks/useDrawModeContext";
 import { Color } from "../../types/types";
 import ColorPicker from "../ColorPicker/ColorPicker";
-import StatePreview from "./programMode/StatePreview";
 
 const SidebarDrawMode = () => {
   const [updateTileGridObject] = useDrawModeContext();
@@ -12,6 +9,7 @@ const SidebarDrawMode = () => {
     color: Color
   ) => {
     e.preventDefault();
+    console.log("SETTING COLOR", color);
     updateTileGridObject(color);
   };
   return (
