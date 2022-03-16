@@ -32,9 +32,11 @@ const StateList = () => {
         {!noStatesSet &&
           programModeStates.map((stateObject, i) => {
             return (
-              <>
-                <StatePreview stateObject={stateObject} index={i} />
-              </>
+              <StatePreview
+                stateObject={stateObject}
+                index={i}
+                key={stateObject.id}
+              />
             );
           })}
       </StatesListContainer>
