@@ -9,7 +9,7 @@ interface DropdownProps {
 }
 
 const DropdownStyled = styled.select`
-  background: #ffffff20;
+  background: #ffffff10;
   color: white;
   padding: 5px;
   width: 100%;

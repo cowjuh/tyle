@@ -4,7 +4,6 @@ import { Color, StateOperator } from "../../../types/types";
 import Button from "../../Atoms/Button";
 import ColorPicker from "../../ColorPicker/ColorPicker";
 import Dropdown from "../../Atoms/Dropdown";
-import NumericalInput from "../../Atoms/Input";
 import { TextButton } from "../../Atoms/TextButton";
 import {
   SidebarHorizContainer,
@@ -17,16 +16,24 @@ import {
 } from "../../../../utils/constants";
 import { getStateId } from "../../../../utils/helpers";
 import { useProgramModeContext } from "../../../hooks/useProgramModeContext";
+import { LetterInput, NumericalInput } from "../../Atoms/Input";
 
 const BetweenOperatorInputContainer = styled.div`
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px;
 `;
 
 const BetweenOperatorSupportText = styled.div`
-  padding: 0 8px;
+  padding: 0;
+`;
+
+const TileIdInputContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: fit-content;
+  gap: 5px;
 `;
 
 const ButtonContainer = styled.div`
@@ -60,6 +67,8 @@ const StateEditor = () => {
   const [operator, setOperator] = useState<StateOperator>(
     (stateObject && stateObject?.operator) || StateOperator.greaterThan
   );
+
+  const [tileId, setTileId] = useState();
 
   const isSingleInputOperator = useMemo(
     () => operator !== StateOperator.between,
@@ -114,30 +123,55 @@ const StateEditor = () => {
         <TextButton onClick={onBack}>{`← Back`}</TextButton>
       </SidebarHorizContainer>
       <SidebarInnerContainer>
-        <h4>When tile force is</h4>
+        <h4>Tile</h4>
+        <TileIdInputContainer>
+          <LetterInput onChange={() => {}} />
+          <NumericalInput onChange={() => {}} maxLength={1} />
+        </TileIdInputContainer>
+        <h4>Operator</h4>
         <Dropdown
           options={DROPDOWN_OPTIONS}
           onChange={onDropdownChange}
           initialValue={operator}
         />
-        {isSingleInputOperator && (
-          <NumericalInput onChange={onInput1Change} initialValue={input1} />
-        )}
-        {!isSingleInputOperator && (
-          <BetweenOperatorInputContainer>
-            <NumericalInput onChange={onInput1Change} initialValue={input1} />
-            <BetweenOperatorSupportText>and</BetweenOperatorSupportText>
-            <NumericalInput onChange={onInput2Change} initialValue={input2} />
-          </BetweenOperatorInputContainer>
-        )}
-        <h4>Set color to</h4>
+        <h4>Value{!isSingleInputOperator && "s"}</h4>
+        <BetweenOperatorInputContainer>
+          {isSingleInputOperator && (
+            <>
+              <NumericalInput
+                onChange={onInput1Change}
+                initialValue={input1}
+                maxLength={3}
+              />
+            </>
+          )}
+          {!isSingleInputOperator && (
+            <>
+              <NumericalInput
+                onChange={onInput1Change}
+                initialValue={input1}
+                maxLength={3}
+              />
+              <BetweenOperatorSupportText>and</BetweenOperatorSupportText>
+              <NumericalInput
+                onChange={onInput2Change}
+                initialValue={input2}
+                maxLength={3}
+              />
+            </>
+          )}
+          <div>N</div>
+        </BetweenOperatorInputContainer>
+        <h4>Color</h4>
         <ColorPicker onSetColor={onSetColor} />
         <ButtonContainer>
           <Button onClick={isCreatingNewState ? handleOnCreate : handleOnSave}>
             {isCreatingNewState ? "Create state" : "Save State"}
           </Button>
           <TextButton onClick={onBack}>Cancel</TextButton>
-          <TextButton onClick={handleOnDelete}>Delete</TextButton>
+          {!isCreatingNewState && (
+            <TextButton onClick={handleOnDelete}>Delete</TextButton>
+          )}
         </ButtonContainer>
       </SidebarInnerContainer>
     </>
