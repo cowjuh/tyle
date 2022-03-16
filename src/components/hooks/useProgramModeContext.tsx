@@ -53,7 +53,7 @@ export const useProgramModeContext = () => {
       deepCopyProgramModeStates
     );
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected")
+      el.classList.remove("selected-draw-mode")
     );
   };
 
@@ -84,7 +84,7 @@ export const useProgramModeContext = () => {
       newStateObject,
     ]);
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected")
+      el.classList.remove("selected-draw-mode")
     );
   };
 

@@ -82,7 +82,7 @@ export const setLocalStorageItem = (
  * The following functions will return the updated tile grid object
  * ---------------------------------------------------
  */
-export const SELECTED_CLASSNAME = "selected";
+export const SELECTED_CLASSNAME = "selected-draw-mode";
 
 interface SelectedHash {
   [key: string]: number[][];
@@ -103,7 +103,7 @@ export const getUpdatedTileGridObject = (
   var selectedTileIds = [];
   var selectedHash: SelectedHash = {};
 
-  // Find all elements with the "selected" class name
+  // Find all elements with the "selected-draw-mode" class name
   const selectedLEDs: HTMLCollectionOf<Element> =
     document.getElementsByClassName(SELECTED_CLASSNAME);
 
@@ -237,6 +237,15 @@ export const deleteStateObject = (
  */
 export const generateStateId = () => {
   return uuidv4();
+};
+
+/**
+ * Converts an integer to its ASCII equivalent
+ * @param num
+ * @returns
+ */
+export const convertNumberToLetter = (num: number) => {
+  return String.fromCharCode(65 + num);
 };
 
 /**

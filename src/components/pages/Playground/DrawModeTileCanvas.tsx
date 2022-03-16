@@ -24,10 +24,10 @@ const DrawModeTileCanvas = () => {
   const { tileGridObject } = useContext(DrawModeContext);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
-      el.classList.add("selected");
+      el.classList.add("selected-draw-mode");
     });
     e.removed.forEach((el) => {
-      el.classList.remove("selected");
+      el.classList.remove("selected-draw-mode");
     });
   };
 

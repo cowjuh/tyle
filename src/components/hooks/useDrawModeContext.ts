@@ -19,7 +19,7 @@ export const useDrawModeContext = () => {
       udpdatedTileGridObject
     );
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected")
+      el.classList.remove("selected-draw-mode")
     );
   };
 
