@@ -109,9 +109,6 @@ export const useProgramModeContext = () => {
       if (programModeStates[i].id === id)
         deepCopyProgramModeStates.splice(i, 1);
     }
-
-    console.log(deepCopyProgramModeStates);
-
     setProgramModeStates(deepCopyProgramModeStates);
     setLocalStorageItem(
       LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ,
