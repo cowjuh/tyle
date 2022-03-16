@@ -145,11 +145,3 @@ const StateEditor = () => {
 };
 
 export default StateEditor;
-function createProgramModeState(
-  color: Color,
-  operator: StateOperator,
-  input1: number,
-  input2: number | undefined
-) {
-  throw new Error("Function not implemented.");
-}
