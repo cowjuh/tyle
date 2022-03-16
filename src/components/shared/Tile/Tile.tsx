@@ -4,6 +4,7 @@ import LED from "./LED";
 
 interface TileProps {
   tileObject: TileObject;
+  hideLEDs?: boolean;
 }
 
 interface LEDRowProps {
@@ -36,17 +37,18 @@ const LEDRowContainer = styled.div<LEDRowContainerProps>`
   justify-content: space-between;
 `;
 
-const Tile: React.FC<TileProps> = ({ tileObject }) => {
+const Tile: React.FC<TileProps> = ({ tileObject, hideLEDs }) => {
   const isEmpty = tileObject.tileId === "empty";
   return (
     <TileContainer>
       {!isEmpty &&
+        !hideLEDs &&
         tileObject.ledConfig.map((ledRow: LEDRowT, i: number) => {
           return (
             <LEDRow ledRow={ledRow} tileObject={tileObject} ledRowId={i} />
           );
         })}
-      {isEmpty && "Empty space"}
+      {isEmpty && !hideLEDs && "Empty space"}
     </TileContainer>
   );
 };

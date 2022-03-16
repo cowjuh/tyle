@@ -31,7 +31,7 @@ export interface SingleLEDPattern {
 
 export type LEDRowT = Array<SingleLEDPattern>;
 export enum Color {
-  none = "",
+  none = "#FFFFFF10",
   white = "#FFFFFF",
   red = "#FF5B5B",
   orange = "#FF9820",

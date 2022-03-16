@@ -16,7 +16,8 @@ const LEDContainer = styled.div<LEDProps>`
     (p.ledObject.opacity === 100 ? "" : p.ledObject.opacity)};
   width: 20px;
   height: 20px;
-  background: ${(p) => (p.className?.includes("selected") ? "white" : "")};
+  background: ${(p) =>
+    p.className?.includes("selected-draw-mode") ? "white" : ""};
   cursor: pointer;
 `;
 
