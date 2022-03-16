@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DrawModeContext } from "../../context/drawModeContext";
+import { useLocation } from "react-router-dom";
 
 const TILE_CANVAS_ID = "tile-canvas-container";
 
@@ -21,7 +22,9 @@ const TileRowContainer = styled.div`
 
 // TODO: LED selection bug
 const ProgramModeTileCanvas = () => {
+  const location = useLocation();
   const { tileGridObject } = useContext(DrawModeContext);
+  useEffect(() => {}, [location]);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
       el.classList.add("selected");

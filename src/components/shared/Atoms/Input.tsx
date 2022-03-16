@@ -34,7 +34,6 @@ const NumericalInput: React.FC<NumericalInputProps> = ({
       min={0}
       defaultValue={value}
       max={MAX_PRESSURE_SENSOR_VALUE}
-      value={value || undefined}
       onChange={handleChange}
     ></InputContainer>
   );
