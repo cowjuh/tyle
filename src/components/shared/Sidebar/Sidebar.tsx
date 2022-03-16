@@ -1,6 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalContext } from "../../context/globalContext";
+import { useRouteLocation } from "../../hooks/useRouteLocation";
 import { PlaygroundModeEnum } from "../../types/types";
 import SidebarDrawMode from "./SidebarDrawMode";
 import SidebarProgramMode from "./SidebarProgramMode";
@@ -18,12 +20,13 @@ const SidebarContainer = styled.div`
 `;
 
 const Sidebar = () => {
-  const { playgroundMode } = useContext(GlobalContext);
+  const [playgroundRoute] = useRouteLocation();
+
   return (
     <SidebarContainer>
       <Tabs />
-      {playgroundMode === PlaygroundModeEnum.draw && <SidebarDrawMode />}
-      {playgroundMode === PlaygroundModeEnum.program && <SidebarProgramMode />}
+      {playgroundRoute === PlaygroundModeEnum.draw && <SidebarDrawMode />}
+      {playgroundRoute === PlaygroundModeEnum.program && <SidebarProgramMode />}
     </SidebarContainer>
   );
 };
