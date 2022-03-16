@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalContext } from "../../context/globalContext";
+import { useRouteLocation } from "../../hooks/useRouteLocation";
 import { PlaygroundMode, PlaygroundModeEnum } from "../../types/types";
 
 interface ClickableTextProps {
@@ -39,16 +40,13 @@ const TabsContainer = styled.div`
 
 const Tabs = () => {
   const navigate = useNavigate();
-  const { setPlaygroundMode, playgroundMode } = useContext(GlobalContext);
+  const [playgroundRoute] = useRouteLocation();
 
   const onNavigate = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
-    setPlaygroundMode(
-      PlaygroundModeEnum[e.currentTarget.id as keyof typeof PlaygroundModeEnum]
-    );
     navigate(`/playground/${e.currentTarget.id}`);
   };
 
@@ -57,21 +55,21 @@ const Tabs = () => {
       <ClickableText
         onClick={onNavigate}
         id={PlaygroundModeEnum.data}
-        selected={playgroundMode === PlaygroundModeEnum.data}
+        selected={playgroundRoute === PlaygroundModeEnum.data}
       >
         Data
       </ClickableText>
       <ClickableText
         onClick={onNavigate}
         id={PlaygroundModeEnum.draw}
-        selected={playgroundMode === PlaygroundModeEnum.draw}
+        selected={playgroundRoute === PlaygroundModeEnum.draw}
       >
         Draw
       </ClickableText>
       <ClickableText
         onClick={onNavigate}
         id={PlaygroundModeEnum.program}
-        selected={playgroundMode === PlaygroundModeEnum.program}
+        selected={playgroundRoute === PlaygroundModeEnum.program}
       >
         Program
       </ClickableText>

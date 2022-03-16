@@ -4,8 +4,6 @@ export const useRouteLocation = () => {
   const pathname = window.location.pathname;
   const pathArray = pathname.split("/");
   const playgroundRoute =
-    PlaygroundModeEnum[
-      pathArray[pathArray.length - 1] as keyof typeof PlaygroundModeEnum
-    ];
+    PlaygroundModeEnum[pathArray[2] as keyof typeof PlaygroundModeEnum];
   return [playgroundRoute];
 };

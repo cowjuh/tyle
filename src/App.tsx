@@ -13,17 +13,17 @@ import {
 import { useState } from "react";
 import { PlaygroundMode } from "./components/types/types";
 import { useRouteLocation } from "./components/hooks/useRouteLocation";
-import { mockDrawModeTileGrid } from "./mockData/mockTileObject";
+import {
+  mockDrawModeTileGrid,
+  mockProgramModeTileGrid,
+} from "./mockData/mockTileObject";
 import { mockDataStream } from "./mockData/mockInput";
 
 function App() {
   const [currentRoute] = useRouteLocation();
-  const [playgroundMode, setPlaygroundMode] =
-    useState<PlaygroundMode>(currentRoute);
+  useState<PlaygroundMode>(currentRoute);
   const globalContextValue: GlobalContextProps = {
-    playgroundMode: playgroundMode,
-    setPlaygroundMode,
-    globalTileGrid: mockDataStream,
+    globalTileGridObject: mockProgramModeTileGrid,
   };
   return (
     <div className="App">
