@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BASE_ROUTE_PROGRAM_MODE } from "../../../utils/constants";
 import { ProgramModeRouteEnum } from "../../types/types";
-import StateCreator from "./programMode/StateCreator";
+import StateEditor from "./programMode/StateEditor";
 import StateList from "./programMode/StateList";
 
 const SidebarProgramMode = () => {
@@ -25,7 +25,7 @@ const SidebarProgramMode = () => {
   return (
     <>
       {path === ProgramModeRouteEnum.base && <StateList />}
-      {path !== ProgramModeRouteEnum.base && <StateCreator />}
+      {path !== ProgramModeRouteEnum.base && <StateEditor />}
     </>
   );
 };
