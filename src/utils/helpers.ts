@@ -11,6 +11,7 @@ import {
 } from "../components/types/types";
 import { mockDrawModeTileGrid } from "../mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./constants";
+import { v4 as uuidv4 } from "uuid";
 
 // TODO findTileByIDandDelete function
 // This will help manage existing tiles being removed from the grid
@@ -228,11 +229,23 @@ export const deleteStateObject = (
       updatedStatesObject.splice(i);
     }
   }
-
   return updatedStatesObject;
 };
 
-// TODO: Create an actually unique ID
+/**
+ * @returns a UUID v4 ID
+ */
 export const generateStateId = () => {
-  return "someId";
+  return uuidv4();
+};
+
+/**
+ *
+ * @param pathname
+ * @returns either the existing ID or returns undefined
+ */
+export const getStateId = (pathname: string): string | undefined => {
+  const pathArray = pathname.split("/");
+  const lastPathItem = pathArray[pathArray.length - 1];
+  return lastPathItem !== "new" ? lastPathItem : undefined;
 };

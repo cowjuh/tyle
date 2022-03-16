@@ -1,74 +1,31 @@
-import { useContext, useMemo, useState } from "react";
-import { SidebarHorizContainer, SidebarInnerContainer } from "../../Containers";
-import { ProgramModeContext } from "../../context/programModeContext";
-import { useProgramModeContext } from "../../hooks/useProgramModeContext";
-import { Color, StateOperator } from "../../types/types";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { BASE_ROUTE_PROGRAM_MODE } from "../../../utils/constants";
+import { ProgramModeRouteEnum } from "../../types/types";
 import StateCreator from "./programMode/StateCreator";
-import StateEditor from "./programMode/StateEditor";
-import StatePreview from "./programMode/StatePreview";
+import StateList from "./programMode/StateList";
 
 const SidebarProgramMode = () => {
-  const [previewing, setPreviewing] = useState<boolean>(true);
-  const [creatingNewState, setCreatingNewState] = useState<boolean>(false);
-  const onExpand = () => {
-    previewing && setPreviewing(!previewing);
-  };
-  const { updateProgramModeStates, createProgramModeState } =
-    useProgramModeContext();
-  const onNewState = () => {
-    setCreatingNewState(true);
-  };
-  const { programModeStates } = useContext(ProgramModeContext);
+  let location = useLocation();
+  const [path, setPath] = useState<ProgramModeRouteEnum>(
+    ProgramModeRouteEnum.base
+  );
 
-  const noStatesSet = useMemo(() => {
-    return programModeStates.length == 0;
-  }, [programModeStates]);
-
-  // TODO: Turn the props into a type
-  const onSave = (
-    id: string,
-    color: Color,
-    operator: StateOperator,
-    input1: number,
-    input2?: number
-  ) => {
-    updateProgramModeStates(id, color, operator, input1, input2);
-    setPreviewing(true);
-  };
-
-  // TODO: Turn the props into a type
-  const onCreate = (
-    color: Color,
-    operator: StateOperator,
-    input1: number,
-    input2?: number
-  ) => {
-    createProgramModeState(color, operator, input1, input2);
-    setPreviewing(true);
-    setCreatingNewState(false);
-  };
+  useEffect(() => {
+    const pathnameArray = location.pathname.split("/");
+    if (location.pathname === BASE_ROUTE_PROGRAM_MODE) {
+      setPath(ProgramModeRouteEnum.base);
+    } else if (pathnameArray[pathnameArray.length - 1] === "new") {
+      setPath(ProgramModeRouteEnum.new);
+    } else {
+      setPath(ProgramModeRouteEnum.edit);
+    }
+  }, [setPath, location]);
 
   return (
     <>
-      <SidebarHorizContainer>
-        <span>States</span>
-        <button onClick={onNewState}>New State</button>
-      </SidebarHorizContainer>
-      {noStatesSet && "No states yet"}
-      {!noStatesSet &&
-        programModeStates.map((stateObject, i) => {
-          return (
-            <SidebarInnerContainer>
-              <StatePreview stateObject={stateObject} index={i} />
-            </SidebarInnerContainer>
-          );
-        })}
-
-      {creatingNewState && (
-        <SidebarInnerContainer onClick={onExpand}>
-          <StateCreator onCreate={onCreate} />
-        </SidebarInnerContainer>
-      )}
+      {path === ProgramModeRouteEnum.base && <StateList />}
+      {path !== ProgramModeRouteEnum.base && <StateCreator />}
     </>
   );
 };

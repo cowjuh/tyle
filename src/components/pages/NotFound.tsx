@@ -1,4 +1,4 @@
-import Button from "../shared/Button";
+import Button from "../shared/Atoms/Button";
 import { useNavigate } from "react-router-dom";
 import { FullWidthHeightCenteredContainer } from "../Containers";
 

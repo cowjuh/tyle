@@ -5,6 +5,10 @@
   background: #1e1d27;
 }
 
+button {
+  font-size: 16px;
+}
+
 body {
   color: #ffffff80;
 }

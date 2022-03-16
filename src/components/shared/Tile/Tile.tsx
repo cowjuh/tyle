@@ -37,7 +37,7 @@ const LEDRowContainer = styled.div<LEDRowContainerProps>`
 `;
 
 const Tile: React.FC<TileProps> = ({ tileObject }) => {
-  const isEmpty = tileObject.tileId == "empty";
+  const isEmpty = tileObject.tileId === "empty";
   return (
     <TileContainer>
       {!isEmpty &&

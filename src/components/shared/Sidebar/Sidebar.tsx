@@ -1,9 +1,7 @@
 import { useContext } from "react";
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalContext } from "../../context/globalContext";
 import { PlaygroundModeEnum } from "../../types/types";
-import ColorPicker from "../ColorPicker/ColorPicker";
 import SidebarDrawMode from "./SidebarDrawMode";
 import SidebarProgramMode from "./SidebarProgramMode";
 import Tabs from "./Tabs";
@@ -14,7 +12,7 @@ const SidebarContainer = styled.div`
   width: 220px;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: stretch;
   gap: 30px;
   background: #ffffff10;
 `;
@@ -24,8 +22,8 @@ const Sidebar = () => {
   return (
     <SidebarContainer>
       <Tabs />
-      {playgroundMode == PlaygroundModeEnum.draw && <SidebarDrawMode />}
-      {playgroundMode == PlaygroundModeEnum.program && <SidebarProgramMode />}
+      {playgroundMode === PlaygroundModeEnum.draw && <SidebarDrawMode />}
+      {playgroundMode === PlaygroundModeEnum.program && <SidebarProgramMode />}
     </SidebarContainer>
   );
 };

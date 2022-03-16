@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useDrawModeContext } from "../../hooks/useDrawModeContext";
 import { Color } from "../../types/types";
 
 interface ColorPickerButtonProps {
@@ -32,7 +31,6 @@ const ColorPickerButton: React.FC<ColorPickerButtonProps> = ({
   color,
   disabled,
 }) => {
-  console.log("the color", color);
   return (
     <ColorPickerButtonContainer
       color={color}

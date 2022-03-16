@@ -1,34 +1,29 @@
-import { SidebarHorizContainer } from "../../../Containers";
+import { useNavigate } from "react-router-dom";
+import { BASE_ROUTE_PROGRAM_MODE } from "../../../../utils/constants";
+import { StatePreviewContainer } from "../../../Containers";
 import {
-  Color,
   ProgramModeStateObject,
   StateOperator,
   StateOperatorSymbols,
 } from "../../../types/types";
 import ColorPickerButton from "../../ColorPicker/ColorPickerButton";
-import styled from "styled-components";
 
 interface StatePreviewProps {
   stateObject: ProgramModeStateObject;
   index: number;
 }
 
-const StatePreviewContainer = styled(SidebarHorizContainer)`
-  cursor: pointer;
-`;
-
 const StatePreview: React.FC<StatePreviewProps> = ({ stateObject, index }) => {
-  const {
-    color,
-    id,
-    operator,
-    primaryInputValue,
-    selectedLEDs,
-    secondaryInputValue,
-  } = stateObject;
-  const isBetweenOperator = operator == StateOperator.between;
+  const { color, operator, primaryInputValue, secondaryInputValue } =
+    stateObject;
+  const isBetweenOperator = operator === StateOperator.between;
+  const navigate = useNavigate();
+  const onClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    navigate(BASE_ROUTE_PROGRAM_MODE + "/" + stateObject.id);
+  };
   return (
-    <StatePreviewContainer>
+    <StatePreviewContainer onClick={onClick}>
       <span>
         <b>{index + 1}</b>
       </span>

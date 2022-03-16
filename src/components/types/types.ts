@@ -1,5 +1,3 @@
-import { DRAW_MODE_TILE_GRID_LS_OBJ } from "../../utils/constants";
-
 /**
  * ---------------------------------------------------------------------
  * LOCAL STORAGE TYPES
@@ -68,6 +66,8 @@ export enum StateOperator {
   notEqualTo = "notEqualTo",
 }
 
+export type StateOperatorType = `${StateOperator}`;
+
 export enum StateOperatorSymbols {
   greaterThan = ">",
   lessThan = "<",
@@ -87,6 +87,12 @@ export interface ProgramModeStateObject {
 
 export interface NewProgramModeStateObject
   extends Omit<ProgramModeStateObject, "id"> {}
+
+export enum ProgramModeRouteEnum {
+  base = "",
+  new = "new",
+  edit = "edit",
+}
 
 /**
  * ---------------------------------------------------------------------

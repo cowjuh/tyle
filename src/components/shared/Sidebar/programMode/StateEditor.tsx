@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react";
 import { generateStateId } from "../../../../utils/helpers";
 import { Color, StateOperator } from "../../../types/types";
-import Button from "../../Button";
+import Button from "../../Atoms/Button";
 import ColorPicker from "../../ColorPicker/ColorPicker";
-import Dropdown from "../../Dropdown";
-import NumericalInput from "../../Input";
 
 const dropdownOptions = [
   StateOperator.greaterThan,

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styled from "styled-components";
 import { constructLEDId } from "../../../utils/helpers";
 import { SingleLEDPattern } from "../../types/types";

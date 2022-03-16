@@ -1,4 +1,4 @@
-import Button from "../shared/Button";
+import Button from "../shared/Atoms/Button";
 import { useNavigate } from "react-router-dom";
 import { FullWidthHeightCenteredContainer } from "../Containers";
 import tyleLogo from "../../tyle_logo.svg";
@@ -10,7 +10,7 @@ const WelcomePage = () => {
   };
   return (
     <FullWidthHeightCenteredContainer>
-      <img src={tyleLogo} />
+      <img src={tyleLogo} alt="Tyle Logo" />
       <h2>Welcome to Tyle</h2>
       <Button onClick={onReadyToPair}>Pair my device</Button>
     </FullWidthHeightCenteredContainer>

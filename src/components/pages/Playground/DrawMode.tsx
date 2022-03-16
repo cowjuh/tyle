@@ -8,7 +8,7 @@ import {
 import { DrawModeContext } from "../../context/drawModeContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
 import { TileGridObject } from "../../types/types";
-import TileCanvas from "./TileCanvas";
+import TileCanvas from "./DrawModeTileCanvas";
 
 const DrawingMode = () => {
   const [tileGridObject, setTileGridObject] = useState<TileGridObject>(

@@ -6,22 +6,16 @@ import {
 } from "../../Containers";
 import { ProgramModeContext } from "../../context/programModeContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import {
-  Color,
-  LocalStorageKeys,
-  ProgramModeStateObject,
-  ProgramModeStatesObject,
-  StateOperator,
-} from "../../types/types";
-import TileCanvas from "./TileCanvas";
+import { LocalStorageKeys, ProgramModeStatesObject } from "../../types/types";
+import ProgramModeTileCanvas from "./ProgramModeTileCanvas";
 
-const mockProgramModeState: ProgramModeStateObject = {
-  color: Color.blue,
-  id: "1",
-  operator: StateOperator.greaterThan,
-  primaryInputValue: 200,
-  selectedLEDs: ["hello"],
-};
+// const mockProgramModeState: ProgramModeStateObject = {
+//   color: Color.blue,
+//   id: "1",
+//   operator: StateOperator.greaterThan,
+//   primaryInputValue: 200,
+//   selectedLEDs: ["hello"],
+// };
 
 const ProgramMode = () => {
   const [programModeStates, setProgramModeStates] =
@@ -39,7 +33,7 @@ const ProgramMode = () => {
       <FullWidthHeightCenteredContainer>
         <PlayGroundParentContainer>
           <Sidebar />
-          <TileCanvas />
+          <ProgramModeTileCanvas />
         </PlayGroundParentContainer>
       </FullWidthHeightCenteredContainer>
     </ProgramModeContext.Provider>

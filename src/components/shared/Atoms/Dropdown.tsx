@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { StateOperator } from "../types/types";
+import { StateOperator } from "../../types/types";
 
 interface DropdownProps {
   options: Array<string>;
   onChange: (val: string) => void;
+  initialValue?: string;
 }
 
 const DropdownStyled = styled.select`
@@ -15,8 +16,19 @@ const DropdownStyled = styled.select`
   border-radius: 5px;
 `;
 
-const Dropdown: React.FC<DropdownProps> = ({ options, onChange }) => {
-  const [value, setValue] = useState<string>(StateOperator.greaterThan);
+const Dropdown: React.FC<DropdownProps> = ({
+  options,
+  onChange,
+  initialValue,
+}) => {
+  const [value, setValue] = useState<string>(
+    initialValue || StateOperator.greaterThan
+  );
+
+  useEffect(() => {
+    if (initialValue) setValue(initialValue);
+  }, [initialValue]);
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
     setValue(e.currentTarget.value);

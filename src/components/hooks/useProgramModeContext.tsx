@@ -9,6 +9,7 @@ import {
   Color,
   LocalStorageKeys,
   ProgramModeStateObject,
+  ProgramModeStatesObject,
   StateOperator,
 } from "../types/types";
 
@@ -16,7 +17,14 @@ export const useProgramModeContext = () => {
   const { programModeStates, setProgramModeStates } =
     useContext(ProgramModeContext);
 
-  // UPDATE PROGRAM MODE STATES
+  /**
+   * Updates an existing State Object by ID
+   * @param id
+   * @param color
+   * @param operator
+   * @param input1
+   * @param input2
+   */
   const updateProgramModeStates = (
     id: string,
     color: Color,
@@ -31,16 +39,31 @@ export const useProgramModeContext = () => {
       input1,
       input2
     );
-    console.log(newStateObject);
-    setProgramModeStates([...programModeStates, newStateObject]);
-
+    var deepCopyProgramModeStates: ProgramModeStatesObject = JSON.parse(
+      JSON.stringify(programModeStates)
+    );
+    for (let i = 0; i < deepCopyProgramModeStates.length; i++) {
+      if (deepCopyProgramModeStates[i].id === id) {
+        deepCopyProgramModeStates[i] = newStateObject;
+      }
+    }
+    setProgramModeStates(deepCopyProgramModeStates);
+    setLocalStorageItem(
+      LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ,
+      deepCopyProgramModeStates
+    );
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
       el.classList.remove("selected")
     );
   };
 
-  // CREATE NEW PROGRAM MODE STATE
-  // Generates an ID for the state object
+  /**
+   * Creates a new Program Mode State
+   * @param color
+   * @param operator
+   * @param input1
+   * @param input2
+   */
   const createProgramModeState = (
     color: Color,
     operator: StateOperator,
@@ -64,5 +87,39 @@ export const useProgramModeContext = () => {
       el.classList.remove("selected")
     );
   };
-  return { updateProgramModeStates, createProgramModeState };
+
+  /**
+   * Gets a state object by its ID
+   * @param id
+   * @returns
+   */
+  const getStateObjectById = (
+    id: string
+  ): ProgramModeStateObject | undefined => {
+    for (let i = 0; i < programModeStates.length; i++) {
+      if (programModeStates[i].id === id) return programModeStates[i];
+    }
+  };
+
+  const deleteStateObjectById = (id: string): void => {
+    var deepCopyProgramModeStates: ProgramModeStatesObject = JSON.parse(
+      JSON.stringify(programModeStates)
+    );
+    for (let i = 0; i < programModeStates.length; i++) {
+      if (programModeStates[i].id === id) deepCopyProgramModeStates.splice(i);
+    }
+
+    setProgramModeStates(deepCopyProgramModeStates);
+    setLocalStorageItem(
+      LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ,
+      deepCopyProgramModeStates
+    );
+  };
+
+  return {
+    updateProgramModeStates,
+    createProgramModeState,
+    getStateObjectById,
+    deleteStateObjectById,
+  };
 };

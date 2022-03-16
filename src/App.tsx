@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./components/pages/WelcomePage";
 import PairingPage from "./components/pages/PairingPage";
 import NotFound from "./components/pages/NotFound";
@@ -13,7 +8,7 @@ import DrawingMode from "./components/pages/Playground/DrawMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
 import { GlobalContext } from "./components/context/globalContext";
 import { useState } from "react";
-import { PlaygroundMode, PlaygroundModeEnum } from "./components/types/types";
+import { PlaygroundMode } from "./components/types/types";
 import { useRouteLocation } from "./components/hooks/useRouteLocation";
 
 // TODO Update routes to use enum
@@ -35,7 +30,10 @@ function App() {
             <Route path="/pairing" element={<PairingPage />}></Route>
             <Route path="/playground/data" element={<DataMode />}></Route>
             <Route path="/playground/draw" element={<DrawingMode />}></Route>
-            <Route path="/playground/program" element={<ProgramMode />}></Route>
+            <Route
+              path="/playground/program/*"
+              element={<ProgramMode />}
+            ></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </Router>

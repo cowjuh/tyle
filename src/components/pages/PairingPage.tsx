@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../shared/Button";
+import Button from "../shared/Atoms/Button";
 import { FullWidthHeightCenteredContainer } from "../Containers";
 
 const PairingPage = () => {

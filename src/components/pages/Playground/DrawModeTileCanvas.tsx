@@ -20,7 +20,7 @@ const TileRowContainer = styled.div`
 `;
 
 // TODO: LED selection bug
-const TileCanvas = () => {
+const DrawModeTileCanvas = () => {
   const { tileGridObject } = useContext(DrawModeContext);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
@@ -58,4 +58,4 @@ const TileCanvas = () => {
   );
 };
 
-export default TileCanvas;
+export default DrawModeTileCanvas;
