@@ -1,12 +1,18 @@
 import { createContext } from "react";
-import { PlaygroundMode, PlaygroundModeEnum } from "../types/types";
+import {
+  DStreamTileGridObject,
+  PlaygroundMode,
+  PlaygroundModeEnum,
+} from "../types/types";
 
-interface GlobalContextProps {
+export interface GlobalContextProps {
   playgroundMode: PlaygroundMode;
   setPlaygroundMode: (mode: PlaygroundMode) => void;
+  globalTileGrid: DStreamTileGridObject;
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
   playgroundMode: PlaygroundModeEnum.data,
   setPlaygroundMode: () => {},
+  globalTileGrid: [],
 });

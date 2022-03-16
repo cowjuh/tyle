@@ -4,6 +4,8 @@ import Selecto, { OnSelect } from "react-selecto";
 import { useContext, useEffect } from "react";
 import { DrawModeContext } from "../../context/drawModeContext";
 import { useLocation } from "react-router-dom";
+import { getStateId } from "../../../utils/helpers";
+import { GlobalContext } from "../../context/globalContext";
 
 const TILE_CANVAS_ID = "tile-canvas-container";
 
@@ -23,7 +25,9 @@ const TileRowContainer = styled.div`
 // TODO: LED selection bug
 const ProgramModeTileCanvas = () => {
   const location = useLocation();
-  const { tileGridObject } = useContext(DrawModeContext);
+  const stateId = getStateId(location.pathname); // undefined if no existing stateId exists
+
+  const { globalTileGrid } = useContext(GlobalContext);
   useEffect(() => {}, [location]);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
@@ -48,12 +52,12 @@ const ProgramModeTileCanvas = () => {
         onSelect={onSelect}
         selectByClick={true}
       />
-      {tileGridObject.map((tileRow) => {
+      {globalTileGrid.map((tileRow) => {
         return (
           <TileRowContainer>
-            {tileRow.map((tile) => {
+            {/* {tileRow.map((tile) => {
               return <Tile tileObject={tile} />;
-            })}
+            })} */}
           </TileRowContainer>
         );
       })}

@@ -6,20 +6,24 @@ import NotFound from "./components/pages/NotFound";
 import DataMode from "./components/pages/Playground/DataMode";
 import DrawingMode from "./components/pages/Playground/DrawMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
-import { GlobalContext } from "./components/context/globalContext";
+import {
+  GlobalContext,
+  GlobalContextProps,
+} from "./components/context/globalContext";
 import { useState } from "react";
 import { PlaygroundMode } from "./components/types/types";
 import { useRouteLocation } from "./components/hooks/useRouteLocation";
-
-// TODO Update routes to use enum
+import { mockDrawModeTileGrid } from "./mockData/mockTileObject";
+import { mockDataStream } from "./mockData/mockInput";
 
 function App() {
   const [currentRoute] = useRouteLocation();
   const [playgroundMode, setPlaygroundMode] =
     useState<PlaygroundMode>(currentRoute);
-  const globalContextValue = {
+  const globalContextValue: GlobalContextProps = {
     playgroundMode: playgroundMode,
     setPlaygroundMode,
+    globalTileGrid: mockDataStream,
   };
   return (
     <div className="App">
