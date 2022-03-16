@@ -40,8 +40,12 @@ const StateCreator = () => {
   const stateId = getStateId(location.pathname); // undefined if no existing stateId exists
   const navigate = useNavigate();
 
-  const { updateProgramModeStates, getStateObjectById, deleteStateObjectById } =
-    useProgramModeContext();
+  const {
+    updateProgramModeStates,
+    createProgramModeState,
+    getStateObjectById,
+    deleteStateObjectById,
+  } = useProgramModeContext();
 
   const stateObject = stateId ? getStateObjectById(stateId) : undefined;
   const [selectedColor, setSelectedColor] = useState<Color>(
