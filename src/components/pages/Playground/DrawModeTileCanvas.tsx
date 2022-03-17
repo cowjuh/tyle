@@ -3,31 +3,25 @@ import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
 import { useContext } from "react";
 import { DrawModeContext } from "../../context/drawModeContext";
-
-const TILE_CANVAS_ID = "tile-canvas-container";
-
-const TileCanvasContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 10px;
-`;
-
-const TileRowContainer = styled.div`
-  display: flex;
-  gap: 5px;
-`;
+import { convertNumberToLetter } from "../../../utils/helpers";
+import { TileIdObject } from "../../types/types";
+import { TILE_CANVAS_ID } from "../../../utils/constants";
+import {
+  TileCanvasContainer,
+  TileColumnContainer,
+  TileNumberContainer,
+  TileRowContainer,
+} from "../../Containers";
 
 // TODO: LED selection bug
 const DrawModeTileCanvas = () => {
   const { tileGridObject } = useContext(DrawModeContext);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
-      el.classList.add("selected-draw-mode");
+      el.classList.add("selected");
     });
     e.removed.forEach((el) => {
-      el.classList.remove("selected-draw-mode");
+      el.classList.remove("selected");
     });
   };
 
@@ -45,11 +39,25 @@ const DrawModeTileCanvas = () => {
         onSelect={onSelect}
         selectByClick={true}
       />
-      {tileGridObject.map((tileRow) => {
+      {tileGridObject.map((tileRow, rowIndex) => {
         return (
           <TileRowContainer>
-            {tileRow.map((tile) => {
-              return <Tile tileObject={tile} />;
+            <TileNumberContainer>{rowIndex}</TileNumberContainer>
+
+            {tileRow.map((tile, columnIndex) => {
+              const columnLetter = convertNumberToLetter(columnIndex);
+              const tileIdInternal: TileIdObject = {
+                letter: columnLetter,
+                num: rowIndex,
+              };
+              return (
+                <TileColumnContainer>
+                  {rowIndex === 0 && (
+                    <TileNumberContainer>{columnLetter}</TileNumberContainer>
+                  )}
+                  <Tile tileObject={tile} tileIdInternal={tileIdInternal} />
+                </TileColumnContainer>
+              );
             })}
           </TileRowContainer>
         );

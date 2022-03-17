@@ -49,6 +49,39 @@ const StatesListContainer = styled.div`
   overflow-y: scroll;
 `;
 
+const TileCanvasContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+`;
+
+const TileRowContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+`;
+
+const TileNumberContainer = styled.div`
+  width: 15px;
+  height: 15px;
+  padding: 10px 0;
+`;
+
+const TileColumnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const HorizontalDivider = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #ffffff20;
+`;
+
 export {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
@@ -56,4 +89,9 @@ export {
   SidebarHorizContainer,
   StatesListContainer,
   StatePreviewContainer,
+  TileCanvasContainer,
+  TileRowContainer,
+  TileNumberContainer,
+  TileColumnContainer,
+  HorizontalDivider,
 };
