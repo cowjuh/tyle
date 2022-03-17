@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Color, StateOperator } from "../../../types/types";
+import { Color, StateOperator, TileIdObject } from "../../../types/types";
 import Button from "../../Atoms/Button";
 import ColorPicker from "../../ColorPicker/ColorPicker";
 import Dropdown from "../../Atoms/Dropdown";
@@ -14,7 +14,12 @@ import {
   BASE_ROUTE_PROGRAM_MODE,
   DROPDOWN_OPTIONS,
 } from "../../../../utils/constants";
-import { getStateId } from "../../../../utils/helpers";
+import {
+  cleanUpTileHighlight,
+  getInternalTileIdString,
+  getStateId,
+  highlightTileByInternalId,
+} from "../../../../utils/helpers";
 import { useProgramModeContext } from "../../../hooks/useProgramModeContext";
 import { LetterInput, NumericalInput } from "../../Atoms/Input";
 
@@ -68,7 +73,9 @@ const StateEditor = () => {
     (stateObject && stateObject?.operator) || StateOperator.greaterThan
   );
 
-  const [tileId, setTileId] = useState();
+  const [tileId, setTileId] = useState<TileIdObject>(
+    (stateObject && stateObject?.tileId) || { letter: "A", num: 0 }
+  );
 
   const isSingleInputOperator = useMemo(
     () => operator !== StateOperator.between,
@@ -79,6 +86,10 @@ const StateEditor = () => {
     return stateId === undefined;
   }, [stateId]);
 
+  useEffect(() => {
+    highlightTileByInternalId(tileId);
+  }, [tileId]);
+
   const onSetColor = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     color: Color
@@ -88,20 +99,30 @@ const StateEditor = () => {
   };
 
   const handleOnCreate = () => {
-    createProgramModeState(selectedColor, operator, input1, input2);
+    createProgramModeState(tileId, selectedColor, operator, input1, input2);
     navigate(BASE_ROUTE_PROGRAM_MODE);
+    cleanUpTileHighlight();
   };
 
   const handleOnSave = () => {
     if (stateId) {
-      updateProgramModeStates(stateId, selectedColor, operator, input1, input2);
+      updateProgramModeStates(
+        stateId,
+        tileId,
+        selectedColor,
+        operator,
+        input1,
+        input2
+      );
       navigate(BASE_ROUTE_PROGRAM_MODE);
+      cleanUpTileHighlight();
     }
   };
 
   const handleOnDelete = () => {
     stateId && deleteStateObjectById(stateId);
     navigate(BASE_ROUTE_PROGRAM_MODE);
+    cleanUpTileHighlight();
   };
 
   const onDropdownChange = (operator: string) => {
@@ -112,9 +133,15 @@ const StateEditor = () => {
 
   const onInput2Change = (val: number) => setInput2(val);
 
+  const onTileIdChange = (val: number | string) => {
+    if (typeof val === "string") setTileId({ ...tileId, letter: val });
+    else if (typeof val === "number") setTileId({ ...tileId, num: val });
+  };
+
   const onBack = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     navigate(BASE_ROUTE_PROGRAM_MODE);
+    cleanUpTileHighlight();
   };
 
   return (
@@ -125,8 +152,12 @@ const StateEditor = () => {
       <SidebarInnerContainer>
         <h4>Tile</h4>
         <TileIdInputContainer>
-          <LetterInput onChange={() => {}} />
-          <NumericalInput onChange={() => {}} maxLength={1} />
+          <LetterInput onChange={onTileIdChange} initialValue={tileId.letter} />
+          <NumericalInput
+            onChange={onTileIdChange}
+            maxLength={1}
+            initialValue={tileId.num}
+          />
         </TileIdInputContainer>
         <h4>Operator</h4>
         <Dropdown
@@ -137,13 +168,11 @@ const StateEditor = () => {
         <h4>Value{!isSingleInputOperator && "s"}</h4>
         <BetweenOperatorInputContainer>
           {isSingleInputOperator && (
-            <>
-              <NumericalInput
-                onChange={onInput1Change}
-                initialValue={input1}
-                maxLength={3}
-              />
-            </>
+            <NumericalInput
+              onChange={onInput1Change}
+              initialValue={input1}
+              maxLength={3}
+            />
           )}
           {!isSingleInputOperator && (
             <>
