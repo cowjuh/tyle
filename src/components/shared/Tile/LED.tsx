@@ -17,7 +17,7 @@ const LEDContainer = styled.div<LEDProps>`
   width: 20px;
   height: 20px;
   background: ${(p) =>
-    p.className?.includes("selected-draw-mode") ? "white" : ""};
+    p.className?.includes("selected" || "selected") ? "white" : ""};
   cursor: pointer;
 `;
 
