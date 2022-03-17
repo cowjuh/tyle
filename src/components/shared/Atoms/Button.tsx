@@ -11,7 +11,7 @@ const ButtonStyled = styled.button<ButtonProps>`
   border: none;
   cursor: pointer;
   padding: 0 10px;
-  background: #4f47aa;
+  background: #50b6ff;
   border-radius: 3px;
   color: white;
   height: 36px;
