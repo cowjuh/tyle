@@ -1,10 +1,17 @@
 import styled from "styled-components";
-import { LEDRowT, SingleLEDPattern, TileObject } from "../../types/types";
+import { TILE_CONTAINER_CLASSNAME } from "../../../utils/constants";
+import {
+  LEDRowT,
+  SingleLEDPattern,
+  TileIdObject,
+  TileObject,
+} from "../../types/types";
 import LED from "./LED";
 
 interface TileProps {
   tileObject: TileObject;
   hideLEDs?: boolean;
+  tileIdInternal: TileIdObject;
 }
 
 interface LEDRowProps {
@@ -37,10 +44,18 @@ const LEDRowContainer = styled.div<LEDRowContainerProps>`
   justify-content: space-between;
 `;
 
-const Tile: React.FC<TileProps> = ({ tileObject, hideLEDs }) => {
+const Tile: React.FC<TileProps> = ({
+  tileObject,
+  hideLEDs,
+  tileIdInternal,
+}) => {
+  const tileIdInternalString: string = `tile-${tileIdInternal.letter}-${tileIdInternal.num}`;
   const isEmpty = tileObject.tileId === "empty";
   return (
-    <TileContainer>
+    <TileContainer
+      id={tileIdInternalString}
+      className={TILE_CONTAINER_CLASSNAME}
+    >
       {!isEmpty &&
         !hideLEDs &&
         tileObject.ledConfig.map((ledRow: LEDRowT, i: number) => {

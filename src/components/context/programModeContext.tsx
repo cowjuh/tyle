@@ -17,6 +17,7 @@ const mockProgramModeState: ProgramModeStateObject = {
   operator: StateOperator.greaterThan,
   primaryInputValue: 200,
   selectedLEDs: ["hello"],
+  tileId: { letter: "A", num: 0 },
 };
 
 export const ProgramModeContext = createContext<ProgramModeContextProps>({

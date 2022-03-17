@@ -83,6 +83,7 @@ export interface ProgramModeStateObject {
   primaryInputValue: number;
   secondaryInputValue?: number;
   selectedLEDs: Array<string>;
+  tileId: TileIdObject;
 }
 
 export interface NewProgramModeStateObject
@@ -92,6 +93,11 @@ export enum ProgramModeRouteEnum {
   base = "",
   new = "new",
   edit = "edit",
+}
+
+export interface TileIdObject {
+  letter: string;
+  num: number;
 }
 
 /**

@@ -11,6 +11,7 @@ import {
   ProgramModeStateObject,
   ProgramModeStatesObject,
   StateOperator,
+  TileIdObject,
 } from "../types/types";
 
 export const useProgramModeContext = () => {
@@ -27,6 +28,7 @@ export const useProgramModeContext = () => {
    */
   const updateProgramModeStates = (
     id: string,
+    tileId: TileIdObject,
     color: Color,
     operator: StateOperator,
     input1: number,
@@ -34,6 +36,7 @@ export const useProgramModeContext = () => {
   ) => {
     const newStateObject: ProgramModeStateObject = constructStateObject(
       id,
+      tileId,
       color,
       operator,
       input1,
@@ -53,18 +56,20 @@ export const useProgramModeContext = () => {
       deepCopyProgramModeStates
     );
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected-draw-mode")
+      el.classList.remove("selected")
     );
   };
 
   /**
    * Creates a new Program Mode State
+   * @param tileId
    * @param color
    * @param operator
    * @param input1
    * @param input2
    */
   const createProgramModeState = (
+    tileId: TileIdObject,
     color: Color,
     operator: StateOperator,
     input1: number,
@@ -73,6 +78,7 @@ export const useProgramModeContext = () => {
     const id = generateStateId();
     const newStateObject: ProgramModeStateObject = constructStateObject(
       id,
+      tileId,
       color,
       operator,
       input1,
@@ -84,7 +90,7 @@ export const useProgramModeContext = () => {
       newStateObject,
     ]);
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected-draw-mode")
+      el.classList.remove("selected")
     );
   };
 

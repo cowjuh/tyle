@@ -6,6 +6,7 @@ import {
   ProgramModeStatesObject,
   StateOperator,
   TileGridObject,
+  TileIdObject,
   TileObject,
   TileRowObject,
 } from "../components/types/types";
@@ -82,7 +83,8 @@ export const setLocalStorageItem = (
  * The following functions will return the updated tile grid object
  * ---------------------------------------------------
  */
-export const SELECTED_CLASSNAME = "selected-draw-mode";
+export const SELECTED_DRAW_MODE_CLASSNAME = "selected";
+export const SELECTED_PROGRAM_MODE_CLASSNAME = "selected";
 
 interface SelectedHash {
   [key: string]: number[][];
@@ -103,9 +105,9 @@ export const getUpdatedTileGridObject = (
   var selectedTileIds = [];
   var selectedHash: SelectedHash = {};
 
-  // Find all elements with the "selected-draw-mode" class name
+  // Find all elements with the "selected" class name
   const selectedLEDs: HTMLCollectionOf<Element> =
-    document.getElementsByClassName(SELECTED_CLASSNAME);
+    document.getElementsByClassName(SELECTED_DRAW_MODE_CLASSNAME);
 
   /**
    * Construct a hashtable of the LED ids that have been selected
@@ -155,6 +157,24 @@ export const getUpdatedTileGridObject = (
   return updatedDrawModeTileObject;
 };
 
+export const getInternalTileIdString = (tileIdObj: TileIdObject) => {
+  return `tile-${tileIdObj.letter.toUpperCase()}-${tileIdObj.num}`;
+};
+
+export const cleanUpTileHighlight = () => {
+  Array.from(document.querySelectorAll(".tile-container")).forEach((el) =>
+    el.classList.remove("tile-highlighted")
+  );
+};
+
+export const highlightTileByInternalId = (tileIdObj: TileIdObject) => {
+  cleanUpTileHighlight();
+  const selectedTile = document.getElementById(
+    getInternalTileIdString(tileIdObj)
+  );
+  selectedTile?.classList.add("tile-highlighted");
+};
+
 /**
  * ---------------------------------------------------
  * PROGRAM MODE LOGIC
@@ -164,6 +184,7 @@ export const getUpdatedTileGridObject = (
 // Constructs a ProgramModeStateObject
 export const constructStateObject = (
   id: string,
+  tileId: TileIdObject,
   color: Color,
   operator: StateOperator,
   input1: number,
@@ -171,12 +192,13 @@ export const constructStateObject = (
 ) => {
   const selectedIDs = [];
   const selectedLEDs: HTMLCollectionOf<Element> =
-    document.getElementsByClassName(SELECTED_CLASSNAME);
+    document.getElementsByClassName(SELECTED_DRAW_MODE_CLASSNAME);
   for (let i = 0; i < selectedLEDs.length; i++) {
     selectedIDs.push(selectedLEDs[i].id);
   }
   const stateObject: ProgramModeStateObject = {
     id: id,
+    tileId: tileId,
     color: color,
     operator: operator,
     primaryInputValue: input1,
@@ -232,6 +254,10 @@ export const deleteStateObject = (
   return updatedStatesObject;
 };
 
+export const getActualTileId = (tileIdObj: TileIdObject) => {
+  return `${tileIdObj.letter + tileIdObj.num}`;
+};
+
 /**
  * @returns a UUID v4 ID
  */
@@ -244,7 +270,7 @@ export const generateStateId = () => {
  * @param num
  * @returns
  */
-export const convertNumberToLetter = (num: number) => {
+export const convertNumberToLetter = (num: number): string => {
   return String.fromCharCode(65 + num);
 };
 
