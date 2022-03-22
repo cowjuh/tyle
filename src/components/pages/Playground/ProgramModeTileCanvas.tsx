@@ -12,6 +12,7 @@ import {
   TileRowContainer,
 } from "../../Containers";
 import { TILE_CANVAS_ID } from "../../../utils/constants";
+import { ProgramModeContext } from "../../context/programModeContext";
 
 // TODO: LED selection bug
 const ProgramModeTileCanvas = () => {
@@ -19,7 +20,11 @@ const ProgramModeTileCanvas = () => {
   const stateId = getStateId(location.pathname); // undefined if no existing stateId exists
   const [isSelecting, setIsSelecting] = useState(false);
   const { globalTileGridObject } = useContext(GlobalContext);
+  const { tempTileGridObject } = useContext(ProgramModeContext);
   const [dragContainer, setDragContainer] = useState<HTMLElement | null>();
+
+  const thingToMap =
+    tempTileGridObject !== [] ? tempTileGridObject : globalTileGridObject;
 
   useEffect(() => {
     if (location.pathname.split("/").length === 4) {
@@ -30,7 +35,6 @@ const ProgramModeTileCanvas = () => {
   }, [location, isSelecting]);
 
   useEffect(() => {
-    console.log(document.getElementById(TILE_CANVAS_ID));
     setDragContainer(document.getElementById(TILE_CANVAS_ID));
   }, [dragContainer, location]);
 
@@ -56,32 +60,33 @@ const ProgramModeTileCanvas = () => {
         hitRate={20}
         onSelect={onSelect}
       />
-      {globalTileGridObject.map((tileRow, rowIndex) => {
-        return (
-          <TileRowContainer>
-            <TileNumberContainer>{rowIndex}</TileNumberContainer>
-            {tileRow.map((tile, columnIndex) => {
-              const columnLetter = convertNumberToLetter(columnIndex);
-              const tileIdInternal: TileIdObject = {
-                letter: columnLetter,
-                num: rowIndex,
-              };
-              return (
-                <TileColumnContainer>
-                  {rowIndex === 0 && (
-                    <TileNumberContainer>{columnLetter}</TileNumberContainer>
-                  )}
-                  <Tile
-                    tileObject={tile}
-                    hideLEDs={!isSelecting}
-                    tileIdInternal={tileIdInternal}
-                  />
-                </TileColumnContainer>
-              );
-            })}
-          </TileRowContainer>
-        );
-      })}
+      {tempTileGridObject !== [] &&
+        tempTileGridObject.map((tileRow, rowIndex) => {
+          return (
+            <TileRowContainer>
+              <TileNumberContainer>{rowIndex}</TileNumberContainer>
+              {tileRow.map((tile, columnIndex) => {
+                const columnLetter = convertNumberToLetter(columnIndex);
+                const tileIdInternal: TileIdObject = {
+                  letter: columnLetter,
+                  num: rowIndex,
+                };
+                return (
+                  <TileColumnContainer>
+                    {rowIndex === 0 && (
+                      <TileNumberContainer>{columnLetter}</TileNumberContainer>
+                    )}
+                    <Tile
+                      tileObject={tile}
+                      hideLEDs={!isSelecting}
+                      tileIdInternal={tileIdInternal}
+                    />
+                  </TileColumnContainer>
+                );
+              })}
+            </TileRowContainer>
+          );
+        })}
     </TileCanvasContainer>
   );
 };

@@ -1,6 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Color, StateOperator, TileIdObject } from "../../../types/types";
+import {
+  Color,
+  StateOperator,
+  TileGridObject,
+  TileIdObject,
+} from "../../../types/types";
 import Button from "../../Atoms/Button";
 import ColorPicker from "../../ColorPicker/ColorPicker";
 import Dropdown from "../../Atoms/Dropdown";
@@ -18,10 +23,13 @@ import {
   cleanUpTileHighlight,
   getInternalTileIdString,
   getStateId,
+  getUpdatedTileGridObject,
   highlightTileByInternalId,
 } from "../../../../utils/helpers";
 import { useProgramModeContext } from "../../../hooks/useProgramModeContext";
 import { LetterInput, NumericalInput } from "../../Atoms/Input";
+import { mockProgramModeTileGrid } from "../../../../mockData/mockTileObject";
+import { ProgramModeContext } from "../../../context/programModeContext";
 
 const BetweenOperatorInputContainer = styled.div`
   display: flex;
@@ -51,17 +59,23 @@ const StateEditor = () => {
   const location = useLocation();
   const stateId = getStateId(location.pathname); // undefined if no existing stateId exists
   const navigate = useNavigate();
+  const { tempTileGridObject } = useContext(ProgramModeContext);
 
   const {
     updateProgramModeStates,
     createProgramModeState,
     getStateObjectById,
     deleteStateObjectById,
+    updateTempTileGridObject,
+    initializeTempTileGridObject,
   } = useProgramModeContext();
 
   const stateObject = stateId ? getStateObjectById(stateId) : undefined;
   const [selectedColor, setSelectedColor] = useState<Color>(
     (stateObject && stateObject?.color) || Color.none
+  );
+  const [tileGridObject, setTileGridObject] = useState<TileGridObject>(
+    (stateObject && stateObject.tileGridObject) || mockProgramModeTileGrid
   );
   const [input1, setInput1] = useState<number>(
     (stateObject && stateObject?.primaryInputValue) || 0
@@ -90,12 +104,27 @@ const StateEditor = () => {
     highlightTileByInternalId(tileId);
   }, [tileId]);
 
+  useEffect(() => {
+    initializeTempTileGridObject(
+      (stateObject && stateObject.tileGridObject) || mockProgramModeTileGrid
+    );
+  }, []);
+
+  // const onSetColor = (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  //   color: Color
+  // ) => {
+  //   e.preventDefault();
+  //   setSelectedColor(color);
+  // };
+
   const onSetColor = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     color: Color
   ) => {
     e.preventDefault();
     setSelectedColor(color);
+    updateTempTileGridObject(color);
   };
 
   const handleOnCreate = () => {

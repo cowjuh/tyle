@@ -12,7 +12,7 @@ interface ColorPickerButtonProps {
 
 const ColorPickerButtonContainer = styled.button`
   border-radius: 100%;
-  background: ${(p) => (p.color === Color.none ? "" : p.color)};
+  background: ${(p) => p.color};
   border: 1px solid #ffffff40;
   width: 20px;
   height: 20px;

@@ -4,14 +4,15 @@ import ColorPicker from "../ColorPicker/ColorPicker";
 
 const SidebarDrawMode = () => {
   const [updateTileGridObject] = useDrawModeContext();
+
   const onSetColor = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     color: Color
   ) => {
     e.preventDefault();
-    console.log("SETTING COLOR", color);
     updateTileGridObject(color);
   };
+
   return (
     <>
       <ColorPicker onSetColor={onSetColor} />

@@ -83,6 +83,7 @@ export interface ProgramModeStateObject {
   primaryInputValue: number;
   secondaryInputValue?: number;
   selectedLEDs: Array<string>;
+  tileGridObject?: TileGridObject;
   tileId: TileIdObject;
 }
 

@@ -14,7 +14,7 @@ interface StatePreviewProps {
 }
 
 const StatePreview: React.FC<StatePreviewProps> = ({ stateObject, index }) => {
-  const { color, operator, primaryInputValue, secondaryInputValue } =
+  const { color, operator, primaryInputValue, secondaryInputValue, tileId } =
     stateObject;
   const isBetweenOperator = operator === StateOperator.between;
   const navigate = useNavigate();
@@ -24,9 +24,7 @@ const StatePreview: React.FC<StatePreviewProps> = ({ stateObject, index }) => {
   };
   return (
     <StatePreviewContainer onClick={onClick}>
-      <span>
-        <b>{index + 1}</b>
-      </span>
+      <span>{tileId.letter + tileId.num}</span>
       <span>
         {isBetweenOperator &&
           `${primaryInputValue} < P < ${secondaryInputValue}`}

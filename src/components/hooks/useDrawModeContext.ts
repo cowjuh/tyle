@@ -8,15 +8,13 @@ import { Color, LocalStorageKeys } from "../types/types";
 
 export const useDrawModeContext = () => {
   const { tileGridObject, setTileGridObject } = useContext(DrawModeContext);
+
   const updateTileGridObject = (color: Color) => {
-    let udpdatedTileGridObject = getUpdatedTileGridObject(
-      color,
-      tileGridObject
-    );
-    setTileGridObject(udpdatedTileGridObject);
+    let updatedTileGridObject = getUpdatedTileGridObject(color, tileGridObject);
+    setTileGridObject(updatedTileGridObject);
     setLocalStorageItem(
       LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
-      udpdatedTileGridObject
+      updatedTileGridObject
     );
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
       el.classList.remove("selected")

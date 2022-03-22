@@ -6,7 +6,11 @@ import {
 } from "../../Containers";
 import { ProgramModeContext } from "../../context/programModeContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import { LocalStorageKeys, ProgramModeStatesObject } from "../../types/types";
+import {
+  LocalStorageKeys,
+  ProgramModeStatesObject,
+  TileGridObject,
+} from "../../types/types";
 import ProgramModeTileCanvas from "./ProgramModeTileCanvas";
 
 // const mockProgramModeState: ProgramModeStateObject = {
@@ -23,9 +27,14 @@ const ProgramMode = () => {
       getLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ) ||
         []
     );
+  const [tempTileGridObject, setTempTileGridObject] = useState<TileGridObject>(
+    []
+  );
   const tileGridContextValue = {
     programModeStates,
     setProgramModeStates,
+    tempTileGridObject,
+    setTempTileGridObject,
   };
 
   return (

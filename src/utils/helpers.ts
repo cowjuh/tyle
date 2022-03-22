@@ -10,7 +10,10 @@ import {
   TileObject,
   TileRowObject,
 } from "../components/types/types";
-import { mockDrawModeTileGrid } from "../mockData/mockTileObject";
+import {
+  mockDrawModeTileGrid,
+  mockProgramModeTileGrid,
+} from "../mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 
@@ -90,16 +93,22 @@ interface SelectedHash {
   [key: string]: number[][];
 }
 
+/**
+ * Given an existing tile grid object, return it updated with a new color
+ * @param color
+ * @param originalTileObject
+ * @returns
+ */
 export const getUpdatedTileGridObject = (
   color: Color,
-  drawModeTileObject: TileGridObject
+  originalTileObject: TileGridObject
 ) => {
   /**
    * We create a clone of the drawModeTileObject because JavaScript SUCKS
    * and uses references which then messes up the context update.
    */
   var updatedDrawModeTileObject = JSON.parse(
-    JSON.stringify(drawModeTileObject)
+    JSON.stringify(originalTileObject)
   );
   var selectedIDs = [];
   var selectedTileIds = [];
@@ -187,6 +196,7 @@ export const constructStateObject = (
   tileId: TileIdObject,
   color: Color,
   operator: StateOperator,
+  tileGridObject: TileGridObject,
   input1: number,
   input2?: number
 ) => {
@@ -204,6 +214,7 @@ export const constructStateObject = (
     primaryInputValue: input1,
     secondaryInputValue: input2,
     selectedLEDs: selectedIDs,
+    tileGridObject: tileGridObject,
   };
 
   return stateObject;
@@ -233,7 +244,7 @@ export const updateStateObject = (
     }
   }
 
-  if (!found) console.log(`Could not find the state with id "${stateId}"`);
+  if (!found) console.error(`Could not find the state with id "${stateId}"`);
   else return updatedStatesObject;
 };
 

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import {
   constructStateObject,
   generateStateId,
+  getUpdatedTileGridObject,
   setLocalStorageItem,
 } from "../../utils/helpers";
 import { ProgramModeContext } from "../context/programModeContext";
@@ -11,12 +12,22 @@ import {
   ProgramModeStateObject,
   ProgramModeStatesObject,
   StateOperator,
+  TileGridObject,
   TileIdObject,
 } from "../types/types";
 
 export const useProgramModeContext = () => {
-  const { programModeStates, setProgramModeStates } =
-    useContext(ProgramModeContext);
+  const {
+    programModeStates,
+    setProgramModeStates,
+    tempTileGridObject,
+    setTempTileGridObject,
+  } = useContext(ProgramModeContext);
+
+  // INTERNAL UTILITY FUNCTIONS
+  const clearTempTileGridObject = () => {
+    setTempTileGridObject([]);
+  };
 
   /**
    * Updates an existing State Object by ID
@@ -39,6 +50,7 @@ export const useProgramModeContext = () => {
       tileId,
       color,
       operator,
+      tempTileGridObject,
       input1,
       input2
     );
@@ -58,6 +70,7 @@ export const useProgramModeContext = () => {
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
       el.classList.remove("selected")
     );
+    clearTempTileGridObject();
   };
 
   /**
@@ -65,6 +78,7 @@ export const useProgramModeContext = () => {
    * @param tileId
    * @param color
    * @param operator
+   * @param tileGridObject
    * @param input1
    * @param input2
    */
@@ -81,6 +95,7 @@ export const useProgramModeContext = () => {
       tileId,
       color,
       operator,
+      tempTileGridObject,
       input1,
       input2
     );
@@ -89,6 +104,7 @@ export const useProgramModeContext = () => {
       ...programModeStates,
       newStateObject,
     ]);
+    clearTempTileGridObject();
     Array.from(document.querySelectorAll(".led")).forEach((el) =>
       el.classList.remove("selected")
     );
@@ -120,12 +136,38 @@ export const useProgramModeContext = () => {
       LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ,
       deepCopyProgramModeStates
     );
+    clearTempTileGridObject();
   };
 
+  /**
+   * UPDATING AND CLEARING TEMPTILEGRID OBJECT
+   * This object is used in the context to store an updated version
+   * of a state's tileGridObject.
+   * When the user hits save, this temp object overwrites
+   * the state's existing tileGridObject.
+   * Otherwise, it gets cleared each time we exit the StateEditor view
+   */
+
+  const updateTempTileGridObject = (color: Color) => {
+    let updatedTileGridObject = getUpdatedTileGridObject(
+      color,
+      tempTileGridObject
+    );
+    setTempTileGridObject(updatedTileGridObject);
+    Array.from(document.querySelectorAll(".led")).forEach((el) =>
+      el.classList.remove("selected")
+    );
+  };
+
+  const initializeTempTileGridObject = (tileGridObject: TileGridObject) => {
+    setTempTileGridObject(tileGridObject);
+  };
   return {
     updateProgramModeStates,
     createProgramModeState,
     getStateObjectById,
     deleteStateObjectById,
+    updateTempTileGridObject,
+    initializeTempTileGridObject,
   };
 };
