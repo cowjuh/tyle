@@ -558,3 +558,13 @@ server/node_modules/vary/index.js
 server/node_modules/vary/LICENSE
 server/node_modules/vary/package.json
 server/node_modules/vary/README.md
+server/node_modules/cors/CONTRIBUTING.md
+server/node_modules/cors/HISTORY.md
+server/node_modules/cors/LICENSE
+server/node_modules/cors/package.json
+server/node_modules/cors/README.md
+server/node_modules/cors/lib/index.js
+server/node_modules/object-assign/index.js
+server/node_modules/object-assign/license
+server/node_modules/object-assign/package.json
+server/node_modules/object-assign/readme.md
