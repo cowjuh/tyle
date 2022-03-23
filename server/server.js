@@ -1,22 +1,44 @@
+const { SerialPort } = require("serialport");
+const { ReadlineParser } = require("@serialport/parser-readline");
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 5001;
-const SerialPort = require("serialport");
-const Readline = require("@serialport/parser-readline");
+const bodyParser = require("body-parser");
+const { arduinoPort, parser, writeToSerial } = require("./arduinoSerial");
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+// ROUTE IMPORTS
+const programModeRouter = require("./routes/programMode");
+const dataModeRouter = require("./routes/dataMode");
+const drawModeRouter = require("./routes/drawMode");
 
-app.get("/express_backend", (req, res) => {
-  res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
+// CONSTANT VARIABLES
+const SERVER_PORT = 5001;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
+
+// API ROUTES
+app.use("/api/programmode", programModeRouter);
+app.use("/api/datamode", dataModeRouter);
+app.use("/api/drawmode", drawModeRouter);
+
+app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`));
+
+// ARDUINO PORT AND PARSER SETUP
+
+arduinoPort.on("error", function (err) {
+  console.log("Error: ", err.message);
 });
 
-// ARDUINO PORT STUFF
-const serialPort = new SerialPort("/dev/ttyACM0", { baudRate: 9600 });
-const parser = serialPort.pipe(new Readline({ delimiter: "\n" }));
-// Read the port data
-serialPort.on("open", () => {
-  console.log("serial port open");
-});
-parser.on("data", (data) => {
-  console.log("got word from arduino:", data);
-});
+async function init() {
+  await sleep(1500);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+init();
