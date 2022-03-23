@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { emitTileGridObject } from "../../../utils/api";
 import { HorizontalDivider } from "../../Containers";
 import { useRouteLocation } from "../../hooks/useRouteLocation";
 import { PlaygroundModeEnum } from "../../types/types";
@@ -40,6 +41,7 @@ const Sidebar = () => {
 
   const onEmit = () => {
     console.log("Emitting here");
+    emitTileGridObject();
   };
 
   return (

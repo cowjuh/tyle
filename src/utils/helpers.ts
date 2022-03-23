@@ -1,5 +1,6 @@
 import {
   Color,
+  LEDRowT,
   LocalStorageKeys as LocalStorageKey,
   NewProgramModeStateObject,
   ProgramModeStateObject,
@@ -294,4 +295,33 @@ export const getStateId = (pathname: string): string | undefined => {
   const pathArray = pathname.split("/");
   const lastPathItem = pathArray[pathArray.length - 1];
   return lastPathItem !== "new" ? lastPathItem : undefined;
+};
+
+/**
+ * Takes a hex code (with the pound) and returns its equivalent rgba
+ * @param hex
+ * @returns rbga
+ */
+export const hexToRgbA = (hex: string) => {
+  var c: any;
+  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+    c = hex.substring(1).split("");
+    if (c.length == 3) {
+      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+    c = "0x" + c.join("");
+    return "(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + ",1)";
+  }
+  throw new Error("Bad Hex");
+};
+
+export const ledConfigToString = (ledConfig: Array<LEDRowT>) => {
+  var stringRepresentation = "";
+  for (let i = 0; i < ledConfig.length; i++) {
+    for (let j = 0; j < ledConfig[0].length; j++) {
+      let rgb = hexToRgbA(ledConfig[i][j].color);
+      stringRepresentation += rgb + ",";
+    }
+  }
+  return stringRepresentation.slice(0, -1);
 };
