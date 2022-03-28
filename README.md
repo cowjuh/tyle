@@ -33,7 +33,7 @@ There are three modes of operation:
 1. The sketch is in `arduino/esp32.ino`
 2. Include the Wifi library
 3. You'll need to install the [ArduinoWebsockets](https://github.com/gilmaimon/ArduinoWebsockets) library
-    - Tools > Manage Libraries > Search for "ArduinoWebsockets" > Install the latest version
+    - `Tools > Manage Libraries > Search for "ArduinoWebsockets" > Install the latest version`
 4. In the sketch, you'll need to update your Wifi configurations:
     - SSID
     - Password
