@@ -27,6 +27,33 @@ const uint16_t websockets_server_port = 3001;             // Enter server port
 using namespace websockets;
 
 WebsocketsClient client;
+
+void onEventsCallback(WebsocketsEvent event, String data)
+{
+    if (event == WebsocketsEvent::ConnectionOpened)
+    {
+        Serial.println("Connnection Opened");
+    }
+    else if (event == WebsocketsEvent::ConnectionClosed)
+    {
+        Serial.println("Connnection Closed");
+    }
+    else if (event == WebsocketsEvent::GotPing)
+    {
+        Serial.println("Got a Ping!");
+    }
+    else if (event == WebsocketsEvent::GotPong)
+    {
+        Serial.println("Got a Pong!");
+    }
+}
+
+void onMessageCallback(WebsocketsMessage message)
+{
+    Serial.print("Got Message: ");
+    Serial.println(message.data());
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -61,10 +88,8 @@ void setup()
     }
 
     // run callback when messages are received
-    client.onMessage([&](WebsocketsMessage message)
-                     {
-        Serial.print("Got Message: ");
-        Serial.println(message.data()); });
+    client.onMessage(onMessageCallback);
+    client.onEvent(onEventsCallback);
 }
 
 void loop()
@@ -74,5 +99,6 @@ void loop()
     {
         client.poll();
     }
+    client.send("128 76 58");
     delay(500);
 }
