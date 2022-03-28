@@ -46,7 +46,6 @@ const StatesListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: scroll;
 `;
 
 const TileCanvasContainer = styled.div`
