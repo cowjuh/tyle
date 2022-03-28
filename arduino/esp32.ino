@@ -99,6 +99,11 @@ void loop()
     {
         client.poll();
     }
+
+    /*
+     @jonah this is where you'll want to send tile sensor
+     values at every interval (that you want)
+    */
     client.send("128 76 58");
     delay(500);
 }
