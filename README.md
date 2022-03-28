@@ -6,6 +6,8 @@ Timeline: September 2021 - April 2022
 
 <img width="925" alt="image" src="https://user-images.githubusercontent.com/42523645/160368527-ebdaf929-7c2f-48b3-8b72-260f6ebb475a.png">
 
+![Draw Mode Demo_1](https://user-images.githubusercontent.com/42523645/160369091-d3d2aaf8-633b-49b1-8773-e152cbec4de0.gif)
+
 
 This repository holds the source code for the UI application of the IGEN 430 project, Tyle. This application pairs with the physical tile grid over wifi and allows users to view its stream of pressure sensor data and program its LEDs.
 
