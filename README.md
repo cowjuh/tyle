@@ -27,7 +27,7 @@ There are three modes of operation:
 1. From the root, `cd server` to move to server directory
 2. `npm install`
 3. `npm run dev`
-    - This will run nodedmon and allow hot reload on server changes
+    - This will run nodemon and allow hot reload on server changes
 
 ### ESP32
 1. The sketch is in `arduino/esp32.ino`
