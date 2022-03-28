@@ -1,5 +1,6 @@
 /*
-  Esp32 Websockets Client
+  Esp32 Websockets Client based on the example code by Gil Maimon
+  https://github.com/gilmaimon/ArduinoWebsockets
 
   This sketch:
         1. Connects to a WiFi network
@@ -9,20 +10,18 @@
 
   Hardware:
         For this sketch you only need an ESP32 board.
-
-  Created 15/02/2019
-  By Gil Maimon
-  https://github.com/gilmaimon/ArduinoWebsockets
-
 */
 
 #include <ArduinoWebsockets.h>
 #include <WiFi.h>
 
-const char *ssid = "cow goes";                            // Enter SSID
-const char *password = "moomoomoo";                       // Enter Password
-const char *websockets_server_host = "http://localhost:"; // Enter server adress
-const uint16_t websockets_server_port = 3001;             // Enter server port
+/****************************************************
+ * YOUR WIFI CONFIGURATION GOES HERE
+ *****************************************************/
+const char *ssid = "cow goes";                             // Enter YOUR SSID
+const char *password = "moomoomoo";                        // Enter YOUR Password
+const char *websockets_server_host = "ws://192.168.0.41:"; // Enter ws://YOUR-SERVER-ADDRESS
+const uint16_t websockets_server_port = 3001;              // DO NOT CHANGE
 
 using namespace websockets;
 
@@ -76,7 +75,7 @@ void setup()
 
     Serial.println("Connected to Wifi, Connecting to server.");
     // try to connect to Websockets server
-    bool connected = client.connect("ws://192.168.0.41:3001");
+    bool connected = client.connect(websockets_server_host, websockets_server_port);
     if (connected)
     {
         Serial.println("Connected!");
@@ -84,6 +83,7 @@ void setup()
     }
     else
     {
+        // Make sure you've initialized your NodeJS websocket server
         Serial.println("Not Connected!");
     }
 
@@ -99,7 +99,6 @@ void loop()
     {
         client.poll();
     }
-
     /*
      @jonah this is where you'll want to send tile sensor
      values at every interval (that you want)
