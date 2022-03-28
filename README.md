@@ -37,4 +37,4 @@ There are three modes of operation:
 4. In the sketch, you'll need to update your Wifi configurations:
     - SSID
     - Password
-    - Websocket server (This should be in the format "ws://YOUR-IP-ADDRESS")
+    - Websocket server (This should be in the format `ws://YOUR-IP-ADDRESS`)
