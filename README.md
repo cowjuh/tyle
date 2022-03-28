@@ -1,4 +1,11 @@
-# Tyle - User Interface
+# Tyle - Programmable Smart Tyle
+
+Project Type: IGEN 430 Capstone Project
+
+Timeline: September 2021 - April 2022
+
+<img width="925" alt="image" src="https://user-images.githubusercontent.com/42523645/160368527-ebdaf929-7c2f-48b3-8b72-260f6ebb475a.png">
+
 
 This repository holds the source code for the UI application of the IGEN 430 project, Tyle. This application pairs with the physical tile grid over wifi and allows users to view its stream of pressure sensor data and program its LEDs.
 
