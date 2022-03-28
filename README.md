@@ -19,6 +19,22 @@ There are three modes of operation:
 
 ## Getting Started
 
-1. Clone this repository
-2. `npm install` to install all the packages
-3. `npm start` to run the app.
+### Client
+1. `npm install` to install all the packages
+2. `npm start` to run the app.
+
+### Server
+1. From the root, `cd server` to move to server directory
+2. `npm install`
+3. `npm run dev`
+    - This will run nodedmon and allow hot reload on server changes
+
+### ESP32
+1. The sketch is in `arduino/esp32.ino`
+2. Include the Wifi library
+3. You'll need to install the [ArduinoWebsockets](https://github.com/gilmaimon/ArduinoWebsockets) library
+    - Tools > Manage Libraries > Search for "ArduinoWebsockets" > Install the latest version
+4. In the sketch, you'll need to update your Wifi configurations:
+    - SSID
+    - Password
+    - 
