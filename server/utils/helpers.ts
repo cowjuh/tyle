@@ -1,3 +1,5 @@
+import { ArrayOperation, ArrayManipulation } from "./types";
+
 /**
  * This function parses the incoming string from the esp32
  * into the shape of the object that is needed by the client
@@ -86,27 +88,44 @@ const parseTileGridShape = (str: string) => {
     var bottom = tilePositions[i][3];
   }
 
-  console.log("AFTER: ", addNewRow([[1, 2, 3]], ArrayManipulation.rowBefore));
-  console.log("BEFORE: ", addNewRow([[1, 2, 3]], ArrayManipulation.rowAfter));
+  console.log(
+    "ROW AFTER: ",
+    modifyArray([[1, 2, 3]], ArrayManipulation.rowAfter)
+  );
+  console.log(
+    "ROW BEFORE: ",
+    modifyArray([[1, 2, 3]], ArrayManipulation.rowBefore)
+  );
+  console.log(
+    "COL AFTER: ",
+    modifyArray(
+      [
+        [1, 2, 3],
+        [3, 4, 5],
+      ],
+      ArrayManipulation.columnAfter
+    )
+  );
+  console.log(
+    "COL BEFORE: ",
+    modifyArray(
+      [
+        [1, 2, 3],
+        [3, 4, 5],
+      ],
+      ArrayManipulation.columnBefore
+    )
+  );
 
   console.log(tilePositions);
   console.log("-----FINAL GRID------");
   console.log(gridConstructor);
 };
 
-// [1,2,3]
-// [0,0]
-// [[0]]
-// Array must be 2D
-
-enum ArrayManipulation {
-  columnAfter = "columnAfter",
-  columnBefore = "columnBefore",
-  rowAfter = "rowAfter",
-  rowBefore = "rowBefore",
-}
-
-const addNewRow = (arr: Array<Array<number>>, operation: ArrayManipulation) => {
+const modifyArray = (
+  arr: Array<Array<number>>,
+  operation: ArrayManipulation
+) => {
   if (arr[0][0] == undefined) {
     console.error("Array must be 2D");
     return;
@@ -115,17 +134,30 @@ const addNewRow = (arr: Array<Array<number>>, operation: ArrayManipulation) => {
 
   switch (operation) {
     case ArrayManipulation.rowAfter:
-      newRow = new Array(arr[0].length).fill(0);
-      arr.push(newRow);
+      addNewRow(ArrayOperation.after);
       break;
     case ArrayManipulation.rowBefore:
-      newRow = new Array(arr[0].length).fill(0);
-      arr.unshift(newRow);
+      addNewRow(ArrayOperation.before);
       break;
-    default:
-    // code block
+    case ArrayManipulation.columnAfter:
+      addNewColumn(ArrayOperation.after);
+      break;
+    case ArrayManipulation.columnBefore:
+      addNewColumn(ArrayOperation.before);
+      break;
   }
   return arr;
+
+  function addNewColumn(operation: ArrayOperation) {
+    for (let i = 0; i < arr.length; i++) {
+      operation === ArrayOperation.after ? arr[i].push(0) : arr[i].unshift(0);
+    }
+  }
+
+  function addNewRow(operation: ArrayOperation) {
+    newRow = new Array(arr[0].length).fill(0);
+    operation === ArrayOperation.after ? arr.push(newRow) : arr.unshift(newRow);
+  }
 };
 
 module.exports = {
