@@ -8,7 +8,7 @@ import { ArrayOperation, ArrayManipulation } from "./types";
  * @returns
  */
 const parseESP32TileGrid = (esp32String: string) => {
-  const strArray = esp32String.split(" ");
+  const strArray = esp32String.split(" ").map(Number);
   const tileArray = [];
   if (!isValidString(esp32String, " ")) {
     return console.error("Value sets must be in multiples of 4.");
