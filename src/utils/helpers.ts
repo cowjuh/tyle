@@ -17,12 +17,13 @@ import {
 } from "../mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./constants";
 import { v4 as uuidv4 } from "uuid";
+import { faPray } from "@fortawesome/free-solid-svg-icons";
 
 // TODO findTileByIDandDelete function
 // This will help manage existing tiles being removed from the grid
 export const findTileByIDandDelete = (
   tileObjects: Array<TileObject>,
-  tileId: string
+  tileId: number
 ) => {
   for (let i = 0; i < tileObjects.length; i++) {
     if (tileObjects[i].tileId === tileId) {
@@ -40,7 +41,7 @@ export const detectPhysicalTiles = async (): Promise<Array<TileObject>> => {
 
 // Creates a unique LED ID from the tile id, led row index, and led index
 export const constructLEDId = (
-  tileId: string,
+  tileId: number,
   ledRowId: number,
   ledId: number
 ): string => {
@@ -302,7 +303,7 @@ export const getStateId = (pathname: string): string | undefined => {
  * @param hex
  * @returns rbga
  */
-export const hexToRgbA = (hex: string) => {
+export const hexToRgb = (hex: string) => {
   var c: any;
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
     c = hex.substring(1).split("");
@@ -310,7 +311,7 @@ export const hexToRgbA = (hex: string) => {
       c = [c[0], c[0], c[1], c[1], c[2], c[2]];
     }
     c = "0x" + c.join("");
-    return "(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + ",1)";
+    return [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(" ");
   }
   throw new Error("Bad Hex");
 };
@@ -319,9 +320,49 @@ export const ledConfigToString = (ledConfig: Array<LEDRowT>) => {
   var stringRepresentation = "";
   for (let i = 0; i < ledConfig.length; i++) {
     for (let j = 0; j < ledConfig[0].length; j++) {
-      let rgb = hexToRgbA(ledConfig[i][j].color);
-      stringRepresentation += rgb + ",";
+      let rgb = hexToRgb(ledConfig[i][j].color);
+      stringRepresentation += rgb + " ";
     }
   }
   return stringRepresentation.slice(0, -1);
+};
+
+/**
+ * ---------------------------------------------------
+ * WEBSOCKET INTERFACING FUNCTIONS
+ * The following functions deal with translation/compilation
+ * of WebSocket related data
+ * ---------------------------------------------------
+ */
+
+/**
+ * This function:
+ * 1. Takes as input a tile grid object
+ * 2. "Flattens" the tile grid into a 1D array
+ * 3. Sorts the 1D array by tileId
+ * 4. Transforms each tile's ledConfig object into an rgb string
+ * 5. Combines everything into one string encoded for the ESP32
+ *
+ * The string's format is
+ *
+ * 255 255 255 255 255 255 255 255 etc
+ *
+ * @param tileGridObj
+ * @returns A rgb encoded string
+ */
+export const tileGridObjToRGBStr = (tileGridObj: TileGridObject) => {
+  var newArr = [];
+  var encodedStr = "";
+  // var returnArr: string[] = [];
+  for (let i = 0; i < tileGridObj.length; i++) {
+    for (let j = 0; j < tileGridObj[i].length; j++) {
+      newArr.push(tileGridObj[i][j]);
+    }
+  }
+  newArr.sort((a, b) => (a.tileId > b.tileId ? 1 : -1));
+  for (let i = 0; i < newArr.length; i++) {
+    encodedStr += ledConfigToString(newArr[i].ledConfig);
+    // returnArr = [...returnArr, ledConfigToString(newArr[i].ledConfig)];
+  }
+  return encodedStr;
 };
