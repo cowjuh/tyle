@@ -3,7 +3,7 @@ import { Color, TileGridObject } from "../components/types/types";
 export const mockDrawModeTileGrid: TileGridObject = [
   [
     {
-      tileId: "tileA",
+      tileId: 1,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -32,7 +32,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileB",
+      tileId: 2,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -61,7 +61,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileC",
+      tileId: 3,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -90,7 +90,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileD",
+      tileId: 4,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -121,7 +121,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
   ],
   [
     {
-      tileId: "tileE",
+      tileId: 5,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -150,7 +150,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileF",
+      tileId: 6,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -179,7 +179,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileG",
+      tileId: 7,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -208,7 +208,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "empty",
+      tileId: 0,
       ledConfig: [],
     },
   ],
@@ -217,7 +217,7 @@ export const mockDrawModeTileGrid: TileGridObject = [
 export const mockProgramModeTileGrid: TileGridObject = [
   [
     {
-      tileId: "tileA",
+      tileId: 1,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -246,7 +246,7 @@ export const mockProgramModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileB",
+      tileId: 2,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -275,7 +275,7 @@ export const mockProgramModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileC",
+      tileId: 3,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -304,7 +304,7 @@ export const mockProgramModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileD",
+      tileId: 4,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -335,7 +335,7 @@ export const mockProgramModeTileGrid: TileGridObject = [
   ],
   [
     {
-      tileId: "tileE",
+      tileId: 5,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -364,7 +364,7 @@ export const mockProgramModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileF",
+      tileId: 6,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -393,7 +393,7 @@ export const mockProgramModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "tileG",
+      tileId: 7,
       ledConfig: [
         [
           { color: Color.none, opacity: 100 },
@@ -422,7 +422,7 @@ export const mockProgramModeTileGrid: TileGridObject = [
       ],
     },
     {
-      tileId: "empty",
+      tileId: 0,
       ledConfig: [],
     },
   ],
