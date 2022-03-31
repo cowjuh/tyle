@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { getLocalStorageItem } from "../../../utils/helpers";
+import { wsClient } from "../../../utils/socket";
 import { LocalStorageKeys } from "../../types/types";
-
-const client = new W3CWebSocket("ws://192.168.0.41:3001");
 
 const TempComp = () => {
   const [message, setMessage] = useState("");
   useEffect(() => {
-    client.onopen = () => {
+    wsClient.onopen = () => {
       console.log("WebSocket Client Connected");
     };
-    client.onmessage = (event) => {
+    wsClient.onmessage = (event) => {
       setMessage(JSON.stringify(event.data));
+      console.log(event.data);
     };
   });
 
@@ -20,7 +20,8 @@ const TempComp = () => {
     const drawModeObj = getLocalStorageItem(
       LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ
     );
-    client.send(JSON.stringify(drawModeObj));
+    // client.send(JSON.stringify(drawModeObj));
+    wsClient.send("rgba");
   };
   return (
     <div>

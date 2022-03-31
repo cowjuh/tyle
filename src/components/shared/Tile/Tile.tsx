@@ -50,7 +50,7 @@ const Tile: React.FC<TileProps> = ({
   tileIdInternal,
 }) => {
   const tileIdInternalString: string = `tile-${tileIdInternal.letter}-${tileIdInternal.num}`;
-  const isEmpty = tileObject.tileId === "empty";
+  const isEmpty = tileObject.tileId === 0;
   return (
     <TileContainer
       id={tileIdInternalString}

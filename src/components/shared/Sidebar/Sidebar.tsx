@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { emitTileGridObject } from "../../../utils/api";
-import {
-  espSocket,
-  socketReceiveMesage,
-  socketSendMessage,
-} from "../../../utils/socket";
+import { mockDrawModeTileGridDiff } from "../../../mockData/mockTileObject";
+import { encodeTileGrid, getLocalStorageItem } from "../../../utils/helpers";
+import { syncTileGrid } from "../../../utils/socket";
 import { HorizontalDivider } from "../../Containers";
 import { useRouteLocation } from "../../hooks/useRouteLocation";
-import { PlaygroundModeEnum } from "../../types/types";
+import {
+  LocalStorageKeys,
+  PlaygroundModeEnum,
+  TileGridObject,
+} from "../../types/types";
 import Button from "../Atoms/Button";
 import { TextButton } from "../Atoms/TextButton";
 import SidebarDrawMode from "./SidebarDrawMode";
@@ -38,28 +38,23 @@ const UpperContainer = styled.div`
 
 const Sidebar = () => {
   const [playgroundRoute] = useRouteLocation();
-  const [message, setMessage] = useState<string>("");
-
-  // useEffect(() => {
-  //   socketReceiveMesage();
-  // });
-
-  useEffect(() => {
-    espSocket.on("receive_message", (data) => {
-      setMessage(data.message);
-    });
-  }, [espSocket]);
 
   const onSync = () => {
     if (window.confirm("This action will reset all your states")) {
       console.log("Sync everything");
+      syncTileGrid();
     } else {
       console.log("User cancelled");
     }
   };
 
   const onEmit = () => {
-    socketSendMessage("Hello from React");
+    const tileGridObj: TileGridObject = getLocalStorageItem(
+      LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ
+    );
+
+    // TODO: Use actual new grid
+    console.log(encodeTileGrid(tileGridObj, mockDrawModeTileGridDiff()));
   };
 
   return (
@@ -72,7 +67,6 @@ const Sidebar = () => {
         )}
       </UpperContainer>
       <UpperContainer>
-        <div>MSG: {message}</div>
         <TempComp />
         <HorizontalDivider />
         <Button onClick={onEmit}>Emit Data</Button>

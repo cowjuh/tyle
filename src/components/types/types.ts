@@ -20,8 +20,8 @@ export type TileGridObject = Array<TileRowObject>;
 export type TileRowObject = Array<TileObject>;
 
 export interface TileObject {
-  tileId: string | "empty";
-  ledConfig: Array<LEDRowT>;
+  tileId: number;
+  ledConfig: LEDConfig;
 }
 
 export interface SingleLEDPattern {
@@ -30,8 +30,9 @@ export interface SingleLEDPattern {
 }
 
 export type LEDRowT = Array<SingleLEDPattern>;
+export type LEDConfig = Array<LEDRowT>;
 export enum Color {
-  none = "#FFFFFF10",
+  none = "#393842",
   white = "#FFFFFF",
   red = "#FF5B5B",
   orange = "#FF9820",
@@ -108,22 +109,32 @@ export interface TileIdObject {
  * ---------------------------------------------------------------------
  */
 
-export type DStreamTileGridObject = Array<DstreamTileRowObject>;
-export type DstreamTileRowObject = Array<DStreamTileObject>;
+export type DStreamTileGridPressure = Array<DStreamPressureObject>;
 
-// TODO: Change pressureData type to an array of 4 values?
 // Tile grid object for the incoming data stream from the ESP32
-export interface DStreamTileObject {
-  tileId: string | "empty";
-  pressureData: PressureDataObject;
+export interface DStreamPressureObject {
+  tileId: number | "empty";
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
   pressureValue: number;
 }
 
-// Includes values from each individual strain gauge
-// Allows user to calculate precise pressure location
-export interface PressureDataObject {
-  top: number;
-  left: number;
-  right: number;
-  bottom: number;
+/**
+ * Array representation of physical tile grid layout
+ */
+export type DStreamTileShape = number[][];
+
+/**
+ * WEB SOCKET RELATED
+ */
+export enum WSMessageType {
+  sync_grid = "sync_grid",
+  led_pattern = "led_pattern",
+}
+
+export interface WSMessageObject {
+  type: WSMessageType;
+  data: Object;
 }

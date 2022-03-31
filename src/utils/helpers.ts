@@ -1,10 +1,12 @@
 import {
   Color,
+  LEDConfig,
   LEDRowT,
   LocalStorageKeys as LocalStorageKey,
   NewProgramModeStateObject,
   ProgramModeStateObject,
   ProgramModeStatesObject,
+  SingleLEDPattern,
   StateOperator,
   TileGridObject,
   TileIdObject,
@@ -17,30 +19,11 @@ import {
 } from "../mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./constants";
 import { v4 as uuidv4 } from "uuid";
-
-// TODO findTileByIDandDelete function
-// This will help manage existing tiles being removed from the grid
-export const findTileByIDandDelete = (
-  tileObjects: Array<TileObject>,
-  tileId: string
-) => {
-  for (let i = 0; i < tileObjects.length; i++) {
-    if (tileObjects[i].tileId === tileId) {
-      // Check if surrounding tiles exist or if it's gonna stick out
-      // If it's gonna stick out, just delete it
-      // If there are surrounding tiles, it needs to turn into an empty space
-    }
-  }
-};
-
-// TODO detectPhysicalTiles Wifi integration
-export const detectPhysicalTiles = async (): Promise<Array<TileObject>> => {
-  return mockDrawModeTileGrid[0];
-};
+import { faPray } from "@fortawesome/free-solid-svg-icons";
 
 // Creates a unique LED ID from the tile id, led row index, and led index
 export const constructLEDId = (
-  tileId: string,
+  tileId: number,
   ledRowId: number,
   ledId: number
 ): string => {
@@ -302,7 +285,7 @@ export const getStateId = (pathname: string): string | undefined => {
  * @param hex
  * @returns rbga
  */
-export const hexToRgbA = (hex: string) => {
+export const hexToRgb = (hex: string) => {
   var c: any;
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
     c = hex.substring(1).split("");
@@ -310,7 +293,7 @@ export const hexToRgbA = (hex: string) => {
       c = [c[0], c[0], c[1], c[1], c[2], c[2]];
     }
     c = "0x" + c.join("");
-    return "(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + ",1)";
+    return [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(" ");
   }
   throw new Error("Bad Hex");
 };
@@ -319,9 +302,203 @@ export const ledConfigToString = (ledConfig: Array<LEDRowT>) => {
   var stringRepresentation = "";
   for (let i = 0; i < ledConfig.length; i++) {
     for (let j = 0; j < ledConfig[0].length; j++) {
-      let rgb = hexToRgbA(ledConfig[i][j].color);
-      stringRepresentation += rgb + ",";
+      let rgb = hexToRgb(ledConfig[i][j].color);
+      stringRepresentation += rgb + " ";
     }
   }
   return stringRepresentation.slice(0, -1);
+};
+
+/**
+ * ---------------------------------------------------
+ * WEBSOCKET INTERFACING FUNCTIONS
+ * The following functions deal with translation/compilation
+ * of WebSocket related data
+ * ---------------------------------------------------
+ */
+
+/**
+ * -------------- DEPRECATED --------------------
+ * The updated version of this function is `encodeTileGrid`
+ */
+/**
+ * This function:
+ * 1. Takes as input a tile grid object
+ * 2. "Flattens" the tile grid into a 1D array
+ * 3. Sorts the 1D array by tileId
+ * 4. Transforms each tile's ledConfig object into an rgb string
+ * 5. Combines everything into one string encoded for the ESP32
+ *
+ * The string's format is
+ *
+ * 255 255 255 255 255 255 255 255 etc
+ *
+ * @param tileGridObj
+ * @returns A rgb encoded string
+ */
+export const tileGridObjToRGBStr = (tileGridObj: TileGridObject): string => {
+  var newArr = [];
+  var encodedStr = "";
+  // var returnArr: string[] = [];
+  for (let i = 0; i < tileGridObj.length; i++) {
+    for (let j = 0; j < tileGridObj[i].length; j++) {
+      newArr.push(tileGridObj[i][j]);
+    }
+  }
+  newArr.sort((a, b) => (a.tileId > b.tileId ? 1 : -1));
+  for (let i = 0; i < newArr.length; i++) {
+    encodedStr += " " + ledConfigToString(newArr[i].ledConfig);
+  }
+  return encodedStr;
+};
+
+/**
+ * This function takes in a tile's current/previous LED pattern and
+ * the tile's next/new LED pattern returns the percentage difference.
+ *
+ * @param ogPattern Previously emitted LED pattern
+ * @param newPattern New LED pattern
+ * @returns the percentage difference of the two tile LED patterns
+ */
+export const calcDiffPercentage = (
+  ogPattern: LEDConfig,
+  newPattern: LEDConfig
+): number | undefined => {
+  if (ogPattern.length !== newPattern.length) {
+    throw Error("The two LED pattern formats do not match");
+  }
+  if (ogPattern[0] === undefined || newPattern[0] === undefined) {
+    return undefined;
+  }
+  const LEDNum = ogPattern.length * ogPattern[0].length; // 16
+  var diffNum: number = 0;
+  for (let i = 0; i < ogPattern.length; i++) {
+    for (let j = 0; j < ogPattern[0].length; j++) {
+      if (
+        JSON.stringify(ogPattern[i][j]) !== JSON.stringify(newPattern[i][j])
+      ) {
+        diffNum++;
+      }
+    }
+  }
+  return diffNum / LEDNum;
+};
+
+/**
+ * This function takes the old/current tile LED pattern and the next/new
+ * pattern and returns its DIFF type representation substring.
+ * DIFF type means that we are only returning LEDs that have updated since
+ * their previous state.
+ * @param ogTileObject Original tile object
+ * @param newTileObject New tile object
+ * @returns Properly formatted DIFF type substring
+ */
+export const getDiffTypeSubstring = (
+  ogTileObject: TileObject,
+  newTileObject: TileObject,
+  diffPercentage: number
+): string => {
+  const ogLEDConfig = ogTileObject.ledConfig;
+  const newLEDConfig = newTileObject.ledConfig;
+  var substring = `D ${newTileObject.tileId}`; // Prepend D and the tile's id
+
+  // Validate that the two objects are comparable
+  if (diffPercentage == 0) return "";
+  if (ogLEDConfig.length < 1 || newLEDConfig.length < 1) {
+    return "";
+  }
+  if (ogLEDConfig[0].length !== newLEDConfig.length)
+    throw Error("The two LED pattern formats do not match");
+  for (let i = 0; i < ogLEDConfig.length; i++) {
+    for (let j = 0; j < ogLEDConfig[0].length; j++) {
+      // JSON.stringify so we check content difference
+      if (
+        JSON.stringify(ogLEDConfig[i][j]) !== JSON.stringify(newLEDConfig[i][j])
+      ) {
+        substring += ` ${i + j} ${hexToRgb(newLEDConfig[i][j].color)}`;
+      }
+    }
+  }
+
+  return substring;
+};
+
+/**
+ * Takes in a tile object returns its FULL type substring representation.
+ * FULL type means that we are essentially returning the info of ALL its LEDs.
+ * @param tileObject The tile object whose substring we want to get
+ * @returns The tile's substring representation
+ */
+export const getFullTypeSubstring = (tileObject: TileObject): string => {
+  var substring = `F ${tileObject.tileId}`;
+  const ledConfig = tileObject.ledConfig;
+
+  for (let i = 0; i < ledConfig.length; i++) {
+    for (let j = 0; j < ledConfig[0].length; j++) {
+      substring += " " + hexToRgb(ledConfig[i][j].color);
+    }
+  }
+
+  return substring;
+};
+
+/**
+ * 1. Takes in the old/current tile grid object and the new/next tile grid object.
+ * 2. Checks how different each tile is
+ * 3. If diff >= 75%, the tile gets encoded using the FULL type substring.
+ * 4. If diff < 75%, the tile gets encoded using the DIFF type substring.
+ *
+ * This patterns allows us to not waste bytes when a tile does not have
+ * enough updates to justify sending its entire LED pattern.
+ *
+ * @param ogTileGrid
+ * @param newTileGrid
+ * @returns
+ */
+export const encodeTileGrid = (
+  ogTileGrid: TileGridObject,
+  newTileGrid: TileGridObject
+): string => {
+  const DIFF_THRESHOLD = 0.75;
+  var encodedString = "";
+  if (
+    ogTileGrid.length !== newTileGrid.length ||
+    ogTileGrid[0].length !== newTileGrid[0].length
+  ) {
+    throw Error("Tile grid shapes are different.");
+  }
+  for (let i = 0; i < ogTileGrid.length; i++) {
+    for (let j = 0; j < ogTileGrid[0].length; j++) {
+      let ogTileObj = ogTileGrid[i][j];
+      let newTileObj = newTileGrid[i][j];
+      if (
+        ogTileObj.ledConfig === undefined ||
+        ogTileObj.ledConfig.length < 1 ||
+        newTileObj.ledConfig === undefined ||
+        newTileObj.ledConfig.length < 1
+      ) {
+        continue;
+      }
+
+      // Calculate the percentage difference of the two tiles
+      let diffPercentage = calcDiffPercentage(
+        ogTileObj.ledConfig,
+        newTileObj.ledConfig
+      );
+
+      /**
+       * This will return true when we're dealing with an "empty"/spacer tile obj
+       * Its physical representation is a literal empty space
+       */
+      if (diffPercentage === undefined) continue;
+      if (diffPercentage >= DIFF_THRESHOLD) {
+        encodedString += " " + getFullTypeSubstring(newTileObj);
+      } else {
+        encodedString +=
+          " " + getDiffTypeSubstring(ogTileObj, newTileObj, diffPercentage);
+      }
+    }
+  }
+
+  return encodedString;
 };
