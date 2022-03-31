@@ -21,7 +21,7 @@ export type TileRowObject = Array<TileObject>;
 
 export interface TileObject {
   tileId: number;
-  ledConfig: Array<LEDRowT>;
+  ledConfig: LEDConfig;
 }
 
 export interface SingleLEDPattern {
@@ -30,6 +30,7 @@ export interface SingleLEDPattern {
 }
 
 export type LEDRowT = Array<SingleLEDPattern>;
+export type LEDConfig = Array<LEDRowT>;
 export enum Color {
   none = "#393842",
   white = "#FFFFFF",
