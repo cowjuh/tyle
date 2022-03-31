@@ -1,6 +1,6 @@
 import { Color, TileGridObject } from "../components/types/types";
 
-export const mockDrawModeTileGrid: TileGridObject = [
+export var mockDrawModeTileGrid: TileGridObject = [
   [
     {
       tileId: 1,
@@ -213,6 +213,38 @@ export const mockDrawModeTileGrid: TileGridObject = [
     },
   ],
 ];
+
+export const mockDrawModeTileGridDiff = () => {
+  var modifiedGrid = JSON.parse(JSON.stringify(mockDrawModeTileGrid));
+  modifiedGrid[0][0].ledConfig = [
+    [
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+    ],
+    [
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+    ],
+    [
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+    ],
+    [
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+      { color: Color.pink, opacity: 100 },
+    ],
+  ];
+
+  return modifiedGrid;
+};
 
 export const mockProgramModeTileGrid: TileGridObject = [
   [
