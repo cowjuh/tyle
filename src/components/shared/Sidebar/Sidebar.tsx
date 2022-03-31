@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { mockDrawModeTileGridDiff } from "../../../mockData/mockTileObject";
+import { modifiedMockDrawModeTileGrid } from "../../../mockData/mockTileObject";
 import { encodeTileGrid, getLocalStorageItem } from "../../../utils/helpers";
-import { syncTileGrid } from "../../../utils/socket";
+import { emitLEDPattern, syncTileGrid } from "../../../utils/socket";
 import { HorizontalDivider } from "../../Containers";
 import { useRouteLocation } from "../../hooks/useRouteLocation";
 import {
@@ -54,7 +54,7 @@ const Sidebar = () => {
     );
 
     // TODO: Use actual new grid
-    console.log(encodeTileGrid(tileGridObj, mockDrawModeTileGridDiff()));
+    emitLEDPattern(tileGridObj, modifiedMockDrawModeTileGrid);
   };
 
   return (

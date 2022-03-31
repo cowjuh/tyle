@@ -214,7 +214,7 @@ export var mockDrawModeTileGrid: TileGridObject = [
   ],
 ];
 
-export const mockDrawModeTileGridDiff = () => {
+const modifyMockDrawModeTileGrid = () => {
   var modifiedGrid = JSON.parse(JSON.stringify(mockDrawModeTileGrid));
   modifiedGrid[0][0].ledConfig = [
     [
@@ -245,6 +245,8 @@ export const mockDrawModeTileGridDiff = () => {
 
   return modifiedGrid;
 };
+
+export const modifiedMockDrawModeTileGrid = modifyMockDrawModeTileGrid();
 
 export const mockProgramModeTileGrid: TileGridObject = [
   [

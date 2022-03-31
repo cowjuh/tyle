@@ -64,6 +64,10 @@ export const setLocalStorageItem = (
   localStorage.setItem(localStorageKey, JSON.stringify(object));
 };
 
+export const removeLocalStorageItem = (localStorageKey: LocalStorageKey) => {
+  localStorage.removeItem(localStorageKey);
+};
+
 /**
  * ---------------------------------------------------
  * INTERFACE COLOR CHANGING LOGIC
@@ -500,5 +504,5 @@ export const encodeTileGrid = (
     }
   }
 
-  return encodedString;
+  return encodedString.trim();
 };
