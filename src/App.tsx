@@ -19,6 +19,7 @@ import {
 } from "./mockData/mockTileObject";
 import { mockDataStream } from "./mockData/mockInput";
 
+// TODO: Initialize a MFFFFFFFFFFFF DRAW MODE TILE GRID
 function App() {
   const [currentRoute] = useRouteLocation();
   useState<PlaygroundMode>(currentRoute);
