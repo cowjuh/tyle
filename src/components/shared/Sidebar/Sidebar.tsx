@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { emitTileGridObject } from "../../../utils/api";
-import {
-  getLocalStorageItem,
-  tileGridObjToRGBStr,
-} from "../../../utils/helpers";
+import { mockDrawModeTileGridDiff } from "../../../mockData/mockTileObject";
+import { encodeTileGrid, getLocalStorageItem } from "../../../utils/helpers";
 import { syncTileGrid } from "../../../utils/socket";
 import { HorizontalDivider } from "../../Containers";
 import { useRouteLocation } from "../../hooks/useRouteLocation";
-import { LocalStorageKeys, PlaygroundModeEnum } from "../../types/types";
+import {
+  LocalStorageKeys,
+  PlaygroundModeEnum,
+  TileGridObject,
+} from "../../types/types";
 import Button from "../Atoms/Button";
 import { TextButton } from "../Atoms/TextButton";
 import SidebarDrawMode from "./SidebarDrawMode";
@@ -49,11 +49,12 @@ const Sidebar = () => {
   };
 
   const onEmit = () => {
-    console.log(
-      tileGridObjToRGBStr(
-        getLocalStorageItem(LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ)
-      )
+    const tileGridObj: TileGridObject = getLocalStorageItem(
+      LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ
     );
+
+    // TODO: Use actual new grid
+    console.log(encodeTileGrid(tileGridObj, mockDrawModeTileGridDiff()));
   };
 
   return (
