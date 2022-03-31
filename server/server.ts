@@ -1,5 +1,6 @@
 // Importing the required modules
 import WebSocketServer = require("ws");
+import { WSMessageObject, WSMessageType } from "./utils/types";
 const {
   parseESP32TileGrid,
   parseTileGridShape,
@@ -15,9 +16,6 @@ var CLIENTS: WebSocketServer.WebSocket[] = [];
 // ws repreesnts one single client
 wss.on("connection", (ws) => {
   CLIENTS.push(ws);
-  ws.on("message", function (message: string) {
-    broadcast(message, ws);
-  });
   broadcast("NEW USER JOINED", ws);
 
   // EMITS EVERY SECOND TO ALL CLIENTS
@@ -28,9 +26,30 @@ wss.on("connection", (ws) => {
 
   // sending message
   ws.on("message", (data) => {
-    console.log("Received Local Storage Data");
-    var parsedMsg = JSON.parse(data.toString());
-    console.log(parsedMsg.type);
+    var messageStr = data.toString();
+    var messageObj: WSMessageObject = JSON.parse(messageStr);
+    switch (messageObj.type) {
+      case WSMessageType.led_pattern:
+        console.log("[UI] LED PATTERN EMITTED");
+        broadcast(messageObj.data.toString(), ws);
+        break;
+      case WSMessageType.request_sync_grid:
+        console.log("[UI] REQUEST SYNC TILE GRID");
+        break;
+
+      case WSMessageType.send_sync_grid:
+        console.log("[ESP32] SEND SYNC TILE GRID");
+        break;
+
+      case WSMessageType.pressure_data:
+        console.log("[ESP32] PRESSURE DATA EMITTED");
+        broadcast(data.toString(), ws);
+        console.log(WSMessageType.pressure_data);
+        break;
+
+      default:
+        break;
+    }
   });
   // handling what to do when clients disconnects from server
   ws.on("close", () => {
@@ -56,9 +75,10 @@ function sendAll(message: string) {
   }
 }
 
-function broadcast(data: string, ws: WebSocketServer.WebSocket) {
+function broadcast(data: string, senderWS: WebSocketServer.WebSocket) {
   wss.clients.forEach(function (client) {
-    if (client !== ws) client.send(data);
+    if (client !== senderWS) client.send(data);
+    else client.send("Received Data");
   });
   console.log("Broadcast: ", data.toString());
 }
