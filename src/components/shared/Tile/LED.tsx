@@ -3,7 +3,7 @@ import { constructLEDId } from "../../../utils/helpers";
 import { SingleLEDPattern } from "../../types/types";
 
 interface LEDProps {
-  tileId: string;
+  tileId: number;
   ledId: number;
   ledRowId: number;
   ledObject: SingleLEDPattern;
