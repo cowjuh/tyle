@@ -5,11 +5,7 @@ import {
   WSMessageObject,
   WSMessageType,
 } from "../components/types/types";
-import {
-  encodeTileGrid,
-  removeLocalStorageItem,
-  setLocalStorageItem,
-} from "./helpers";
+import { encodeTileGrid, removeLocalStorageItem } from "./helpers";
 
 const HOST = "192.168.0.41";
 const IPHONE_HOTSPOT = "172.20.10.2";

@@ -13,13 +13,9 @@ import {
   TileObject,
   TileRowObject,
 } from "../components/types/types";
-import {
-  mockDrawModeTileGrid,
-  mockProgramModeTileGrid,
-} from "../mockData/mockTileObject";
+import { mockDrawModeTileGrid } from "../mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ, RGB_STR_PADDING } from "./constants";
 import { v4 as uuidv4 } from "uuid";
-import { faPray } from "@fortawesome/free-solid-svg-icons";
 import { syncTileGrid } from "./socket";
 
 // Creates a unique LED ID from the tile id, led row index, and led index
@@ -300,7 +296,7 @@ export const hexToRgb = (hex: string, padding?: number) => {
   var rgbArr: string[];
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
     c = hex.substring(1).split("");
-    if (c.length == 3) {
+    if (c.length === 3) {
       c = [c[0], c[0], c[1], c[1], c[2], c[2]];
     }
     c = "0x" + c.join("");
@@ -424,7 +420,7 @@ export const getDiffTypeSubstring = (
   const newLEDConfig = newTileObject.ledConfig;
   var substring = `D ${diffPercentage * numLEDs} ${newTileObject.tileId}`; // Prepend D and the tile's id
   // Validate that the two objects are comparable
-  if (diffPercentage == 0) return "";
+  if (diffPercentage === 0) return "";
   if (ogLEDConfig.length < 1 || newLEDConfig.length < 1) {
     return "";
   }
@@ -541,7 +537,7 @@ function padNumber(value: number, padding: number) {
 
 const emptyLEDPattern: SingleLEDPattern = { color: Color.none, opacity: 100 };
 const defaultLEDRow: LEDRowT = Array(4).fill(emptyLEDPattern);
-const defaultLEDConfig: LEDConfig = Array(4).fill(defaultLEDRow);
+export const defaultLEDConfig: LEDConfig = Array(4).fill(defaultLEDRow);
 
 export const constructTileGridObj = (shapeArr: number[][]): TileGridObject => {
   return [];

@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
 import { useContext } from "react";

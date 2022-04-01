@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { getLocalStorageItem } from "../../../utils/helpers";
 import { onMessage, wsClient } from "../../../utils/socket";
-import { LocalStorageKeys } from "../../types/types";
 
 const TempComp = () => {
   const [message, setMessage] = useState("");
@@ -19,9 +16,9 @@ const TempComp = () => {
   });
 
   const sendMessage = () => {
-    const drawModeObj = getLocalStorageItem(
-      LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ
-    );
+    // const drawModeObj = getLocalStorageItem(
+    //   LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ
+    // );
     // client.send(JSON.stringify(drawModeObj));
     wsClient.send("rgba");
   };

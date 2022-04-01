@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { modifiedMockDrawModeTileGrid } from "../../../mockData/mockTileObject";
-import { encodeTileGrid, getLocalStorageItem } from "../../../utils/helpers";
+import { getLocalStorageItem } from "../../../utils/helpers";
 import { emitLEDPattern, syncTileGrid } from "../../../utils/socket";
 import { HorizontalDivider } from "../../Containers";
 import { useDrawModeContext } from "../../hooks/useDrawModeContext";
