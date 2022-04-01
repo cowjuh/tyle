@@ -3,7 +3,7 @@ import { Color } from "../../types/types";
 import ColorPicker from "../ColorPicker/ColorPicker";
 
 const SidebarDrawMode = () => {
-  const [updateTileGridObject] = useDrawModeContext();
+  const { updateTileGridObject } = useDrawModeContext();
 
   const onSetColor = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

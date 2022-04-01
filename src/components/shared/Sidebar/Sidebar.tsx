@@ -3,6 +3,8 @@ import { modifiedMockDrawModeTileGrid } from "../../../mockData/mockTileObject";
 import { encodeTileGrid, getLocalStorageItem } from "../../../utils/helpers";
 import { emitLEDPattern, syncTileGrid } from "../../../utils/socket";
 import { HorizontalDivider } from "../../Containers";
+import { useDrawModeContext } from "../../hooks/useDrawModeContext";
+import { useProgramModeContext } from "../../hooks/useProgramModeContext";
 import { useRouteLocation } from "../../hooks/useRouteLocation";
 import {
   LocalStorageKeys,
@@ -38,10 +40,14 @@ const UpperContainer = styled.div`
 
 const Sidebar = () => {
   const [playgroundRoute] = useRouteLocation();
+  const { clearProgramModeContext } = useProgramModeContext();
+  const { clearDrawModeContext } = useDrawModeContext();
 
   const onSync = () => {
     if (window.confirm("This action will reset all your states")) {
       console.log("Sync everything");
+      clearProgramModeContext();
+      clearDrawModeContext();
       syncTileGrid();
     } else {
       console.log("User cancelled");
