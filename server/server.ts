@@ -29,42 +29,49 @@ wss.on("connection", (ws) => {
   // sending message
   ws.on("message", (data) => {
     var messageStr = data.toString();
-    var messageObj: WSMessageObject = JSON.parse(messageStr);
-    switch (messageObj.type) {
-      case WSMessageType.led_pattern:
-        console.log("[UI] LED PATTERN EMITTED");
-        broadcast(WSMessageType.led_pattern, messageObj.data.toString(), ws);
-        break;
-      case WSMessageType.request_sync_grid:
-        console.log("[UI] REQUEST SYNC TILE GRID");
-        // ws.send(JSON.stringify(parseTileGridShape(tileShapeStr)));
-        var messageObjJSONStr: string = constructWSObject(
-          WSMessageType.request_sync_grid,
-          parseTileGridShape(tileShapeStr)
-        );
-        ws.send(messageObjJSONStr);
-        break;
+    console.log("Received this: ", messageStr);
 
-      case WSMessageType.send_sync_grid:
-        console.log("[ESP32] SEND SYNC TILE GRID");
-        // var encodedStr: string = messageObj.data.toString();
-        broadcast(WSMessageType.send_sync_grid, tileShapeStr, ws);
-        broadcast(
-          WSMessageType.send_sync_grid,
-          parseTileGridShape(tileShapeStr),
-          ws
-        );
+    if (isJson(messageStr)) {
+      console.log("FROM UI");
+      var messageObj: WSMessageObject = JSON.parse(messageStr);
+      switch (messageObj.type) {
+        case WSMessageType.led_pattern:
+          console.log("[UI] LED PATTERN EMITTED");
+          broadcast(WSMessageType.led_pattern, messageObj.data.toString(), ws);
+          break;
+        case WSMessageType.request_sync_grid:
+          console.log("[UI] REQUEST SYNC TILE GRID");
+          // ws.send(JSON.stringify(parseTileGridShape(tileShapeStr)));
+          var messageObjJSONStr: string = constructWSObject(
+            WSMessageType.request_sync_grid,
+            parseTileGridShape(tileShapeStr)
+          );
+          ws.send(messageObjJSONStr);
+          break;
 
-        break;
+        case WSMessageType.send_sync_grid:
+          console.log("[ESP32] SEND SYNC TILE GRID");
+          // var encodedStr: string = messageObj.data.toString();
+          broadcast(WSMessageType.send_sync_grid, tileShapeStr, ws);
+          broadcast(
+            WSMessageType.send_sync_grid,
+            parseTileGridShape(tileShapeStr),
+            ws
+          );
 
-      case WSMessageType.pressure_data:
-        console.log("[ESP32] PRESSURE DATA EMITTED");
-        broadcast(WSMessageType.pressure_data, data.toString(), ws);
-        console.log(WSMessageType.pressure_data);
-        break;
+          break;
 
-      default:
-        break;
+        case WSMessageType.pressure_data:
+          console.log("[ESP32] PRESSURE DATA EMITTED");
+          broadcast(WSMessageType.pressure_data, data.toString(), ws);
+          console.log(WSMessageType.pressure_data);
+          break;
+
+        default:
+          break;
+      }
+    } else {
+      console.log("FROM ESP32");
     }
   });
   // handling what to do when clients disconnects from server
@@ -102,6 +109,15 @@ function sendWSObject(
   ws: WebSocketServer.WebSocket
 ): void {
   ws.send(constructWSObject(type, data));
+}
+
+function isJson(str: string): boolean {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
 }
 
 export {};
