@@ -83,7 +83,7 @@ interface HashTable<T> {
 const parseTileGridShape = (str: string) => {
   const strArray: string[] = str.split("");
 
-  var grid: string[][];
+  var grid: number[][];
   var tileCoordinates: HashTable<Array<number>> = {};
   var tilePositions: string[][] = [];
   var currentCoords: number[] = [0, 0];
@@ -224,7 +224,7 @@ const parseTileGridShape = (str: string) => {
   for (const tile in tileCoordinates) {
     let x = tileCoordinates[tile][0];
     let y = tileCoordinates[tile][1];
-    grid[gridHeight - y][x] = tile;
+    grid[gridHeight - y][x] = parseInt(tile);
   }
 
   return grid;
