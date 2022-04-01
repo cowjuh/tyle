@@ -35,6 +35,8 @@ int cellValues[NUM_LC] = {};
 float cellScaling[NUM_LC] = {};
 int bufferCount = 0;
 
+String neighbourString = "";
+
 void setup() {
   Wire.begin(I2C_ADDRESS);
   Wire.onRequest(sendEvent);
@@ -72,6 +74,10 @@ void loop() {
   delay(5);
 }
 
+void getNeighbours() {
+  //TODO
+}
+
 
 /*
    Load Cell IDs start at top left at 0, incrementing clockwise
@@ -92,15 +98,21 @@ void read_LC(int id) {
 
 
 /*
- * Send load cell values
- */
-void sendEvent() {
-  for (int l = 0; l < NUM_LC; l++){
-    read_LC(l);
-  }
-  for (int i = 0; i < (sizeof(cellValues)) / 2; i++) {
-    Wire.write(highByte(cellValues[i]));
-    Wire.write(lowByte(cellValues[i]));
+   Send load cell values
+*/
+void sendEvent(int numBytes) {
+  if (numBytes == 8) {
+    for (int l = 0; l < NUM_LC; l++) {
+      read_LC(l);
+    }
+    for (int i = 0; i < (sizeof(cellValues)) / 2; i++) {
+      Wire.write(highByte(cellValues[i]));
+      Wire.write(lowByte(cellValues[i]));
+    }
+  } else {
+    char buf[neighbourString.length()];
+    neighbourString.toCharArray(buf, neighbourString.length());
+    Wire.write(buf);
   }
 }
 
@@ -117,7 +129,7 @@ void sendEvent() {
 */
 void receiveEvent(int numBytes) {
   if (numBytes == 48) {
-    for (int i = 0; i < NUM_LED; i+= SKIPLED + 1) { //iterate over LEDs
+    for (int i = 0; i < NUM_LED; i += SKIPLED + 1) { //iterate over LEDs
       int colors[3] = {};
       for (int b = 0; b < 3; b++) { //capture bytes
         colors[b] = Wire.read();
@@ -125,7 +137,7 @@ void receiveEvent(int numBytes) {
       ledValues[i] = grid.Color(colors[0], colors[1], colors[2]);
     }
   } else {
-    for (int i = 0; i < numBytes / 4; i++){ //will always be divisible by 4
+    for (int i = 0; i < numBytes / 4; i++) { //will always be divisible by 4
       int id = Wire.read();
       int colors[3] = {};
       for (int b = 0; b < 3; b++) { //capture bytes
