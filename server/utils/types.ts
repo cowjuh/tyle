@@ -26,6 +26,8 @@ export enum WSMessageType {
   send_sync_grid = "send_sync_grid", // [ESP32]
   led_pattern = "led_pattern", // [UI]
   pressure_data = "pressure_data", // [ESP32]
+  alert = "alert",
+  new_client = "new_client",
 }
 
 export interface WSMessageObject {
