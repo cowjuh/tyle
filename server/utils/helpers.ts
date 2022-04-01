@@ -1,4 +1,10 @@
-import { ArrayOperation, ArrayManipulation } from "./types";
+import {
+  ArrayOperation,
+  ArrayManipulation,
+  WSMessageType,
+  WSMessageObject,
+} from "./types";
+import WebSocketServer = require("ws");
 
 /**
  * This function parses the incoming string from the esp32
@@ -297,7 +303,13 @@ const modifyArray = (
   }
 };
 
+const constructWSObject = (type: WSMessageType, data: string): string => {
+  const obj: WSMessageObject = { type: type, data: data };
+  return JSON.stringify(obj);
+};
+
 module.exports = {
   parseESP32TileGrid: parseESP32TileGrid,
   parseTileGridShape: parseTileGridShape,
+  constructWSObject: constructWSObject,
 };

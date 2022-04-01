@@ -4,6 +4,7 @@ import { WSMessageObject, WSMessageType } from "./utils/types";
 const {
   parseESP32TileGrid,
   parseTileGridShape,
+  constructWSObject,
 } = require("./utils/helpers.ts");
 
 const PORT = 3001;
@@ -11,12 +12,13 @@ const PORT = 3001;
 // Creating a new websocket server
 var wss = new WebSocketServer.Server({ port: PORT });
 var CLIENTS: WebSocketServer.WebSocket[] = [];
+var tileShapeStr = "m02013000002";
 
 // Creating connection using websocket
 // ws repreesnts one single client
 wss.on("connection", (ws) => {
   CLIENTS.push(ws);
-  broadcast("NEW USER JOINED", ws);
+  broadcast(WSMessageType.new_client, "NEW USER JOINED", ws);
 
   // EMITS EVERY SECOND TO ALL CLIENTS
   // setInterval(() => {
@@ -31,19 +33,33 @@ wss.on("connection", (ws) => {
     switch (messageObj.type) {
       case WSMessageType.led_pattern:
         console.log("[UI] LED PATTERN EMITTED");
-        broadcast(messageObj.data.toString(), ws);
+        broadcast(WSMessageType.led_pattern, messageObj.data.toString(), ws);
         break;
       case WSMessageType.request_sync_grid:
         console.log("[UI] REQUEST SYNC TILE GRID");
+        // ws.send(JSON.stringify(parseTileGridShape(tileShapeStr)));
+        var messageObjJSONStr: string = constructWSObject(
+          WSMessageType.request_sync_grid,
+          parseTileGridShape(tileShapeStr)
+        );
+        ws.send(messageObjJSONStr);
         break;
 
       case WSMessageType.send_sync_grid:
         console.log("[ESP32] SEND SYNC TILE GRID");
+        // var encodedStr: string = messageObj.data.toString();
+        broadcast(WSMessageType.send_sync_grid, tileShapeStr, ws);
+        broadcast(
+          WSMessageType.send_sync_grid,
+          parseTileGridShape(tileShapeStr),
+          ws
+        );
+
         break;
 
       case WSMessageType.pressure_data:
         console.log("[ESP32] PRESSURE DATA EMITTED");
-        broadcast(data.toString(), ws);
+        broadcast(WSMessageType.pressure_data, data.toString(), ws);
         console.log(WSMessageType.pressure_data);
         break;
 
@@ -62,25 +78,30 @@ wss.on("connection", (ws) => {
 });
 console.log(`The WebSocket server is running on port ${PORT}`);
 
-parseESP32TileGrid("1 2 3 4 5 6 7 8");
-// parseTileGridShape("123"); //Invalid
-// parseTileGridShape("1234"); //Invalid
-// parseTileGridShape("m02013000002");
-// parseTileGridShape("m03000031200");
-// parseTileGridShape("m02010302000");
-
 function sendAll(message: string) {
   for (var i = 0; i < CLIENTS.length; i++) {
     CLIENTS[i].send("> SERVER: " + message);
+    sendWSObject(WSMessageType.alert, "> SERVER: " + message, CLIENTS[i]);
   }
 }
 
-function broadcast(data: string, senderWS: WebSocketServer.WebSocket) {
+function broadcast(
+  type: WSMessageType,
+  data: string,
+  senderWS: WebSocketServer.WebSocket
+) {
   wss.clients.forEach(function (client) {
-    if (client !== senderWS) client.send(data);
-    else client.send("Received Data");
+    if (client !== senderWS) sendWSObject(type, data, client);
   });
   console.log("Broadcast: ", data.toString());
+}
+
+function sendWSObject(
+  type: WSMessageType,
+  data: string,
+  ws: WebSocketServer.WebSocket
+): void {
+  ws.send(constructWSObject(type, data));
 }
 
 export {};
