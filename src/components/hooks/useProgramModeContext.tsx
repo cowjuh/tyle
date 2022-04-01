@@ -162,6 +162,10 @@ export const useProgramModeContext = () => {
   const initializeTempTileGridObject = (tileGridObject: TileGridObject) => {
     setTempTileGridObject(tileGridObject);
   };
+
+  const clearProgramModeContext = () => {
+    setProgramModeStates([]);
+  };
   return {
     updateProgramModeStates,
     createProgramModeState,
@@ -169,5 +173,6 @@ export const useProgramModeContext = () => {
     deleteStateObjectById,
     updateTempTileGridObject,
     initializeTempTileGridObject,
+    clearProgramModeContext,
   };
 };

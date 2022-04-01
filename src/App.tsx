@@ -13,12 +13,9 @@ import {
 import { useState } from "react";
 import { PlaygroundMode } from "./components/types/types";
 import { useRouteLocation } from "./components/hooks/useRouteLocation";
-import {
-  mockDrawModeTileGrid,
-  mockProgramModeTileGrid,
-} from "./mockData/mockTileObject";
-import { mockDataStream } from "./mockData/mockInput";
+import { mockProgramModeTileGrid } from "./mockData/mockTileObject";
 
+// TODO: Initialize a MFFFFFFFFFFFF DRAW MODE TILE GRID
 function App() {
   const [currentRoute] = useRouteLocation();
   useState<PlaygroundMode>(currentRoute);

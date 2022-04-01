@@ -50,7 +50,7 @@ const Tile: React.FC<TileProps> = ({
   tileIdInternal,
 }) => {
   const tileIdInternalString: string = `tile-${tileIdInternal.letter}-${tileIdInternal.num}`;
-  const isEmpty = tileObject.tileId === "empty";
+  const isEmpty = tileObject.tileId === 0;
   return (
     <TileContainer
       id={tileIdInternalString}
@@ -60,7 +60,12 @@ const Tile: React.FC<TileProps> = ({
         !hideLEDs &&
         tileObject.ledConfig.map((ledRow: LEDRowT, i: number) => {
           return (
-            <LEDRow ledRow={ledRow} tileObject={tileObject} ledRowId={i} />
+            <LEDRow
+              key={i}
+              ledRow={ledRow}
+              tileObject={tileObject}
+              ledRowId={i}
+            />
           );
         })}
       {isEmpty && !hideLEDs && "Empty space"}
@@ -76,6 +81,7 @@ const LEDRow: React.FC<LEDRowProps> = ({ ledRow, tileObject, ledRowId }) => {
           <LED
             ledObject={ledObject}
             ledId={i}
+            key={i}
             tileId={tileObject.tileId}
             ledRowId={ledRowId}
           />

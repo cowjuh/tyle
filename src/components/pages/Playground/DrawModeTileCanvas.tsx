@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
 import { useContext } from "react";
@@ -41,7 +40,7 @@ const DrawModeTileCanvas = () => {
       />
       {tileGridObject.map((tileRow, rowIndex) => {
         return (
-          <TileRowContainer>
+          <TileRowContainer key={rowIndex}>
             <TileNumberContainer>{rowIndex}</TileNumberContainer>
 
             {tileRow.map((tile, columnIndex) => {
@@ -51,7 +50,7 @@ const DrawModeTileCanvas = () => {
                 num: rowIndex,
               };
               return (
-                <TileColumnContainer>
+                <TileColumnContainer key={columnIndex}>
                   {rowIndex === 0 && (
                     <TileNumberContainer>{columnLetter}</TileNumberContainer>
                   )}

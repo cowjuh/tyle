@@ -21,5 +21,9 @@ export const useDrawModeContext = () => {
     );
   };
 
-  return [updateTileGridObject];
+  const clearDrawModeContext = () => {
+    setTileGridObject([]);
+  };
+
+  return { updateTileGridObject, clearDrawModeContext };
 };
