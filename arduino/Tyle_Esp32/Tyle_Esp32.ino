@@ -91,6 +91,7 @@ void onMessageCallback(WebsocketsMessage message)
 {
   String msg = message.data();
   if (msg.charAt(0) == 'C') { //update server with tile config
+    getNeighbours();
     client.send(buildConfigString());
   } else if (msg.charAt(0) == 'D' || msg.charAt(0) == 'F') {
     for (int j = 0; j < msg.length(); j++) {
@@ -164,8 +165,16 @@ void getSensors(int id) {
   }
 }
 
-void getNeighbours(int id) {
-
+void getNeighbours() {
+  
+  for (int i = 0; i < numTiles; i++){
+    Wire.requestFrom(tileIDs[i], 4);
+    String s = "";
+    while (Wire.available){
+      s += Wire.read();
+    }
+    tileNeighbours[i] = s;
+  }
 }
 
 
