@@ -1,4 +1,10 @@
-import { ArrayOperation, ArrayManipulation } from "./types";
+import {
+  ArrayOperation,
+  ArrayManipulation,
+  WSMessageType,
+  WSMessageObject,
+} from "./types";
+import WebSocketServer = require("ws");
 
 /**
  * This function parses the incoming string from the esp32
@@ -77,7 +83,7 @@ interface HashTable<T> {
 const parseTileGridShape = (str: string) => {
   const strArray: string[] = str.split("");
 
-  var grid: string[][];
+  var grid: number[][];
   var tileCoordinates: HashTable<Array<number>> = {};
   var tilePositions: string[][] = [];
   var currentCoords: number[] = [0, 0];
@@ -218,7 +224,7 @@ const parseTileGridShape = (str: string) => {
   for (const tile in tileCoordinates) {
     let x = tileCoordinates[tile][0];
     let y = tileCoordinates[tile][1];
-    grid[gridHeight - y][x] = tile;
+    grid[gridHeight - y][x] = parseInt(tile);
   }
 
   return grid;
@@ -297,7 +303,13 @@ const modifyArray = (
   }
 };
 
+const constructWSObject = (type: WSMessageType, data: string): string => {
+  const obj: WSMessageObject = { type: type, data: data };
+  return JSON.stringify(obj);
+};
+
 module.exports = {
   parseESP32TileGrid: parseESP32TileGrid,
   parseTileGridShape: parseTileGridShape,
+  constructWSObject: constructWSObject,
 };

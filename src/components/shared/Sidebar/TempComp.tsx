@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { getLocalStorageItem } from "../../../utils/helpers";
-import { wsClient } from "../../../utils/socket";
+import { onMessage, wsClient } from "../../../utils/socket";
 import { LocalStorageKeys } from "../../types/types";
 
 const TempComp = () => {
@@ -12,7 +12,9 @@ const TempComp = () => {
     };
     wsClient.onmessage = (event) => {
       setMessage(JSON.stringify(event.data));
-      console.log(event.data);
+      setMessage(JSON.parse(JSON.stringify(event.data)));
+      onMessage(event);
+      console.log(event);
     };
   });
 

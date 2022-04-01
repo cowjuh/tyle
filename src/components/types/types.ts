@@ -109,6 +109,29 @@ export interface TileIdObject {
  * ---------------------------------------------------------------------
  */
 
+/**
+ * NEED TO DELETE ALL OF THESE BELOW
+ */
+export type DStreamTileGridObject = Array<DstreamTileRowObject>;
+export type DstreamTileRowObject = Array<DStreamTileObject>;
+
+export interface DStreamTileObject {
+  tileId: string | "empty";
+  pressureData: PressureDataObject;
+  pressureValue: number;
+}
+
+export interface PressureDataObject {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+}
+
+/**
+ * NEED TO DELETE ALL OF THESE ABOVE
+ */
+
 export type DStreamTileGridPressure = Array<DStreamPressureObject>;
 
 // Tile grid object for the incoming data stream from the ESP32
@@ -129,12 +152,17 @@ export type DStreamTileShape = number[][];
 /**
  * WEB SOCKET RELATED
  */
+// TODO: Find a way to share these types bt frontend and backend
 export enum WSMessageType {
-  sync_grid = "sync_grid",
-  led_pattern = "led_pattern",
+  request_sync_grid = "request_sync_grid", // [UI]
+  send_sync_grid = "send_sync_grid", // [ESP32]
+  led_pattern = "led_pattern", // [UI]
+  pressure_data = "pressure_data", // [ESP32]
+  alert = "alert",
+  new_client = "new_client",
 }
 
 export interface WSMessageObject {
   type: WSMessageType;
-  data: Object;
+  data: any;
 }
