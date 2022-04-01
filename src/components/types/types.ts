@@ -109,6 +109,29 @@ export interface TileIdObject {
  * ---------------------------------------------------------------------
  */
 
+/**
+ * NEED TO DELETE ALL OF THESE BELOW
+ */
+export type DStreamTileGridObject = Array<DstreamTileRowObject>;
+export type DstreamTileRowObject = Array<DStreamTileObject>;
+
+export interface DStreamTileObject {
+  tileId: string | "empty";
+  pressureData: PressureDataObject;
+  pressureValue: number;
+}
+
+export interface PressureDataObject {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+}
+
+/**
+ * NEED TO DELETE ALL OF THESE ABOVE
+ */
+
 export type DStreamTileGridPressure = Array<DStreamPressureObject>;
 
 // Tile grid object for the incoming data stream from the ESP32
@@ -141,5 +164,5 @@ export enum WSMessageType {
 
 export interface WSMessageObject {
   type: WSMessageType;
-  data: Object;
+  data: any;
 }
