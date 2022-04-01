@@ -5,7 +5,11 @@ import {
   WSMessageObject,
   WSMessageType,
 } from "../components/types/types";
-import { encodeTileGrid, removeLocalStorageItem } from "./helpers";
+import {
+  encodeTileGrid,
+  removeLocalStorageItem,
+  setLocalStorageItem,
+} from "./helpers";
 
 const HOST = "192.168.0.41";
 const IPHONE_HOTSPOT = "172.20.10.2";
@@ -13,7 +17,7 @@ const UBC_SECURE = "128.189.131.17";
 const SONG_LING = "192.168.50.71";
 const PORT = 3001;
 
-export const wsClient = new W3CWebSocket(`ws://${SONG_LING}:${PORT}`);
+export const wsClient = new W3CWebSocket(`ws://${HOST}:${PORT}`);
 
 const constructWSObject = (type: WSMessageType, data: string): string => {
   const obj: WSMessageObject = { type: type, data: data };
@@ -43,13 +47,20 @@ export const emitLEDPattern = (
 export const onMessage = (event: IMessageEvent) => {
   console.log("DATA: ", event.data);
   var messageStr = JSON.stringify(event.data);
-  var messageObj: WSMessageObject = JSON.parse(messageStr);
+  var messageObj: WSMessageObject = JSON.parse(JSON.parse(messageStr));
+  console.log("FUlly parsed: ", messageObj);
   switch (messageObj.type) {
     case WSMessageType.led_pattern:
       console.log("[UI] LED PATTERN EMITTED");
       break;
     case WSMessageType.request_sync_grid:
       console.log("[UI] REQUEST SYNC TILE GRID");
+      var tileShape: number[][] = messageObj.data;
+      console.log("My shape: ", tileShape);
+      // setLocalStorageItem(
+      //   LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
+      //   messageObj.data
+      // );
       break;
 
     case WSMessageType.send_sync_grid:

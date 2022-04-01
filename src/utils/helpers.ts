@@ -17,9 +17,10 @@ import {
   mockDrawModeTileGrid,
   mockProgramModeTileGrid,
 } from "../mockData/mockTileObject";
-import { DRAW_MODE_TILE_GRID_LS_OBJ } from "./constants";
+import { DRAW_MODE_TILE_GRID_LS_OBJ, RGB_STR_PADDING } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 import { faPray } from "@fortawesome/free-solid-svg-icons";
+import { syncTileGrid } from "./socket";
 
 // Creates a unique LED ID from the tile id, led row index, and led index
 export const constructLEDId = (
@@ -40,6 +41,7 @@ export const constructLEDId = (
 export const getDrawModeTileGridObject = (): TileGridObject => {
   const tileObject: TileGridObject = JSON.parse(
     localStorage.getItem(LocalStorageKey.DRAW_MODE_TILE_GRID_LS_OBJ) ||
+      syncTileGrid() ||
       JSON.stringify(mockDrawModeTileGrid)
   );
   return tileObject;
@@ -287,17 +289,30 @@ export const getStateId = (pathname: string): string | undefined => {
 /**
  * Takes a hex code (with the pound) and returns its equivalent rgba
  * @param hex
+ * @param padding Optional if we want to pad the return array values
  * @returns rbga
  */
-export const hexToRgb = (hex: string) => {
+export const hexToRgb = (hex: string, padding?: number) => {
   var c: any;
+  var r: number;
+  var g: number;
+  var b: number;
+  var rgbArr: string[];
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
     c = hex.substring(1).split("");
     if (c.length == 3) {
       c = [c[0], c[0], c[1], c[1], c[2], c[2]];
     }
     c = "0x" + c.join("");
-    return [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(" ");
+    r = (c >> 16) & 255;
+    g = (c >> 8) & 255;
+    b = c & 255;
+
+    rgbArr = [r, g, b].map((val) => {
+      return padNumber(val, padding || 0);
+    });
+
+    return rgbArr.join(" ");
   }
   throw new Error("Bad Hex");
 };
@@ -395,17 +410,19 @@ export const calcDiffPercentage = (
  * their previous state.
  * @param ogTileObject Original tile object
  * @param newTileObject New tile object
+ * @param diffPercentage % differnce between old and new tile obj
+ * @param numLEDs Number of LEDS in total on a tile
  * @returns Properly formatted DIFF type substring
  */
 export const getDiffTypeSubstring = (
   ogTileObject: TileObject,
   newTileObject: TileObject,
-  diffPercentage: number
+  diffPercentage: number,
+  numLEDs: number // Typically 16
 ): string => {
   const ogLEDConfig = ogTileObject.ledConfig;
   const newLEDConfig = newTileObject.ledConfig;
-  var substring = `D ${newTileObject.tileId}`; // Prepend D and the tile's id
-
+  var substring = `D ${diffPercentage * numLEDs} ${newTileObject.tileId}`; // Prepend D and the tile's id
   // Validate that the two objects are comparable
   if (diffPercentage == 0) return "";
   if (ogLEDConfig.length < 1 || newLEDConfig.length < 1) {
@@ -419,7 +436,10 @@ export const getDiffTypeSubstring = (
       if (
         JSON.stringify(ogLEDConfig[i][j]) !== JSON.stringify(newLEDConfig[i][j])
       ) {
-        substring += ` ${i + j} ${hexToRgb(newLEDConfig[i][j].color)}`;
+        substring += ` ${i + j} ${hexToRgb(
+          newLEDConfig[i][j].color,
+          RGB_STR_PADDING
+        )}`;
       }
     }
   }
@@ -439,7 +459,7 @@ export const getFullTypeSubstring = (tileObject: TileObject): string => {
 
   for (let i = 0; i < ledConfig.length; i++) {
     for (let j = 0; j < ledConfig[0].length; j++) {
-      substring += " " + hexToRgb(ledConfig[i][j].color);
+      substring += " " + hexToRgb(ledConfig[i][j].color, RGB_STR_PADDING);
     }
   }
 
@@ -464,6 +484,7 @@ export const encodeTileGrid = (
   newTileGrid: TileGridObject
 ): string => {
   const DIFF_THRESHOLD = 0.75;
+  const TOTAL_LED_NUM = 16;
   var encodedString = "";
   if (
     ogTileGrid.length !== newTileGrid.length ||
@@ -499,10 +520,29 @@ export const encodeTileGrid = (
         encodedString += " " + getFullTypeSubstring(newTileObj);
       } else {
         encodedString +=
-          " " + getDiffTypeSubstring(ogTileObj, newTileObj, diffPercentage);
+          " " +
+          getDiffTypeSubstring(
+            ogTileObj,
+            newTileObj,
+            diffPercentage,
+            TOTAL_LED_NUM
+          );
       }
     }
   }
 
   return encodedString.trim();
+};
+
+function padNumber(value: number, padding: number) {
+  var zeroes = new Array(padding + 1).join("0");
+  return (zeroes + value).slice(-padding);
+}
+
+const emptyLEDPattern: SingleLEDPattern = { color: Color.none, opacity: 100 };
+const defaultLEDRow: LEDRowT = Array(4).fill(emptyLEDPattern);
+const defaultLEDConfig: LEDConfig = Array(4).fill(defaultLEDRow);
+
+export const constructTileGridObj = (shapeArr: number[][]): TileGridObject => {
+  return [];
 };
