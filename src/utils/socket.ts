@@ -1,4 +1,4 @@
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
 import {
   LocalStorageKeys,
   TileGridObject,
@@ -21,11 +21,8 @@ const constructWSObject = (type: WSMessageType, data: string): string => {
 };
 
 export const syncTileGrid = () => {
-  const messageObj: WSMessageObject = {
-    type: WSMessageType.request_sync_grid,
-    data: "",
-  };
-  wsClient.send(JSON.stringify(messageObj));
+  const messageStr = constructWSObject(WSMessageType.request_sync_grid, "");
+  wsClient.send(messageStr);
   removeLocalStorageItem(LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ);
   removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ);
   removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_TILE_GRID_LS_OBJ);
@@ -35,15 +32,38 @@ export const emitLEDPattern = (
   ogTileGrid: TileGridObject,
   newTileGrid: TileGridObject
 ) => {
-  var obj = constructWSObject(
+  var messageStr = constructWSObject(
     WSMessageType.led_pattern,
     encodeTileGrid(ogTileGrid, newTileGrid)
   );
-  console.log("sending this: ", obj);
-  wsClient.send(
-    constructWSObject(
-      WSMessageType.led_pattern,
-      encodeTileGrid(ogTileGrid, newTileGrid)
-    )
-  );
+  console.log("sending this: ", messageStr);
+  wsClient.send(messageStr);
+};
+
+export const onMessage = (event: IMessageEvent) => {
+  console.log("DATA: ", event.data);
+  var messageStr = JSON.stringify(event.data);
+  var messageObj: WSMessageObject = JSON.parse(messageStr);
+  switch (messageObj.type) {
+    case WSMessageType.led_pattern:
+      console.log("[UI] LED PATTERN EMITTED");
+      break;
+    case WSMessageType.request_sync_grid:
+      console.log("[UI] REQUEST SYNC TILE GRID");
+      break;
+
+    case WSMessageType.send_sync_grid:
+      console.log("[ESP32] SEND SYNC TILE GRID");
+      // var encodedStr: string = messageObj.data.toString();
+
+      break;
+
+    case WSMessageType.pressure_data:
+      console.log("[ESP32] PRESSURE DATA EMITTED");
+      console.log(WSMessageType.pressure_data);
+      break;
+
+    default:
+      break;
+  }
 };
