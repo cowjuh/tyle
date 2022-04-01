@@ -27,6 +27,8 @@
 Adafruit_NeoPixel grid(NUM_LED, LEDPIN, NEO_GRB + NEO_KHZ800);
 uint32_t ledValues[32] = {};
 
+byte tileID = I2C_ADDRESS;
+
 
 HX711 loadCells[NUM_LC] = {HX711(), HX711(), HX711(), HX711()};
 int cellValues[NUM_LC] = {};
