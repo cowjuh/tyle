@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import { modifiedMockDrawModeTileGrid } from "../../../mockData/mockTileObject";
 import { getLocalStorageItem } from "../../../utils/helpers";
-import { emitLEDPattern, syncTileGrid } from "../../../utils/socket";
 import { HorizontalDivider } from "../../Containers";
 import { useDrawModeContext } from "../../hooks/useDrawModeContext";
 import { useProgramModeContext } from "../../hooks/useProgramModeContext";
 import { useRouteLocation } from "../../hooks/useRouteLocation";
+import { useWebSocket } from "../../hooks/useWebSocket";
 import {
   LocalStorageKeys,
   PlaygroundModeEnum,
@@ -16,7 +15,6 @@ import { TextButton } from "../Atoms/TextButton";
 import SidebarDrawMode from "./SidebarDrawMode";
 import SidebarProgramMode from "./SidebarProgramMode";
 import Tabs from "./Tabs";
-import TempComp from "./TempComp";
 
 const SidebarContainer = styled.div`
   border-right: 1px solid black;
@@ -42,6 +40,19 @@ const Sidebar = () => {
   const [playgroundRoute] = useRouteLocation();
   const { clearProgramModeContext } = useProgramModeContext();
   const { clearDrawModeContext } = useDrawModeContext();
+  const { syncTileGrid, emitLEDPattern } = useWebSocket();
+
+  // /**FOR TESTING ONLY, DELETE LATER */
+  // useEffect(() => {
+  //   var arr = [
+  //     [1, 2, 3],
+  //     [4, 5, 0],
+  //   ];
+  //   setLocalStorageItem(
+  //     LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
+  //     constructTileGridObj(arr)
+  //   );
+  // }, []);
 
   const onSync = () => {
     if (window.confirm("This action will reset all your states")) {
@@ -60,7 +71,7 @@ const Sidebar = () => {
     );
 
     // TODO: Use actual new grid
-    emitLEDPattern(tileGridObj, modifiedMockDrawModeTileGrid);
+    emitLEDPattern(tileGridObj);
   };
 
   return (
@@ -73,7 +84,6 @@ const Sidebar = () => {
         )}
       </UpperContainer>
       <UpperContainer>
-        <TempComp />
         <HorizontalDivider />
         <Button onClick={onEmit}>Emit Data</Button>
         <TextButton onClick={onSync}>Sync Tile Grid</TextButton>

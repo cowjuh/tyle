@@ -16,7 +16,6 @@ import {
 import { mockDrawModeTileGrid } from "../mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ, RGB_STR_PADDING } from "./constants";
 import { v4 as uuidv4 } from "uuid";
-import { syncTileGrid } from "./socket";
 
 // Creates a unique LED ID from the tile id, led row index, and led index
 export const constructLEDId = (
@@ -37,7 +36,6 @@ export const constructLEDId = (
 export const getDrawModeTileGridObject = (): TileGridObject => {
   const tileObject: TileGridObject = JSON.parse(
     localStorage.getItem(LocalStorageKey.DRAW_MODE_TILE_GRID_LS_OBJ) ||
-      syncTileGrid() ||
       JSON.stringify(mockDrawModeTileGrid)
   );
   return tileObject;
@@ -481,6 +479,7 @@ export const encodeTileGrid = (
 ): string => {
   const DIFF_THRESHOLD = 0.75;
   const TOTAL_LED_NUM = 16;
+
   var encodedString = "";
   if (
     ogTileGrid.length !== newTileGrid.length ||
@@ -539,6 +538,22 @@ const emptyLEDPattern: SingleLEDPattern = { color: Color.none, opacity: 100 };
 const defaultLEDRow: LEDRowT = Array(4).fill(emptyLEDPattern);
 export const defaultLEDConfig: LEDConfig = Array(4).fill(defaultLEDRow);
 
+/**
+ * This function takes in the shape of the physical tile grid as an array and
+ * converts it to its equivalent TileGridObject object
+ * @param shapeArr Shape array representation of the tile grid
+ * @returns The equivalent, blank, TileGridObject
+ */
 export const constructTileGridObj = (shapeArr: number[][]): TileGridObject => {
-  return [];
+  var tileGridObj: any[][] = JSON.parse(JSON.stringify(shapeArr));
+  for (let i = 0; i < shapeArr.length; i++) {
+    for (let j = 0; j < shapeArr[0].length; j++) {
+      let tileObj: TileObject = {
+        tileId: shapeArr[i][j],
+        ledConfig: shapeArr[i][j] === 0 ? [] : defaultLEDConfig,
+      };
+      tileGridObj[i][j] = tileObj;
+    }
+  }
+  return tileGridObj;
 };

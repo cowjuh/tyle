@@ -2,11 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../shared/Atoms/Button";
 import { FullWidthHeightCenteredContainer } from "../Containers";
+import { useWebSocket } from "../hooks/useWebSocket";
 
 const PairingPage = () => {
   const navigate = useNavigate();
   const [isPairing, setIsPairing] = useState<boolean>(false);
   const [isPaired, setIsPaired] = useState<boolean>(true);
+  const { syncTileGrid } = useWebSocket();
   const failedToPair = useMemo<boolean>(
     () => !isPairing && !isPaired,
     [isPairing, isPaired]
@@ -17,9 +19,10 @@ const PairingPage = () => {
   );
 
   const attemptToPair: () => void = () => {
-    // TODO Specify the right library for this and actually set up pairing alg.
+    syncTileGrid();
   };
 
+  // TODO: make this work lol
   useEffect(() => {
     attemptToPair();
   }, []);
