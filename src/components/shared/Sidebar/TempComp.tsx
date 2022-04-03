@@ -1,35 +1,31 @@
-import { useEffect, useState } from "react";
-import { onMessage, wsClient } from "../../../utils/socket";
+import { useContext, useEffect, useState } from "react";
+import { setLocalStorageItem } from "../../../utils/helpers";
+import { GlobalContext } from "../../context/globalContext";
+import { WebSocketContext } from "../../context/webSocketContext";
+import { useWebSocket } from "../../hooks/useWebSocket";
 
 const TempComp = () => {
   const [message, setMessage] = useState("");
+  const { setGlobalTileGridObject } = useContext(GlobalContext);
+  const { socket, onMessage } = useWebSocket();
   useEffect(() => {
-    wsClient.onopen = () => {
+    socket.onopen = () => {
       console.log("WebSocket Client Connected");
     };
-    wsClient.onmessage = (event) => {
+    socket.onmessage = (event) => {
       setMessage(JSON.stringify(event.data));
       setMessage(JSON.parse(JSON.stringify(event.data)));
-      onMessage(event);
-      console.log(event);
+      var msgReturn = onMessage(event);
+      /**
+       * TODO: There are multiple type possibilites if onMessage
+       * decides to return things other than the tile grid object
+       */
+      if (msgReturn !== undefined) {
+        setGlobalTileGridObject(msgReturn);
+      }
     };
   });
-
-  const sendMessage = () => {
-    // const drawModeObj = getLocalStorageItem(
-    //   LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ
-    // );
-    // client.send(JSON.stringify(drawModeObj));
-    wsClient.send("rgba");
-  };
-  return (
-    <div>
-      <div>{message}</div>
-      <button className="Button" onClick={() => sendMessage()}>
-        Send Message
-      </button>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default TempComp;
