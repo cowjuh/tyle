@@ -12,7 +12,9 @@ const PORT = 3001;
 // Creating a new websocket server
 var wss = new WebSocketServer.Server({ port: PORT });
 var CLIENTS: WebSocketServer.WebSocket[] = [];
-var tileShapeStr = "m02013000002";
+var tileShapeStr1 = "m02013000002";
+var tileShapeStr2 = "m02010302000";
+var shapeFlag = true;
 
 // Creating connection using websocket
 // ws repreesnts one single client
@@ -28,6 +30,8 @@ wss.on("connection", (ws) => {
 
   // sending message
   ws.on("message", (data) => {
+    let tileShapeStr = shapeFlag ? tileShapeStr1 : tileShapeStr2;
+    console.log("SHAPE: ", tileShapeStr);
     var messageStr = data.toString();
     console.log("Received this: ", messageStr);
 
@@ -47,6 +51,7 @@ wss.on("connection", (ws) => {
             parseTileGridShape(tileShapeStr)
           );
           ws.send(messageObjJSONStr);
+          shapeFlag = !shapeFlag;
           break;
 
         case WSMessageType.send_sync_grid:
@@ -72,6 +77,7 @@ wss.on("connection", (ws) => {
       }
     } else {
       console.log("FROM ESP32");
+      console.log(messageStr);
     }
   });
   // handling what to do when clients disconnects from server
