@@ -82,12 +82,19 @@ export const useWebSocket = () => {
     const ogTileGrid: TileGridObject = getLocalStorageItem(
       LocalStorageKeys.LAST_EMTITED_TILE_GRID
     );
+    const encodedStr = encodeTileGrid(ogTileGrid, newTileGrid);
+    if (encodedStr === "") {
+      console.log("No changes to emit");
+      return;
+    }
+
     var messageStr = constructWSObject(
       WSMessageType.led_pattern,
       encodeTileGrid(ogTileGrid, newTileGrid)
     );
     console.log("sending this: ", messageStr);
     socket.send(messageStr);
+    setLocalStorageItem(LocalStorageKeys.LAST_EMTITED_TILE_GRID, newTileGrid);
   };
 
   return { socket, onMessage, constructWSObject, syncTileGrid, emitLEDPattern };
