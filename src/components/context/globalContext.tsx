@@ -5,9 +5,11 @@ import { DStreamTileGridObject, TileGridObject } from "../types/types";
 export interface GlobalContextProps {
   globalTileGrid?: DStreamTileGridObject;
   globalTileGridObject: TileGridObject;
+  setGlobalTileGridObject: (obj: TileGridObject) => void;
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
   globalTileGrid: [],
   globalTileGridObject: [],
+  setGlobalTileGridObject: () => {},
 });
