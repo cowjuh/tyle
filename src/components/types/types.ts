@@ -7,6 +7,7 @@ export enum LocalStorageKeys {
   DRAW_MODE_TILE_GRID_LS_OBJ = "tileGridDrawMode",
   PROGRAM_MODE_TILE_GRID_LS_OBJ = "tileGridProgramMode",
   PROGRAM_MODE_STATES_LIST_LS_OBJ = "statesList",
+  LAST_EMTITED_TILE_GRID = "lasEmittedTileGrid",
 }
 /**
  * ---------------------------------------------------------------------
@@ -126,6 +127,15 @@ export interface PressureDataObject {
   left: number;
   right: number;
   bottom: number;
+}
+
+// DELETE ABOVE
+
+export type TileGridPressure = Array<TilePressure>;
+
+export interface TilePressure {
+  tileId: number;
+  values: Array<number>;
 }
 
 /**
