@@ -14,7 +14,8 @@ import {
 
 // TODO: LED selection bug
 const DrawModeTileCanvas = () => {
-  const { tileGridObject } = useContext(DrawModeContext);
+  const { drawModeTileGridObject: tileGridObject } =
+    useContext(DrawModeContext);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
       el.classList.add("selected");

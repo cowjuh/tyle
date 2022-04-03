@@ -7,7 +7,10 @@ import { DrawModeContext } from "../context/drawModeContext";
 import { Color, LocalStorageKeys } from "../types/types";
 
 export const useDrawModeContext = () => {
-  const { tileGridObject, setTileGridObject } = useContext(DrawModeContext);
+  const {
+    drawModeTileGridObject: tileGridObject,
+    setDrawModeTileGridObject: setTileGridObject,
+  } = useContext(DrawModeContext);
 
   const updateTileGridObject = (color: Color) => {
     let updatedTileGridObject = getUpdatedTileGridObject(color, tileGridObject);

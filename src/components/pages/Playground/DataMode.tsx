@@ -1,22 +1,23 @@
-import { useState } from "react";
-import { mockDrawModeTileGrid } from "../../../mockData/mockTileObject";
+import { useContext, useState } from "react";
 import { getDrawModeTileGridObject } from "../../../utils/helpers";
 import {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
 } from "../../Containers";
 import { DrawModeContext } from "../../context/drawModeContext";
+import { GlobalContext } from "../../context/globalContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
 import { TileGridObject } from "../../types/types";
 import TileCanvas from "./DrawModeTileCanvas";
 
 const DataMode = () => {
-  const [tileGridObject, setTileGridObject] = useState<TileGridObject>(
-    getDrawModeTileGridObject || mockDrawModeTileGrid
-  );
+  const { globalTileGridObject } = useContext(GlobalContext);
+  const [drawModeTileGridObject, setDrawModeTileGridObject] =
+    useState<TileGridObject>(getDrawModeTileGridObject || globalTileGridObject);
+
   const tileGridContextValue = {
-    tileGridObject,
-    setTileGridObject,
+    drawModeTileGridObject,
+    setDrawModeTileGridObject,
   };
 
   return (
