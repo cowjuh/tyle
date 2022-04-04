@@ -30,11 +30,7 @@ function App() {
     socket.onopen = () => {
       console.log("WebSocket Client Connected");
     };
-    socket.onmessage = (event) => {
-      setMessage(JSON.stringify(event.data));
-      setMessage(JSON.parse(JSON.stringify(event.data)));
-      onMessage(event);
-    };
+    onMessage();
   });
 
   return (

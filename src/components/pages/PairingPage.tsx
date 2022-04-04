@@ -18,13 +18,9 @@ const PairingPage = () => {
     [isPairing, isPaired]
   );
 
-  const attemptToPair: () => void = () => {
-    syncTileGrid();
-  };
-
   // TODO: make this work lol
   useEffect(() => {
-    attemptToPair();
+    syncTileGrid();
   }, []);
 
   const onReturnHome = () => {

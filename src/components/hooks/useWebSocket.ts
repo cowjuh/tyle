@@ -25,44 +25,46 @@ export const useWebSocket = () => {
   const { setProgramModeStates } = useContext(ProgramModeContext);
   const { setGlobalTileGridObject } = useContext(GlobalContext);
 
-  const onMessage = (event: IMessageEvent) => {
-    console.log("ON MESSAGE DATA: ", event.data);
-    var messageStr = JSON.stringify(event.data);
-    var messageObj: WSMessageObject = JSON.parse(JSON.parse(messageStr));
-    switch (messageObj.type) {
-      case WSMessageType.led_pattern:
-        console.log("[UI] LED PATTERN EMITTED");
-        break;
-      case WSMessageType.request_sync_grid:
-        console.log("[UI] REQUEST SYNC TILE GRID");
-        var tileShape: number[][] = messageObj.data;
-        var tileGridObj: TileGridObject = constructTileGridObj(tileShape);
-        setLocalStorageItem(
-          LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
-          tileGridObj
-        );
-        setLocalStorageItem(
-          LocalStorageKeys.LAST_EMTITED_TILE_GRID,
-          tileGridObj
-        );
-        setGlobalTileGridObject(tileGridObj);
-        setProgramModeStates([]);
-        break;
+  const onMessage = () => {
+    socket.onmessage = (event) => {
+      console.log("ON MESSAGE DATA: ", event.data);
+      var messageStr = JSON.stringify(event.data);
+      var messageObj: WSMessageObject = JSON.parse(JSON.parse(messageStr));
+      switch (messageObj.type) {
+        case WSMessageType.led_pattern:
+          console.log("[UI] LED PATTERN EMITTED");
+          break;
+        case WSMessageType.request_sync_grid:
+          console.log("[UI] REQUEST SYNC TILE GRID");
+          var tileShape: number[][] = messageObj.data;
+          var tileGridObj: TileGridObject = constructTileGridObj(tileShape);
+          setLocalStorageItem(
+            LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
+            tileGridObj
+          );
+          setLocalStorageItem(
+            LocalStorageKeys.LAST_EMTITED_TILE_GRID,
+            tileGridObj
+          );
+          setGlobalTileGridObject(tileGridObj);
+          setProgramModeStates([]);
+          break;
 
-      case WSMessageType.send_sync_grid:
-        console.log("[ESP32] SEND SYNC TILE GRID");
-        // var encodedStr: string = messageObj.data.toString();
+        case WSMessageType.send_sync_grid:
+          console.log("[ESP32] SEND SYNC TILE GRID");
+          // var encodedStr: string = messageObj.data.toString();
 
-        break;
+          break;
 
-      case WSMessageType.pressure_data:
-        console.log("[ESP32] PRESSURE DATA EMITTED");
-        console.log(WSMessageType.pressure_data);
-        break;
+        case WSMessageType.pressure_data:
+          console.log("[ESP32] PRESSURE DATA EMITTED");
+          console.log(WSMessageType.pressure_data);
+          break;
 
-      default:
-        break;
-    }
+        default:
+          break;
+      }
+    };
   };
 
   const constructWSObject = (type: WSMessageType, data: string): string => {
@@ -73,6 +75,7 @@ export const useWebSocket = () => {
   const syncTileGrid = () => {
     const messageStr = constructWSObject(WSMessageType.request_sync_grid, "");
     socket.send(messageStr);
+    onMessage();
     removeLocalStorageItem(LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ);
     removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ);
     removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_TILE_GRID_LS_OBJ);
