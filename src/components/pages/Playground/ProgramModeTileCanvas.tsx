@@ -14,7 +14,6 @@ import { TILE_CANVAS_ID } from "../../../utils/constants";
 import { ProgramModeContext } from "../../context/programModeContext";
 import { GlobalContext } from "../../context/globalContext";
 
-// TODO: LED selection bug
 const ProgramModeTileCanvas = () => {
   const location = useLocation();
   const [isSelecting, setIsSelecting] = useState(false);

@@ -21,8 +21,9 @@ export const useDrawModeContext = () => {
       LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
       updatedTileGridObject
     );
+    // TODO: There's still a selecto bug lMAOOOO
     selectoRef?.current?.setSelectedTargets([]);
-    console.log(selectoRef?.current);
+    console.log(selectoRef?.current?.context);
   };
 
   const clearDrawModeContext = () => {

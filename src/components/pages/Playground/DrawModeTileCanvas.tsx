@@ -13,7 +13,6 @@ import {
 } from "../../Containers";
 import { GlobalContext } from "../../context/globalContext";
 
-// TODO: LED selection bug
 const DrawModeTileCanvas = () => {
   const { drawModeTileGridObject: tileGridObject } =
     useContext(DrawModeContext);
