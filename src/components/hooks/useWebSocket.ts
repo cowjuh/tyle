@@ -37,9 +37,6 @@ export const useWebSocket = () => {
       var messageStr = JSON.stringify(event.data);
       var messageObj: WSMessageObject = JSON.parse(JSON.parse(messageStr));
       switch (messageObj.type) {
-        case WSMessageType.led_pattern:
-          console.log("[UI] LED PATTERN EMITTED");
-          break;
         case WSMessageType.request_sync_grid:
           console.log("[UI] REQUEST SYNC TILE GRID");
           var tileShape: number[][] = messageObj.data;
@@ -65,12 +62,6 @@ export const useWebSocket = () => {
             LocalStorageKeys.PROGRAM_MODE_TILE_GRID_LS_OBJ,
             tileGridObj
           );
-          break;
-
-        case WSMessageType.send_sync_grid:
-          console.log("[ESP32] SEND SYNC TILE GRID");
-          // var encodedStr: string = messageObj.data.toString();
-
           break;
 
         case WSMessageType.pressure_data:
