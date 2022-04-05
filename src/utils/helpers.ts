@@ -13,7 +13,6 @@ import {
   TileObject,
   TileRowObject,
 } from "../components/types/types";
-import { mockDrawModeTileGrid } from "../mockData/mockTileObject";
 import { DRAW_MODE_TILE_GRID_LS_OBJ, RGB_STR_PADDING } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 
@@ -35,8 +34,7 @@ export const constructLEDId = (
 // Wrapper to retrieve the local storage draw mode tile grid object
 export const getDrawModeTileGridObject = (): TileGridObject => {
   const tileObject: TileGridObject = JSON.parse(
-    localStorage.getItem(LocalStorageKey.DRAW_MODE_TILE_GRID_LS_OBJ) ||
-      JSON.stringify(mockDrawModeTileGrid)
+    localStorage.getItem(LocalStorageKey.DRAW_MODE_TILE_GRID_LS_OBJ) || "[]"
   );
   return tileObject;
 };
