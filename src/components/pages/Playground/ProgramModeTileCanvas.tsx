@@ -57,7 +57,7 @@ const ProgramModeTileCanvas = () => {
       {tempTileGridObject !== [] &&
         tempTileGridObject.map((tileRow, rowIndex) => {
           return (
-            <TileRowContainer>
+            <TileRowContainer key={rowIndex}>
               <TileNumberContainer>{rowIndex}</TileNumberContainer>
               {tileRow.map((tile, columnIndex) => {
                 const columnLetter = convertNumberToLetter(columnIndex);
@@ -66,7 +66,7 @@ const ProgramModeTileCanvas = () => {
                   num: rowIndex,
                 };
                 return (
-                  <TileColumnContainer>
+                  <TileColumnContainer key={columnIndex}>
                     {rowIndex === 0 && (
                       <TileNumberContainer>{columnLetter}</TileNumberContainer>
                     )}
