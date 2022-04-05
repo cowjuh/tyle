@@ -1,7 +1,7 @@
 import Button from "../shared/Atoms/Button";
 import { useNavigate } from "react-router-dom";
 import { FullWidthHeightCenteredContainer } from "../Containers";
-import tyleLogo from "../../tyle_logo.svg";
+import tileLogo from "../../tile_logo.svg";
 
 const WelcomePage = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const WelcomePage = () => {
   };
   return (
     <FullWidthHeightCenteredContainer>
-      <img src={tyleLogo} alt="Tyle Logo" />
+      <img src={tileLogo} alt="Tyle Logo" width={200} />
       <h2>Welcome to Tyle</h2>
       <Button onClick={onReadyToPair}>Pair my device</Button>
     </FullWidthHeightCenteredContainer>
