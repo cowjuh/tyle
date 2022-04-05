@@ -1,5 +1,6 @@
 import { createContext, ReactChild, useContext, useState } from "react";
-import { TileGridObject } from "../../utils/types";
+import { getLocalStorageItem } from "../../utils/helpers";
+import { LocalStorageKeys, TileGridObject } from "../../utils/types";
 import { GlobalContext } from "./globalContext";
 
 interface DrawModeContextProps {
@@ -19,7 +20,10 @@ interface IDrawModeContextProvider {
 export const DrawModeContextProvider = (props: IDrawModeContextProvider) => {
   const { globalTileGridObject } = useContext(GlobalContext);
   const [drawModeTileGridObject, setDrawModeTileGridObject] =
-    useState<TileGridObject>(globalTileGridObject);
+    useState<TileGridObject>(
+      getLocalStorageItem(LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ) ||
+        globalTileGridObject
+    );
   const tileGridContextValue = {
     drawModeTileGridObject,
     setDrawModeTileGridObject,
