@@ -1,5 +1,6 @@
-import { createContext } from "react";
+import { createContext, ReactChild, useContext, useState } from "react";
 import { ProgramModeStatesObject, TileGridObject } from "../types/types";
+import { GlobalContext } from "./globalContext";
 
 interface ProgramModeContextProps {
   programModeStates: ProgramModeStatesObject;
@@ -15,3 +16,30 @@ export const ProgramModeContext = createContext<ProgramModeContextProps>({
   tempTileGridObject: [],
   setTempTileGridObject: () => {},
 });
+
+interface IProgramModeContextProvider {
+  children: ReactChild;
+}
+
+export const ProgramModeContextProvider = (
+  props: IProgramModeContextProvider
+) => {
+  const { globalTileGridObject } = useContext(GlobalContext);
+  const [programModeStates, setProgramModeStates] =
+    useState<ProgramModeStatesObject>([]);
+
+  const [tempTileGridObject, setTempTileGridObject] =
+    useState<TileGridObject>(globalTileGridObject);
+
+  const tileGridContextValue = {
+    programModeStates,
+    setProgramModeStates,
+    tempTileGridObject,
+    setTempTileGridObject,
+  };
+  return (
+    <ProgramModeContext.Provider value={tileGridContextValue}>
+      {props.children}
+    </ProgramModeContext.Provider>
+  );
+};
