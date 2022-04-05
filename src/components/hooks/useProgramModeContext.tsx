@@ -15,6 +15,7 @@ import {
   TileGridObject,
   TileIdObject,
 } from "../../utils/types";
+import { GlobalContext } from "../context/globalContext";
 
 export const useProgramModeContext = () => {
   const {
@@ -23,6 +24,7 @@ export const useProgramModeContext = () => {
     tempTileGridObject,
     setTempTileGridObject,
   } = useContext(ProgramModeContext);
+  const { selectoRef } = useContext(GlobalContext);
 
   // INTERNAL UTILITY FUNCTIONS
   const clearTempTileGridObject = () => {
@@ -67,9 +69,8 @@ export const useProgramModeContext = () => {
       LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ,
       deepCopyProgramModeStates
     );
-    Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected")
-    );
+    selectoRef?.current?.setSelectedTargets([]);
+
     clearTempTileGridObject();
   };
 
@@ -105,9 +106,7 @@ export const useProgramModeContext = () => {
       newStateObject,
     ]);
     clearTempTileGridObject();
-    Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected")
-    );
+    selectoRef?.current?.setSelectedTargets([]);
   };
 
   /**
@@ -153,10 +152,9 @@ export const useProgramModeContext = () => {
       color,
       tempTileGridObject
     );
+    console.log(updatedTileGridObject);
     setTempTileGridObject(updatedTileGridObject);
-    Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected")
-    );
+    selectoRef?.current?.setSelectedTargets([]);
   };
 
   const initializeTempTileGridObject = (tileGridObject: TileGridObject) => {

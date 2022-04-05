@@ -1,6 +1,6 @@
 import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { DrawModeContext } from "../../context/drawModeContext";
 import { convertNumberToLetter } from "../../../utils/helpers";
 import { TileIdObject } from "../../../utils/types";
@@ -11,11 +11,18 @@ import {
   TileNumberContainer,
   TileRowContainer,
 } from "../../Containers";
+import { GlobalContext } from "../../context/globalContext";
 
 // TODO: LED selection bug
 const DrawModeTileCanvas = () => {
   const { drawModeTileGridObject: tileGridObject } =
     useContext(DrawModeContext);
+  const { selectoRef, setSelectoRef } = useContext(GlobalContext);
+  const ref = useRef<Selecto>(null);
+
+  useEffect(() => {
+    setSelectoRef(ref);
+  }, []);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
       el.classList.add("selected");
@@ -30,7 +37,7 @@ const DrawModeTileCanvas = () => {
       <Selecto
         container={document.getElementById(TILE_CANVAS_ID)}
         dragContainer={document.getElementById(TILE_CANVAS_ID) || window}
-        selectableTargets={[".led"]}
+        selectableTargets={[".led", `.${TILE_CANVAS_ID}`]}
         selectFromInside={false}
         continueSelect={true}
         toggleContinueSelect={"shift"}
@@ -38,6 +45,7 @@ const DrawModeTileCanvas = () => {
         hitRate={20}
         onSelect={onSelect}
         selectByClick={true}
+        ref={selectoRef}
       />
       {tileGridObject.map((tileRow, rowIndex) => {
         return (
