@@ -1,6 +1,6 @@
 import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { convertNumberToLetter } from "../../../utils/helpers";
 import { TileIdObject } from "../../../utils/types";
@@ -12,6 +12,7 @@ import {
 } from "../../Containers";
 import { TILE_CANVAS_ID } from "../../../utils/constants";
 import { ProgramModeContext } from "../../context/programModeContext";
+import { GlobalContext } from "../../context/globalContext";
 
 // TODO: LED selection bug
 const ProgramModeTileCanvas = () => {
@@ -19,6 +20,12 @@ const ProgramModeTileCanvas = () => {
   const [isSelecting, setIsSelecting] = useState(false);
   const { tempTileGridObject } = useContext(ProgramModeContext);
   const [dragContainer, setDragContainer] = useState<HTMLElement | null>();
+  const { selectoRef, setSelectoRef } = useContext(GlobalContext);
+  const ref = useRef<Selecto>(null);
+
+  useEffect(() => {
+    setSelectoRef(ref);
+  }, []);
 
   useEffect(() => {
     if (location.pathname.split("/").length === 4) {
@@ -53,6 +60,7 @@ const ProgramModeTileCanvas = () => {
         keyContainer={document.getElementById(TILE_CANVAS_ID)}
         hitRate={20}
         onSelect={onSelect}
+        ref={selectoRef}
       />
       {tempTileGridObject !== [] &&
         tempTileGridObject.map((tileRow, rowIndex) => {
