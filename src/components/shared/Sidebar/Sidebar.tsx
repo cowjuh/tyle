@@ -9,7 +9,7 @@ import {
   LocalStorageKeys,
   PlaygroundModeEnum,
   TileGridObject,
-} from "../../types/types";
+} from "../../../utils/types";
 import Button from "../Atoms/Button";
 import { TextButton } from "../Atoms/TextButton";
 import SidebarDrawMode from "./SidebarDrawMode";
@@ -70,7 +70,6 @@ const Sidebar = () => {
       LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ
     );
 
-    // TODO: Use actual new grid
     emitLEDPattern(tileGridObj);
   };
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { StateOperator } from "../../types/types";
+import { StateOperator } from "../../../utils/types";
 
 interface DropdownProps {
   options: Array<string>;

@@ -14,7 +14,7 @@ import {
   StateOperator,
   TileGridObject,
   TileIdObject,
-} from "../types/types";
+} from "../../utils/types";
 
 export const useProgramModeContext = () => {
   const {

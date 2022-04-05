@@ -1,5 +1,5 @@
 import { createContext, ReactChild, useContext, useState } from "react";
-import { ProgramModeStatesObject, TileGridObject } from "../types/types";
+import { ProgramModeStatesObject, TileGridObject } from "../../utils/types";
 import { GlobalContext } from "./globalContext";
 
 interface ProgramModeContextProps {

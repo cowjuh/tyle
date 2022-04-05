@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Color } from "../../types/types";
+import { Color } from "../../../utils/types";
 
 interface ColorPickerButtonProps {
   onSetColor?: (

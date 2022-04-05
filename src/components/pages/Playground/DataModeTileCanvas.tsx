@@ -10,7 +10,7 @@ import {
 import { GlobalContext } from "../../context/globalContext";
 import { PressureDataContext } from "../../context/pressureDataContext";
 import Tile from "../../shared/Tile/Tile";
-import { TileIdObject } from "../../types/types";
+import { TileIdObject } from "../../../utils/types";
 
 const DataModeTileCanvas = () => {
   const { globalTileGridObject } = useContext(GlobalContext);

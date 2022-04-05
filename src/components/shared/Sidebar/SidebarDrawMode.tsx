@@ -1,5 +1,5 @@
 import { useDrawModeContext } from "../../hooks/useDrawModeContext";
-import { Color } from "../../types/types";
+import { Color } from "../../../utils/types";
 import ColorPicker from "../ColorPicker/ColorPicker";
 
 const SidebarDrawMode = () => {

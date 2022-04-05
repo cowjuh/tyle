@@ -1,6 +1,6 @@
 import { ReactChild, useEffect } from "react";
-import { WebSocketProvider } from "./context/webSocketContext";
-import { useWebSocket } from "./hooks/useWebSocket";
+import { WebSocketProvider } from "../context/webSocketContext";
+import { useWebSocket } from "../hooks/useWebSocket";
 
 interface IWebSocketHLC {
   children: ReactChild;

@@ -1,5 +1,5 @@
 import { createContext, ReactChild, useContext, useState } from "react";
-import { TileGridObject } from "../types/types";
+import { TileGridObject } from "../../utils/types";
 import { GlobalContext } from "./globalContext";
 
 interface DrawModeContextProps {

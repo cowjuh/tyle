@@ -5,7 +5,7 @@ import {
   SingleLEDPattern,
   TileIdObject,
   TileObject,
-} from "../../types/types";
+} from "../../../utils/types";
 import LED from "./LED";
 
 interface TileProps {

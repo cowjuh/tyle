@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BASE_ROUTE_PROGRAM_MODE } from "../../../utils/constants";
-import { ProgramModeRouteEnum } from "../../types/types";
+import { ProgramModeRouteEnum } from "../../../utils/types";
 import StateEditor from "./programMode/StateEditor";
 import StateList from "./programMode/StateList";
 

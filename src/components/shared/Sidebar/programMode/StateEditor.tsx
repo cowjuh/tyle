@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Color, StateOperator, TileIdObject } from "../../../types/types";
+import { Color, StateOperator, TileIdObject } from "../../../../utils/types";
 import Button from "../../Atoms/Button";
 import ColorPicker from "../../ColorPicker/ColorPicker";
 import Dropdown from "../../Atoms/Dropdown";

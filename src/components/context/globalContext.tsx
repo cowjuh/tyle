@@ -1,6 +1,6 @@
 import { createContext, ReactChild, useState } from "react";
 import { getLocalStorageItem } from "../../utils/helpers";
-import { LocalStorageKeys, TileGridObject } from "../types/types";
+import { LocalStorageKeys, TileGridObject } from "../../utils/types";
 
 //TODO: Change globalTileGrid to not optional
 export interface GlobalContextProps {

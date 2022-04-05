@@ -5,7 +5,7 @@ import {
   ProgramModeStateObject,
   StateOperator,
   StateOperatorSymbols,
-} from "../../../types/types";
+} from "../../../../utils/types";
 import ColorPickerButton from "../../ColorPicker/ColorPickerButton";
 
 interface StatePreviewProps {

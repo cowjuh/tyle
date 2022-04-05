@@ -4,7 +4,7 @@ import {
   LEDRowT,
   SingleLEDPattern,
   StateOperator,
-} from "../components/types/types";
+} from "./types";
 
 export const MAX_PRESSURE_SENSOR_VALUE = 255;
 

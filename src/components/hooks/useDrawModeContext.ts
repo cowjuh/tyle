@@ -4,7 +4,7 @@ import {
   setLocalStorageItem,
 } from "../../utils/helpers";
 import { DrawModeContext } from "../context/drawModeContext";
-import { Color, LocalStorageKeys } from "../types/types";
+import { Color, LocalStorageKeys } from "../../utils/types";
 
 export const useDrawModeContext = () => {
   const {

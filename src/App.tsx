@@ -8,7 +8,7 @@ import DrawingMode from "./components/pages/Playground/DrawMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
 import { GlobalContextProvider } from "./components/context/globalContext";
 import { PressureDataProvider } from "./components/context/pressureDataContext";
-import WebSocketHLC from "./components/WebSocketHLC";
+import WebSocketHLC from "./components/hlc/WebSocketHLC";
 import { DrawModeContextProvider } from "./components/context/drawModeContext";
 import { ProgramModeContextProvider } from "./components/context/programModeContext";
 

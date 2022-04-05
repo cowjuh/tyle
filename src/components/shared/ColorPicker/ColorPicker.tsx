@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Color } from "../../types/types";
+import { Color } from "../../../utils/types";
 import ColorPickerButton from "./ColorPickerButton";
 
 interface ColorPickerProps {
@@ -17,7 +17,6 @@ const ColorPaletteContainer = styled.div`
   grid-gap: 10px;
 `;
 
-// TODO: Add clear all button
 const ColorPicker: React.FC<ColorPickerProps> = ({ onSetColor }) => {
   return (
     <ColorPickerContainer>

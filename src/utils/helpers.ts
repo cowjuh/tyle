@@ -12,7 +12,7 @@ import {
   TileIdObject,
   TileObject,
   TileRowObject,
-} from "../components/types/types";
+} from "./types";
 import { DRAW_MODE_TILE_GRID_LS_OBJ, RGB_STR_PADDING } from "./constants";
 import { v4 as uuidv4 } from "uuid";
 

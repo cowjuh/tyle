@@ -1,4 +1,4 @@
-import { PlaygroundModeEnum } from "../types/types";
+import { PlaygroundModeEnum } from "../../utils/types";
 
 export const useRouteLocation = () => {
   const pathname = window.location.pathname;

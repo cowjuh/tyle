@@ -17,7 +17,7 @@ import {
   TileGridPressure,
   WSMessageObject,
   WSMessageType,
-} from "../types/types";
+} from "../../utils/types";
 
 export const useWebSocket = () => {
   const socket = useContext(WebSocketContext);

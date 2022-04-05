@@ -1,4 +1,4 @@
-import { Color, TileGridObject } from "../components/types/types";
+import { Color, TileGridObject } from "../utils/types";
 
 export var mockDrawModeTileGrid: TileGridObject = [
   [

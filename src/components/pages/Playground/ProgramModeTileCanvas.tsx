@@ -3,7 +3,7 @@ import Selecto, { OnSelect } from "react-selecto";
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { convertNumberToLetter } from "../../../utils/helpers";
-import { TileIdObject } from "../../types/types";
+import { TileIdObject } from "../../../utils/types";
 import {
   TileCanvasContainer,
   TileColumnContainer,

@@ -1,7 +1,4 @@
-import {
-  DStreamTileGridPressure,
-  DStreamTileShape,
-} from "../components/types/types";
+import { DStreamTileGridPressure, DStreamTileShape } from "../utils/types";
 
 export const mockDataStream: DStreamTileGridPressure = [
   {

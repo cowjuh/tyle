@@ -35,7 +35,6 @@ const PairingPage = () => {
     }
   };
 
-  // TODO: make this work lol
   useEffect(() => {
     tryPairing();
   }, []);

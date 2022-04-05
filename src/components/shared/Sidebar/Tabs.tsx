@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalContext } from "../../context/globalContext";
 import { useRouteLocation } from "../../hooks/useRouteLocation";
-import { PlaygroundMode, PlaygroundModeEnum } from "../../types/types";
+import { PlaygroundMode, PlaygroundModeEnum } from "../../../utils/types";
 
 interface ClickableTextProps {
   onClick: (
