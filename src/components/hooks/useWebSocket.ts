@@ -24,9 +24,10 @@ import {
 export const useWebSocket = () => {
   const socket = useContext(WebSocketContext);
   const { setProgramModeStates } = useContext(ProgramModeContext);
+  const { setDrawModeTileGridObject, drawModeTileGridObject } =
+    useContext(DrawModeContext);
   const { setGlobalTileGridObject } = useContext(GlobalContext);
-  const { pressureDataObject, setPressureDataObject } =
-    useContext(PressureDataContext);
+  const { setPressureDataObject } = useContext(PressureDataContext);
 
   const onMessage = () => {
     if (socket.readyState === WebSocket.CLOSED) {
@@ -45,6 +46,10 @@ export const useWebSocket = () => {
           console.log("[UI] REQUEST SYNC TILE GRID");
           var tileShape: number[][] = messageObj.data;
           var tileGridObj: TileGridObject = constructTileGridObj(tileShape);
+          console.log("SETTING THIS OBJ: ", tileGridObj);
+          setProgramModeStates([]);
+          setGlobalTileGridObject(tileGridObj);
+          setDrawModeTileGridObject(tileGridObj);
           setLocalStorageItem(
             LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
             tileGridObj
@@ -57,8 +62,6 @@ export const useWebSocket = () => {
             LocalStorageKeys.GLOBAL_TILE_GRID_LS_OBJ,
             tileGridObj
           );
-          setProgramModeStates([]);
-          setGlobalTileGridObject(tileGridObj);
           break;
 
         case WSMessageType.send_sync_grid:
