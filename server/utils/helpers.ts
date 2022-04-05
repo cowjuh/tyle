@@ -6,7 +6,6 @@ import {
   TileGridPressure,
   TilePressure,
 } from "./types";
-import WebSocketServer = require("ws");
 
 /**
  * This function parses the incoming string from the esp32
@@ -15,7 +14,7 @@ import WebSocketServer = require("ws");
  * @param esp32String
  * @returns
  */
-const parseESP32TileGrid = (esp32String: string) => {
+const parseESP32PressureData = (esp32String: string) => {
   const strArray = esp32String.split(" ").map(Number);
   const tileArray: TileGridPressure = [];
   if (!isValidString(esp32String, " ")) {
@@ -28,7 +27,6 @@ const parseESP32TileGrid = (esp32String: string) => {
     };
     tileArray.push(temp);
   }
-  console.log(tileArray);
   return tileArray;
 };
 
@@ -308,7 +306,7 @@ const constructWSObject = (type: WSMessageType, data: string): string => {
 };
 
 module.exports = {
-  parseESP32TileGrid: parseESP32TileGrid,
+  parseESP32PressureData: parseESP32PressureData,
   parseTileGridShape: parseTileGridShape,
   constructWSObject: constructWSObject,
 };
