@@ -98,15 +98,7 @@ const StateEditor = () => {
     initializeTempTileGridObject(
       (stateObject && stateObject.tileGridObject) || globalTileGridObject
     );
-  }, [globalTileGridObject, initializeTempTileGridObject, stateObject]);
-
-  // const onSetColor = (
-  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  //   color: Color
-  // ) => {
-  //   e.preventDefault();
-  //   setSelectedColor(color);
-  // };
+  }, []);
 
   const onSetColor = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
