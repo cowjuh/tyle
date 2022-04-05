@@ -70,7 +70,7 @@ const Tile: React.FC<TileProps> = ({
             />
           );
         })}
-      {isEmpty && "Empty space"}
+      {isEmpty && "--"}
       {!isEmpty && value && value}
     </TileContainer>
   );
