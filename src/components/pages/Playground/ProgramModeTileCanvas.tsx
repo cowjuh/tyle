@@ -52,7 +52,6 @@ const ProgramModeTileCanvas = () => {
     <TileCanvasContainer id={TILE_CANVAS_ID}>
       <Selecto
         container={document.getElementById(TILE_CANVAS_ID)}
-        dragContainer={document.getElementById(TILE_CANVAS_ID) || window}
         selectableTargets={[".led"]}
         continueSelect={true}
         selectByClick={true}

@@ -6,7 +6,6 @@ import {
 import { DrawModeContext } from "../context/drawModeContext";
 import { Color, LocalStorageKeys } from "../../utils/types";
 import { GlobalContext } from "../context/globalContext";
-import Selecto from "react-selecto";
 
 export const useDrawModeContext = () => {
   const { selectoRef } = useContext(GlobalContext);
