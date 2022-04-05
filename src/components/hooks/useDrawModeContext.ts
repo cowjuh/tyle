@@ -23,6 +23,7 @@ export const useDrawModeContext = () => {
       updatedTileGridObject
     );
     selectoRef?.current?.setSelectedTargets([]);
+    console.log(selectoRef?.current);
   };
 
   const clearDrawModeContext = () => {
