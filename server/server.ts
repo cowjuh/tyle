@@ -28,10 +28,12 @@ wss.on("connection", (ws) => {
     console.log("Sending?");
     sendWSObject(
       WSMessageType.pressure_data,
-      parseESP32TileGrid("50 50 50 50 50 50 50 50 50 50 50 50"),
+      parseESP32TileGrid(
+        `50 50 50 ${Math.floor(Math.random() * 200)} 50 50 50 50 50 50 50 50`
+      ),
       ws
     );
-  }, 50000);
+  }, 1000);
 
   // sending message
   ws.on("message", (data) => {
@@ -114,7 +116,7 @@ function broadcast(
   type: WSMessageType,
   data: string,
   senderWS: WebSocketServer.WebSocket,
-  rawText?
+  rawText?: boolean
 ) {
   wss.clients.forEach(function (client) {
     if (client !== senderWS) {
