@@ -53,8 +53,12 @@ export const useWebSocket = () => {
             LocalStorageKeys.LAST_EMTITED_TILE_GRID,
             tileGridObj
           );
-          setGlobalTileGridObject(tileGridObj);
+          setLocalStorageItem(
+            LocalStorageKeys.GLOBAL_TILE_GRID_LS_OBJ,
+            tileGridObj
+          );
           setProgramModeStates([]);
+          setGlobalTileGridObject(tileGridObj);
           break;
 
         case WSMessageType.send_sync_grid:
@@ -66,7 +70,7 @@ export const useWebSocket = () => {
         case WSMessageType.pressure_data:
           console.log("[ESP32] PRESSURE DATA EMITTED");
           let pressureObj: TileGridPressure = messageObj.data;
-          setPressureDataObject([...pressureDataObject, ...pressureObj]);
+          setPressureDataObject(pressureObj);
           break;
 
         default:

@@ -8,6 +8,7 @@ export enum LocalStorageKeys {
   PROGRAM_MODE_TILE_GRID_LS_OBJ = "tileGridProgramMode",
   PROGRAM_MODE_STATES_LIST_LS_OBJ = "statesList",
   LAST_EMTITED_TILE_GRID = "lasEmittedTileGrid",
+  GLOBAL_TILE_GRID_LS_OBJ = "tileGridGlobal",
 }
 /**
  * ---------------------------------------------------------------------

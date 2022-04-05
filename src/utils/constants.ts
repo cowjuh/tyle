@@ -24,6 +24,7 @@ export const defaultLEDConfig: LEDConfig = Array(4).fill(defaultLEDRow);
 export const DRAW_MODE_TILE_GRID_LS_OBJ = "tileGridDrawMode";
 export const PROGRAM_MODE_TILE_GRID_LS_OBJ = "tileGridProgramMode";
 export const PROGRAM_MODE_STATES_LIST_LS_OBJ = "statesList";
+export const GLOBAL_TILE_GRID_LS_OBJ = "tileGridGlobal";
 
 // ROUTING
 export const BASE_ROUTE_DATA_MODE = "/playground/data";

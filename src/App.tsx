@@ -12,6 +12,7 @@ import {
 } from "./components/context/globalContext";
 import { useEffect, useState } from "react";
 import {
+  LocalStorageKeys,
   PlaygroundMode,
   TileGridObject,
   TileGridPressure,
@@ -24,17 +25,20 @@ import {
   PressureDataProvider,
 } from "./components/context/pressureDataContext";
 import WebSocketHLC from "./components/WebSocketHLC";
+import { getLocalStorageItem } from "./utils/helpers";
 
 function App() {
   const [globalTileGridObject, setGlobalTileGridObject] =
-    useState<TileGridObject>([]);
+    useState<TileGridObject>(
+      getLocalStorageItem(LocalStorageKeys.GLOBAL_TILE_GRID_LS_OBJ || [])
+    );
   const globalContextValue: GlobalContextProps = {
     globalTileGridObject: globalTileGridObject,
     setGlobalTileGridObject: setGlobalTileGridObject,
   };
 
   const [pressureDataObject, setPressureDataObject] =
-    useState<TileGridPressure>([{ tileId: 1, values: [1, 2, 3, 4] }]);
+    useState<TileGridPressure>([]);
 
   const pressureDataContextValue = {
     pressureDataObject,
