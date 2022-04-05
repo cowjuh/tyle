@@ -21,7 +21,8 @@ import {
 
 export const useWebSocket = () => {
   const socket = useContext(WebSocketContext);
-  const { setProgramModeStates } = useContext(ProgramModeContext);
+  const { setProgramModeStates, setTempTileGridObject } =
+    useContext(ProgramModeContext);
   const { setDrawModeTileGridObject } = useContext(DrawModeContext);
   const { setGlobalTileGridObject } = useContext(GlobalContext);
   const { setPressureDataObject } = useContext(PressureDataContext);
@@ -45,6 +46,7 @@ export const useWebSocket = () => {
           var tileGridObj: TileGridObject = constructTileGridObj(tileShape);
           console.log("SETTING THIS OBJ: ", tileGridObj);
           setProgramModeStates([]);
+          setTempTileGridObject(tileGridObj);
           setGlobalTileGridObject(tileGridObj);
           setDrawModeTileGridObject(tileGridObj);
           setLocalStorageItem(
@@ -57,6 +59,10 @@ export const useWebSocket = () => {
           );
           setLocalStorageItem(
             LocalStorageKeys.GLOBAL_TILE_GRID_LS_OBJ,
+            tileGridObj
+          );
+          setLocalStorageItem(
+            LocalStorageKeys.PROGRAM_MODE_TILE_GRID_LS_OBJ,
             tileGridObj
           );
           break;
