@@ -12,6 +12,7 @@ interface TileProps {
   tileObject: TileObject;
   hideLEDs?: boolean;
   tileIdInternal: TileIdObject;
+  value?: number | string;
 }
 
 interface LEDRowProps {
@@ -48,6 +49,7 @@ const Tile: React.FC<TileProps> = ({
   tileObject,
   hideLEDs,
   tileIdInternal,
+  value,
 }) => {
   const tileIdInternalString: string = `tile-${tileIdInternal.letter}-${tileIdInternal.num}`;
   const isEmpty = tileObject.tileId === 0;
@@ -68,7 +70,8 @@ const Tile: React.FC<TileProps> = ({
             />
           );
         })}
-      {isEmpty && !hideLEDs && "Empty space"}
+      {isEmpty && "Empty space"}
+      {!isEmpty && value && value}
     </TileContainer>
   );
 };
