@@ -17,7 +17,7 @@ interface IPressureDataProvider {
 
 export const PressureDataProvider = (props: IPressureDataProvider) => {
   const [pressureDataObject, setPressureDataObject] =
-    useState<TileGridPressure>([{ tileId: 1, values: [1, 2, 3, 4] }]);
+    useState<TileGridPressure>([]);
 
   const pressureDataContextValue = {
     pressureDataObject,
