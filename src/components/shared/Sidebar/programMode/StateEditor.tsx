@@ -30,6 +30,7 @@ import { useProgramModeContext } from "../../../hooks/useProgramModeContext";
 import { LetterInput, NumericalInput } from "../../Atoms/Input";
 import { mockProgramModeTileGrid } from "../../../../mockData/mockTileObject";
 import { ProgramModeContext } from "../../../context/programModeContext";
+import { GlobalContext } from "../../../context/globalContext";
 
 const BetweenOperatorInputContainer = styled.div`
   display: flex;
@@ -60,6 +61,7 @@ const StateEditor = () => {
   const stateId = getStateId(location.pathname); // undefined if no existing stateId exists
   const navigate = useNavigate();
   const { tempTileGridObject } = useContext(ProgramModeContext);
+  const { globalTileGridObject } = useContext(GlobalContext);
 
   const {
     updateProgramModeStates,
@@ -75,7 +77,7 @@ const StateEditor = () => {
     (stateObject && stateObject?.color) || Color.none
   );
   const [tileGridObject, setTileGridObject] = useState<TileGridObject>(
-    (stateObject && stateObject.tileGridObject) || mockProgramModeTileGrid
+    (stateObject && stateObject.tileGridObject) || globalTileGridObject
   );
   const [input1, setInput1] = useState<number>(
     (stateObject && stateObject?.primaryInputValue) || 0
@@ -106,7 +108,7 @@ const StateEditor = () => {
 
   useEffect(() => {
     initializeTempTileGridObject(
-      (stateObject && stateObject.tileGridObject) || mockProgramModeTileGrid
+      (stateObject && stateObject.tileGridObject) || globalTileGridObject
     );
   }, []);
 
