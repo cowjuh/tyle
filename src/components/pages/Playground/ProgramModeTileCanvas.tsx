@@ -2,8 +2,7 @@ import Tile from "../../shared/Tile/Tile";
 import Selecto, { OnSelect } from "react-selecto";
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { convertNumberToLetter, getStateId } from "../../../utils/helpers";
-import { GlobalContext } from "../../context/globalContext";
+import { convertNumberToLetter } from "../../../utils/helpers";
 import { TileIdObject } from "../../types/types";
 import {
   TileCanvasContainer,
@@ -18,7 +17,6 @@ import { ProgramModeContext } from "../../context/programModeContext";
 const ProgramModeTileCanvas = () => {
   const location = useLocation();
   const [isSelecting, setIsSelecting] = useState(false);
-  const { globalTileGridObject } = useContext(GlobalContext);
   const { tempTileGridObject } = useContext(ProgramModeContext);
   const [dragContainer, setDragContainer] = useState<HTMLElement | null>();
 

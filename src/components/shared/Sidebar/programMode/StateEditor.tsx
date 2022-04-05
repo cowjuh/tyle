@@ -1,11 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import {
-  Color,
-  StateOperator,
-  TileGridObject,
-  TileIdObject,
-} from "../../../types/types";
+import { Color, StateOperator, TileIdObject } from "../../../types/types";
 import Button from "../../Atoms/Button";
 import ColorPicker from "../../ColorPicker/ColorPicker";
 import Dropdown from "../../Atoms/Dropdown";
@@ -21,15 +16,11 @@ import {
 } from "../../../../utils/constants";
 import {
   cleanUpTileHighlight,
-  getInternalTileIdString,
   getStateId,
-  getUpdatedTileGridObject,
   highlightTileByInternalId,
 } from "../../../../utils/helpers";
 import { useProgramModeContext } from "../../../hooks/useProgramModeContext";
 import { LetterInput, NumericalInput } from "../../Atoms/Input";
-import { mockProgramModeTileGrid } from "../../../../mockData/mockTileObject";
-import { ProgramModeContext } from "../../../context/programModeContext";
 import { GlobalContext } from "../../../context/globalContext";
 
 const BetweenOperatorInputContainer = styled.div`
@@ -60,7 +51,6 @@ const StateEditor = () => {
   const location = useLocation();
   const stateId = getStateId(location.pathname); // undefined if no existing stateId exists
   const navigate = useNavigate();
-  const { tempTileGridObject } = useContext(ProgramModeContext);
   const { globalTileGridObject } = useContext(GlobalContext);
 
   const {
@@ -76,9 +66,7 @@ const StateEditor = () => {
   const [selectedColor, setSelectedColor] = useState<Color>(
     (stateObject && stateObject?.color) || Color.none
   );
-  const [tileGridObject, setTileGridObject] = useState<TileGridObject>(
-    (stateObject && stateObject.tileGridObject) || globalTileGridObject
-  );
+
   const [input1, setInput1] = useState<number>(
     (stateObject && stateObject?.primaryInputValue) || 0
   );
@@ -110,7 +98,7 @@ const StateEditor = () => {
     initializeTempTileGridObject(
       (stateObject && stateObject.tileGridObject) || globalTileGridObject
     );
-  }, []);
+  }, [globalTileGridObject, initializeTempTileGridObject, stateObject]);
 
   // const onSetColor = (
   //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

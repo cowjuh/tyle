@@ -1,22 +1,13 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import { getDrawModeTileGridObject } from "../../../utils/helpers";
 import {
   FullWidthHeightCenteredContainer,
-  HorizontalDivider,
   PlayGroundParentContainer,
   TileCanvasContainer,
 } from "../../Containers";
-import { DrawModeContext } from "../../context/drawModeContext";
-import { GlobalContext } from "../../context/globalContext";
-import {
-  PressureDataContext,
-  PressureDataProvider,
-} from "../../context/pressureDataContext";
+import { PressureDataContext } from "../../context/pressureDataContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
-import { TileGridObject, TileGridPressure } from "../../types/types";
 import DataModeTileCanvas from "./DataModeTileCanvas";
-import TileCanvas from "./DrawModeTileCanvas";
 
 const DataStreamTextArea = styled.textarea`
   background: none;

@@ -7,24 +7,11 @@ import DataMode from "./components/pages/Playground/DataMode";
 import DrawingMode from "./components/pages/Playground/DrawMode";
 import ProgramMode from "./components/pages/Playground/ProgramMode";
 import { GlobalContextProvider } from "./components/context/globalContext";
-import { useState } from "react";
-import { TileGridPressure } from "./components/types/types";
-import {
-  PressureDataContext,
-  PressureDataProvider,
-} from "./components/context/pressureDataContext";
+import { PressureDataProvider } from "./components/context/pressureDataContext";
 import WebSocketHLC from "./components/WebSocketHLC";
 import { DrawModeContextProvider } from "./components/context/drawModeContext";
 
 function App() {
-  const [pressureDataObject, setPressureDataObject] =
-    useState<TileGridPressure>([]);
-
-  const pressureDataContextValue = {
-    pressureDataObject,
-    setPressureDataObject,
-  };
-
   return (
     <div className="App">
       <GlobalContextProvider>

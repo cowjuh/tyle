@@ -1,4 +1,4 @@
-import { createContext, ReactChild, useEffect, useState } from "react";
+import { createContext, ReactChild, useState } from "react";
 import { TileGridPressure } from "../types/types";
 
 interface IPressureDataContext {

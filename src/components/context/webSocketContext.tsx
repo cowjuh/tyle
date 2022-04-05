@@ -8,7 +8,7 @@ const SONG_LING = "192.168.50.71";
 
 const PORT = 3001;
 
-export const wsClient = new W3CWebSocket(`ws://${UBC_SECURE}:${PORT}`);
+export const wsClient = new W3CWebSocket(`ws://${HOME}:${PORT}`);
 
 export const WebSocketContext = createContext(wsClient);
 

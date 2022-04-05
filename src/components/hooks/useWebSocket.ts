@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { IMessageEvent } from "websocket";
 import {
   constructTileGridObj,
   encodeTileGrid,
@@ -16,7 +15,6 @@ import {
   LocalStorageKeys,
   TileGridObject,
   TileGridPressure,
-  TilePressure,
   WSMessageObject,
   WSMessageType,
 } from "../types/types";
@@ -24,8 +22,7 @@ import {
 export const useWebSocket = () => {
   const socket = useContext(WebSocketContext);
   const { setProgramModeStates } = useContext(ProgramModeContext);
-  const { setDrawModeTileGridObject, drawModeTileGridObject } =
-    useContext(DrawModeContext);
+  const { setDrawModeTileGridObject } = useContext(DrawModeContext);
   const { setGlobalTileGridObject } = useContext(GlobalContext);
   const { setPressureDataObject } = useContext(PressureDataContext);
 
