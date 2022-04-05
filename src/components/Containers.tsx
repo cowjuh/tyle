@@ -81,6 +81,11 @@ const HorizontalDivider = styled.div`
   background: #ffffff20;
 `;
 
+const HorizButtonContainer = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
 export {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
@@ -93,4 +98,5 @@ export {
   TileNumberContainer,
   TileColumnContainer,
   HorizontalDivider,
+  HorizButtonContainer,
 };
