@@ -34,3 +34,10 @@ export interface WSMessageObject {
   type: WSMessageType;
   data: Object;
 }
+
+export type TileGridPressure = Array<TilePressure>;
+
+export interface TilePressure {
+  tileId: number;
+  values: Array<number>;
+}
