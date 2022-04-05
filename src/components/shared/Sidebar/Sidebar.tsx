@@ -85,7 +85,12 @@ const Sidebar = () => {
       </UpperContainer>
       <UpperContainer>
         <HorizontalDivider />
-        <Button onClick={onEmit}>Emit Data</Button>
+        <Button
+          onClick={onEmit}
+          disabled={playgroundRoute === PlaygroundModeEnum.data}
+        >
+          Emit Data
+        </Button>
         <TextButton onClick={onSync}>Sync Tile Grid</TextButton>
       </UpperContainer>
     </SidebarContainer>
