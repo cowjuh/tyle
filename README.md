@@ -1,4 +1,5 @@
-# Tyle - Programmable Smart Tyle
+# Tile - Programmable Smart Tile
+*Rebranded from Tyle*
 
 ## Context
 Project Type: IGEN 430 Capstone Project
