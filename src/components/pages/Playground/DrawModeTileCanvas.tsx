@@ -22,6 +22,7 @@ const DrawModeTileCanvas = () => {
 
   useEffect(() => {
     setSelectoRef(ref);
+    console.log(ref);
   }, []);
   const onSelect: any = (e: OnSelect<Selecto>) => {
     e.added.forEach((el) => {
@@ -36,7 +37,6 @@ const DrawModeTileCanvas = () => {
     <TileCanvasContainer id={TILE_CANVAS_ID}>
       <Selecto
         container={document.getElementById(TILE_CANVAS_ID)}
-        dragContainer={document.getElementById(TILE_CANVAS_ID) || window}
         selectableTargets={[".led", `.${TILE_CANVAS_ID}`]}
         selectFromInside={false}
         continueSelect={true}
