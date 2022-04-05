@@ -17,14 +17,10 @@ import { ProgramModeContext } from "../../context/programModeContext";
 // TODO: LED selection bug
 const ProgramModeTileCanvas = () => {
   const location = useLocation();
-  const stateId = getStateId(location.pathname); // undefined if no existing stateId exists
   const [isSelecting, setIsSelecting] = useState(false);
   const { globalTileGridObject } = useContext(GlobalContext);
   const { tempTileGridObject } = useContext(ProgramModeContext);
   const [dragContainer, setDragContainer] = useState<HTMLElement | null>();
-
-  const thingToMap =
-    tempTileGridObject !== [] ? tempTileGridObject : globalTileGridObject;
 
   useEffect(() => {
     if (location.pathname.split("/").length === 4) {

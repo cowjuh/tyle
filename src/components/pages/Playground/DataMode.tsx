@@ -30,7 +30,7 @@ const DataStreamContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 600px;
+  width: 500px;
   background: #ffffff10;
   border-right: 1px solid black;
   padding: 20px;
@@ -44,8 +44,7 @@ const SettingsContainer = styled.div`
 `;
 
 const DataMode = () => {
-  const { pressureDataObject, setPressureDataObject } =
-    useContext(PressureDataContext);
+  const { pressureDataObject } = useContext(PressureDataContext);
   const textArea = useRef<HTMLTextAreaElement>(null);
   const [autoscroll, setAutoscroll] = useState<boolean>(true);
 
