@@ -11,14 +11,21 @@ import {
   GlobalContextProps,
 } from "./components/context/globalContext";
 import { useEffect, useState } from "react";
-import { PlaygroundMode, TileGridObject } from "./components/types/types";
+import {
+  PlaygroundMode,
+  TileGridObject,
+  TileGridPressure,
+} from "./components/types/types";
 import { useRouteLocation } from "./components/hooks/useRouteLocation";
 import { WebSocketProvider } from "./components/context/webSocketContext";
 import { useWebSocket } from "./components/hooks/useWebSocket";
+import {
+  PressureDataContext,
+  PressureDataProvider,
+} from "./components/context/pressureDataContext";
+import WebSocketHLC from "./components/WebSocketHLC";
 
 function App() {
-  const [message, setMessage] = useState<string>();
-  const { socket, onMessage } = useWebSocket();
   const [globalTileGridObject, setGlobalTileGridObject] =
     useState<TileGridObject>([]);
   const globalContextValue: GlobalContextProps = {
@@ -26,31 +33,37 @@ function App() {
     setGlobalTileGridObject: setGlobalTileGridObject,
   };
 
-  useEffect(() => {
-    socket.onopen = () => {
-      console.log("WebSocket Client Connected");
-    };
-    onMessage();
-  });
+  const [pressureDataObject, setPressureDataObject] =
+    useState<TileGridPressure>([{ tileId: 1, values: [1, 2, 3, 4] }]);
+
+  const pressureDataContextValue = {
+    pressureDataObject,
+    setPressureDataObject,
+  };
 
   return (
     <div className="App">
       <GlobalContext.Provider value={globalContextValue}>
-        <WebSocketProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<WelcomePage />}></Route>
-              <Route path="/pairing" element={<PairingPage />}></Route>
-              <Route path="/playground/data" element={<DataMode />}></Route>
-              <Route path="/playground/draw" element={<DrawingMode />}></Route>
-              <Route
-                path="/playground/program/*"
-                element={<ProgramMode />}
-              ></Route>
-              <Route path="*" element={<NotFound />}></Route>
-            </Routes>
-          </Router>
-        </WebSocketProvider>
+        <PressureDataContext.Provider value={pressureDataContextValue}>
+          <WebSocketHLC>
+            <Router>
+              <Routes>
+                <Route path="/" element={<WelcomePage />}></Route>
+                <Route path="/pairing" element={<PairingPage />}></Route>
+                <Route path="/playground/data" element={<DataMode />}></Route>
+                <Route
+                  path="/playground/draw"
+                  element={<DrawingMode />}
+                ></Route>
+                <Route
+                  path="/playground/program/*"
+                  element={<ProgramMode />}
+                ></Route>
+                <Route path="*" element={<NotFound />}></Route>
+              </Routes>
+            </Router>
+          </WebSocketHLC>
+        </PressureDataContext.Provider>
       </GlobalContext.Provider>
     </div>
   );

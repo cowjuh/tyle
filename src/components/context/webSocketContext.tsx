@@ -1,14 +1,14 @@
 import { createContext, ReactChild } from "react";
 import { IMessageEvent, w3cwebsocket as W3CWebSocket } from "websocket";
 
-const HOST = "192.168.0.41";
-const IPHONE_HOTSPOT = "192.168.43.230";
-const UBC_SECURE = "128.189.132.24";
+const HOME = "192.168.0.41";
+const IPHONE_HOTSPOT = "172.20.10.2";
+const UBC_SECURE = "128.189.129.85";
 const SONG_LING = "192.168.50.71";
 
 const PORT = 3001;
 
-export const wsClient = new W3CWebSocket(`ws://${SONG_LING}:${PORT}`);
+export const wsClient = new W3CWebSocket(`ws://${UBC_SECURE}:${PORT}`);
 
 export const WebSocketContext = createContext(wsClient);
 
