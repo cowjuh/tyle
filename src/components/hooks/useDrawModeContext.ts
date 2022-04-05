@@ -5,8 +5,11 @@ import {
 } from "../../utils/helpers";
 import { DrawModeContext } from "../context/drawModeContext";
 import { Color, LocalStorageKeys } from "../../utils/types";
+import { GlobalContext } from "../context/globalContext";
+import Selecto from "react-selecto";
 
 export const useDrawModeContext = () => {
+  const { selectoRef } = useContext(GlobalContext);
   const {
     drawModeTileGridObject: tileGridObject,
     setDrawModeTileGridObject: setTileGridObject,
@@ -19,9 +22,7 @@ export const useDrawModeContext = () => {
       LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
       updatedTileGridObject
     );
-    Array.from(document.querySelectorAll(".led")).forEach((el) =>
-      el.classList.remove("selected")
-    );
+    selectoRef?.current?.setSelectedTargets([]);
   };
 
   const clearDrawModeContext = () => {
