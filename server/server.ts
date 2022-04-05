@@ -23,10 +23,15 @@ wss.on("connection", (ws) => {
   broadcast(WSMessageType.new_client, "NEW USER JOINED", ws);
 
   // EMITS EVERY SECOND TO ALL CLIENTS
-  // setInterval(() => {
-  //   console.log("Sending?");
-  //   ws.send("tileGridShape");
-  // }, 1000);
+  // FOR TESTING ONLY, THIS BEHAVIOUR SHOULD BE DONE BY THE ESP32 ITSELF
+  setInterval(() => {
+    console.log("Sending?");
+    sendWSObject(
+      WSMessageType.pressure_data,
+      parseESP32TileGrid("50 50 50 50 50 50 50 50 50 50 50 50"),
+      ws
+    );
+  }, 50000);
 
   // sending message
   ws.on("message", (data) => {
@@ -50,6 +55,7 @@ wss.on("connection", (ws) => {
             WSMessageType.request_sync_grid,
             parseTileGridShape(tileShapeStr)
           );
+          broadcast(WSMessageType.request_sync_grid, "C", ws, true);
           ws.send(messageObjJSONStr);
           shapeFlag = !shapeFlag;
           break;
@@ -78,6 +84,12 @@ wss.on("connection", (ws) => {
     } else {
       console.log("FROM ESP32");
       console.log(messageStr);
+
+      if (messageStr.charAt(0) === "m") {
+        console.log("[ESP32] SENT SYNC TILE GRID");
+      } else {
+        console.log("[ESP32] PRESSURE DATA EMITTED");
+      }
     }
   });
   // handling what to do when clients disconnects from server
@@ -101,10 +113,14 @@ function sendAll(message: string) {
 function broadcast(
   type: WSMessageType,
   data: string,
-  senderWS: WebSocketServer.WebSocket
+  senderWS: WebSocketServer.WebSocket,
+  rawText?
 ) {
   wss.clients.forEach(function (client) {
-    if (client !== senderWS) sendWSObject(type, data, client);
+    if (client !== senderWS) {
+      if (!rawText) sendWSObject(type, data, client);
+      else client.send(data);
+    }
   });
   console.log("Broadcast: ", data.toString());
 }
