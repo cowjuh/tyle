@@ -2,12 +2,17 @@
 import WebSocketServer = require("ws");
 import { WSMessageObject, WSMessageType } from "./utils/types";
 const {
-  parseESP32TileGrid,
+  parseESP32PressureData,
   parseTileGridShape,
   constructWSObject,
 } = require("./utils/helpers.ts");
 
 const PORT = 3001;
+
+// Terminal Font Colors
+const CYAN = "\x1b[36m%s\x1b[0m";
+const GREEN = "\x1b[35m";
+const YELLOW = "\x1b[33m";
 
 // Creating a new websocket server
 var wss = new WebSocketServer.Server({ port: PORT });
@@ -25,75 +30,83 @@ wss.on("connection", (ws) => {
   // EMITS EVERY SECOND TO ALL CLIENTS
   // FOR TESTING ONLY, THIS BEHAVIOUR SHOULD BE DONE BY THE ESP32 ITSELF
   setInterval(() => {
-    console.log("Sending?");
     sendWSObject(
       WSMessageType.pressure_data,
-      parseESP32TileGrid(
+      parseESP32PressureData(
         `50 50 50 ${Math.floor(Math.random() * 200)} 50 50 50 50 50 50 50 50`
       ),
       ws
     );
   }, 1000);
 
-  // sending message
+  // ON RECEPTION OF MESSAGES
   ws.on("message", (data) => {
     let tileShapeStr = shapeFlag ? tileShapeStr1 : tileShapeStr2;
-    console.log("SHAPE: ", tileShapeStr);
     var messageStr = data.toString();
-    console.log("Received this: ", messageStr);
+    console.log(
+      "\n\n-------------------------------------------------------------------"
+    );
+    console.log(YELLOW, "[SERVER] Received: ", messageStr);
 
+    /**
+     * JSON MESSAGES: From FRONTEND/WEB
+     */
     if (isJson(messageStr)) {
-      console.log("FROM UI");
       var messageObj: WSMessageObject = JSON.parse(messageStr);
       switch (messageObj.type) {
+        // EMISSION OF LED PATTERN
         case WSMessageType.led_pattern:
-          console.log("[UI] LED PATTERN EMITTED");
-          broadcast(WSMessageType.led_pattern, messageObj.data.toString(), ws);
+          console.log(CYAN, "[UI] LED PATTERN EMITTED");
+          broadcast(
+            WSMessageType.led_pattern,
+            messageObj.data.toString(),
+            ws,
+            true
+          );
           break;
+
+        /**
+         * UI Making a request to sync the tile grid
+         * The UI will send a single character, 'C' to the ESP32
+         */
         case WSMessageType.request_sync_grid:
-          console.log("[UI] REQUEST SYNC TILE GRID");
-          // ws.send(JSON.stringify(parseTileGridShape(tileShapeStr)));
+          console.log(CYAN, "[UI] REQUEST SYNC TILE GRID");
+          broadcast(WSMessageType.request_sync_grid, "C", ws, true);
+
+          // DELETE BELOW WHEN FULLY IMPLEMENTED
           var messageObjJSONStr: string = constructWSObject(
             WSMessageType.request_sync_grid,
             parseTileGridShape(tileShapeStr)
           );
-          broadcast(WSMessageType.request_sync_grid, "C", ws, true);
           ws.send(messageObjJSONStr);
           shapeFlag = !shapeFlag;
-          break;
-
-        case WSMessageType.send_sync_grid:
-          console.log("[ESP32] SEND SYNC TILE GRID");
-          // var encodedStr: string = messageObj.data.toString();
-          broadcast(WSMessageType.send_sync_grid, tileShapeStr, ws);
-          broadcast(
-            WSMessageType.send_sync_grid,
-            parseTileGridShape(tileShapeStr),
-            ws
-          );
-
-          break;
-
-        case WSMessageType.pressure_data:
-          console.log("[ESP32] PRESSURE DATA EMITTED");
-          broadcast(WSMessageType.pressure_data, data.toString(), ws);
-          console.log(WSMessageType.pressure_data);
           break;
 
         default:
           break;
       }
-    } else {
-      console.log("FROM ESP32");
-      console.log(messageStr);
 
+      /**
+       * NON-JSON/RAW TEXT MESSAGES: FROM ESP32
+       */
+    } else {
       if (messageStr.charAt(0) === "m") {
-        console.log("[ESP32] SENT SYNC TILE GRID");
+        console.log(GREEN, "[ESP32] SENT SYNC TILE GRID");
+        var messageObjJSONStr: string = constructWSObject(
+          WSMessageType.request_sync_grid,
+          parseTileGridShape(messageStr)
+        );
       } else {
-        console.log("[ESP32] PRESSURE DATA EMITTED");
+        console.log(GREEN, "[ESP32] PRESSURE DATA EMITTED");
+        sendWSObject(
+          WSMessageType.pressure_data,
+          parseESP32PressureData(messageStr),
+          ws
+        );
       }
     }
   });
+
   // handling what to do when clients disconnects from server
   ws.on("close", () => {
     console.log("CLIENT DISCONNECTED");
@@ -103,6 +116,7 @@ wss.on("connection", (ws) => {
     console.log("Some Error occurred");
   };
 });
+
 console.log(`The WebSocket server is running on port ${PORT}`);
 
 function sendAll(message: string) {
