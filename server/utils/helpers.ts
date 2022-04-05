@@ -3,6 +3,8 @@ import {
   ArrayManipulation,
   WSMessageType,
   WSMessageObject,
+  TileGridPressure,
+  TilePressure,
 } from "./types";
 import WebSocketServer = require("ws");
 
@@ -15,22 +17,19 @@ import WebSocketServer = require("ws");
  */
 const parseESP32TileGrid = (esp32String: string) => {
   const strArray = esp32String.split(" ").map(Number);
-  const tileArray = [];
+  const tileArray: TileGridPressure = [];
   if (!isValidString(esp32String, " ")) {
     return console.error("Value sets must be in multiples of 4.");
   }
   for (let i = 0; i < strArray.length; i += 4) {
-    var temp = {
+    var temp: TilePressure = {
       tileId: i / 4 + 1,
-      left: strArray[i],
-      top: strArray[i + 1],
-      right: strArray[i + 2],
-      bottom: strArray[i + 3],
+      values: strArray.slice(i, i + 4),
     };
     tileArray.push(temp);
   }
   console.log(tileArray);
-  return esp32String;
+  return tileArray;
 };
 
 const isValidString = (str: string, separator: string) => {

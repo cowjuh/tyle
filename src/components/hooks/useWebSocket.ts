@@ -9,23 +9,30 @@ import {
 } from "../../utils/helpers";
 import { DrawModeContext } from "../context/drawModeContext";
 import { GlobalContext } from "../context/globalContext";
+import { PressureDataContext } from "../context/pressureDataContext";
 import { ProgramModeContext } from "../context/programModeContext";
 import { WebSocketContext } from "../context/webSocketContext";
 import {
   LocalStorageKeys,
   TileGridObject,
+  TileGridPressure,
+  TilePressure,
   WSMessageObject,
   WSMessageType,
 } from "../types/types";
 
 export const useWebSocket = () => {
   const socket = useContext(WebSocketContext);
-  const { setDrawModeTileGridObject: setTileGridObject } =
-    useContext(DrawModeContext);
   const { setProgramModeStates } = useContext(ProgramModeContext);
   const { setGlobalTileGridObject } = useContext(GlobalContext);
+  const { pressureDataObject, setPressureDataObject } =
+    useContext(PressureDataContext);
 
   const onMessage = () => {
+    if (socket.readyState === WebSocket.CLOSED) {
+      console.log("CLOSED");
+      return;
+    }
     socket.onmessage = (event) => {
       console.log("ON MESSAGE DATA: ", event.data);
       var messageStr = JSON.stringify(event.data);
@@ -58,7 +65,8 @@ export const useWebSocket = () => {
 
         case WSMessageType.pressure_data:
           console.log("[ESP32] PRESSURE DATA EMITTED");
-          console.log(WSMessageType.pressure_data);
+          let pressureObj: TileGridPressure = messageObj.data;
+          setPressureDataObject([...pressureDataObject, ...pressureObj]);
           break;
 
         default:
@@ -73,12 +81,20 @@ export const useWebSocket = () => {
   };
 
   const syncTileGrid = () => {
+    if (socket.readyState === WebSocket.CLOSED) {
+      throw new Error("CLOSED");
+    }
     const messageStr = constructWSObject(WSMessageType.request_sync_grid, "");
-    socket.send(messageStr);
-    onMessage();
+    setGlobalTileGridObject([]);
     removeLocalStorageItem(LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ);
     removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ);
     removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_TILE_GRID_LS_OBJ);
+    try {
+      socket.send(messageStr);
+    } catch (error) {
+      console.log("couldnt send message");
+    }
+    onMessage();
   };
 
   const emitLEDPattern = (newTileGrid: TileGridObject) => {

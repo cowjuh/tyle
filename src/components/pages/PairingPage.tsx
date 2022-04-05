@@ -1,14 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../shared/Atoms/Button";
-import { FullWidthHeightCenteredContainer } from "../Containers";
+import {
+  FullWidthHeightCenteredContainer,
+  HorizButtonContainer,
+} from "../Containers";
 import { useWebSocket } from "../hooks/useWebSocket";
+import { GlobalContext } from "../context/globalContext";
 
 const PairingPage = () => {
   const navigate = useNavigate();
   const [isPairing, setIsPairing] = useState<boolean>(false);
   const [isPaired, setIsPaired] = useState<boolean>(true);
   const { syncTileGrid } = useWebSocket();
+  const { globalTileGridObject } = useContext(GlobalContext);
   const failedToPair = useMemo<boolean>(
     () => !isPairing && !isPaired,
     [isPairing, isPaired]
@@ -18,16 +23,30 @@ const PairingPage = () => {
     [isPairing, isPaired]
   );
 
+  const tryPairing = () => {
+    setIsPairing(true);
+    try {
+      syncTileGrid();
+      setIsPairing(false);
+      setIsPaired(true);
+    } catch (error) {
+      setIsPairing(false);
+      setIsPaired(false);
+    }
+  };
+
   // TODO: make this work lol
   useEffect(() => {
-    syncTileGrid();
+    tryPairing();
   }, []);
 
   const onReturnHome = () => {
     navigate("/");
   };
 
-  const onTryAgain = () => {};
+  const onTryAgain = () => {
+    tryPairing();
+  };
 
   const onGoToPlayground = () => {
     navigate("/playground/data");
@@ -43,10 +62,10 @@ const PairingPage = () => {
       {failedToPair && (
         <>
           <h2>Failed to pair</h2>
-          <div>
+          <HorizButtonContainer>
             <Button onClick={onReturnHome}>Return home</Button>
             <Button onClick={onTryAgain}>Try again</Button>
-          </div>
+          </HorizButtonContainer>
         </>
       )}
       {pairedSuccessfully && (
