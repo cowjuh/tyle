@@ -564,7 +564,7 @@ export const constructTileGridObj = (shapeArr: number[][]): TileGridObject => {
  * @param tilePressureObj
  * @returns
  */
-const calculateArrayAvg = (tilePressureObj: TilePressure): number => {
+export const calculateArrayAvg = (tilePressureObj: TilePressure): number => {
   return (
     tilePressureObj.values.reduce((a, b) => a + b, 0) /
     tilePressureObj.values.length
@@ -580,8 +580,37 @@ const calculateArrayAvg = (tilePressureObj: TilePressure): number => {
 export const tileGridPressureToStream = (pressureObj: TileGridPressure) => {
   var str = "";
   for (let i = 0; i < pressureObj.length; i++) {
-    str += `${calculateArrayAvg(pressureObj[i])}    `;
+    str += `${calculateArrayAvg(pressureObj[i])}, `;
   }
 
-  return str;
+  return str.slice(0, -2);
+};
+
+export interface IHash {
+  [details: number]: DataSet[];
+}
+
+export interface DataSet {
+  x: number;
+  y: number;
+}
+
+export const tileGridPressureToChartData = (
+  pressureObj: TileGridPressure,
+  theObj: IHash
+) => {
+  var theObjDeepCopy: IHash = JSON.parse(JSON.stringify(theObj));
+  for (let i = 0; i < pressureObj.length; i++) {
+    if (!theObjDeepCopy[i + 1]) {
+      theObjDeepCopy[i + 1] = [];
+    }
+    var obj = {
+      x: theObjDeepCopy[i + 1].length + 1,
+      y: calculateArrayAvg(pressureObj[i]),
+    };
+    theObjDeepCopy[i + 1].push(obj);
+  }
+
+  console.table(theObjDeepCopy);
+  return theObjDeepCopy;
 };
