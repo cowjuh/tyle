@@ -37,7 +37,6 @@ const DataModeTileCanvas = () => {
                       value.values.length) ||
                   0;
 
-                calculateArrayAvg(value);
                 return (
                   <TileColumnContainer key={columnIndex}>
                     {rowIndex === 0 && (
@@ -60,6 +59,3 @@ const DataModeTileCanvas = () => {
 };
 
 export default DataModeTileCanvas;
-function calculateArrayAvg(value: TilePressure) {
-  throw new Error("Function not implemented.");
-}
