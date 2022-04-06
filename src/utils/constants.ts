@@ -43,3 +43,36 @@ export const DROPDOWN_OPTIONS = [
 
 // WEBSOCKETS
 export const RGB_STR_PADDING = 3;
+
+// CHART JS
+export const CHART_OPTIONS = {
+  scales: {
+    y: {
+      beginAtZero: true,
+    },
+    x: {
+      ticks: {
+        maxTicksLimit: 10,
+      },
+      beginAtZero: true,
+    },
+  },
+};
+
+export const CHART_DEFAULT_SETTINGS = {
+  fill: false,
+  lineTension: 0,
+  borderWidth: 0.5,
+  borderColor: "#50B6FF",
+  borderDash: [],
+  borderDashOffset: 0.0,
+  pointBorderColor: "#50B6FF",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 5,
+  pointHoverBackgroundColor: "#50B6FF",
+  pointHoverBorderColor: "rgba(220,220,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 1,
+  pointHitRadius: 10,
+};
