@@ -1,5 +1,9 @@
 import { createContext, ReactChild, useEffect, useState } from "react";
-import { tileGridPressureToStream } from "../../utils/helpers";
+import {
+  IHash,
+  tileGridPressureToChartData,
+  tileGridPressureToStream,
+} from "../../utils/helpers";
 import { TileGridPressure } from "../../utils/types";
 
 interface IPressureDataContext {
@@ -7,6 +11,8 @@ interface IPressureDataContext {
   setPressureDataObject: (tileGridPressure: TileGridPressure) => void;
   streamString: string;
   setStreamString: (str: string) => void;
+  chartData: IHash;
+  setChartData: (hash: IHash) => void;
 }
 
 export const PressureDataContext = createContext<IPressureDataContext>({
@@ -14,6 +20,8 @@ export const PressureDataContext = createContext<IPressureDataContext>({
   setPressureDataObject: () => {},
   streamString: "",
   setStreamString: () => {},
+  chartData: {},
+  setChartData: () => {},
 });
 
 interface IPressureDataProvider {
@@ -24,12 +32,14 @@ export const PressureDataProvider = (props: IPressureDataProvider) => {
   const [pressureDataObject, setPressureDataObject] =
     useState<TileGridPressure>([]);
   const [streamString, setStreamString] = useState<string>("");
+  const [chartData, setChartData] = useState<IHash>({});
 
   useEffect(() => {
     if (pressureDataObject.length !== 0) {
       setStreamString(
         streamString + "\n" + tileGridPressureToStream(pressureDataObject)
       );
+      setChartData(tileGridPressureToChartData(pressureDataObject, chartData));
     }
   }, [pressureDataObject]);
 
@@ -38,6 +48,8 @@ export const PressureDataProvider = (props: IPressureDataProvider) => {
     setPressureDataObject,
     streamString,
     setStreamString,
+    chartData,
+    setChartData,
   };
 
   return (

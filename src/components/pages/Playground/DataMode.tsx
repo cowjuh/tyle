@@ -9,6 +9,14 @@ import {
 import { PressureDataContext } from "../../context/pressureDataContext";
 import Sidebar from "../../shared/Sidebar/Sidebar";
 import DataModeTileCanvas from "./DataModeTileCanvas";
+import { Chart } from "react-chartjs-2";
+import { Chart as ChartJS, registerables } from "chart.js";
+import {
+  CHART_DEFAULT_SETTINGS,
+  CHART_OPTIONS,
+} from "../../../utils/constants";
+import { usePressureDataContext } from "../../hooks/usePressureDataContext";
+ChartJS.register(...registerables);
 
 const DataStreamTextArea = styled.textarea`
   background: none;
@@ -35,10 +43,40 @@ const SettingsContainer = styled.div`
   gap: 5px;
 `;
 
+const dataStarter = {
+  labels: [],
+  datasets: [],
+};
+
+const GRAPH_COLOURS = [];
+
 const DataMode = () => {
-  const { streamString } = useContext(PressureDataContext);
+  const { streamString, chartData } = useContext(PressureDataContext);
+  const { resetData } = usePressureDataContext();
   const textArea = useRef<HTMLTextAreaElement>(null);
   const [autoscroll, setAutoscroll] = useState<boolean>(true);
+  const [showChart, setShowChart] = useState<boolean>(true);
+  const [dataVar, setDataVar] = useState<any>(dataStarter);
+
+  useEffect(() => {
+    var dataSetObjs = [];
+    var length = 0;
+    for (var dataSet in chartData) {
+      dataSetObjs.push({
+        ...CHART_DEFAULT_SETTINGS,
+        data: chartData[dataSet],
+        label: `Tile ${dataSet}`,
+        backgroundColor: Math.floor(Math.random() * 16777215).toString(16),
+      });
+      if (length === 0) length = chartData[dataSet].length;
+    }
+
+    setDataVar({
+      ...dataVar,
+      datasets: dataSetObjs,
+      labels: Array.from({ length }, (_, i) => i + 1),
+    });
+  }, [chartData]);
 
   useEffect(() => {
     const area = textArea.current;
@@ -47,6 +85,10 @@ const DataMode = () => {
       area.scrollTop = area.scrollHeight;
     }
   });
+
+  const onClear = () => {
+    resetData();
+  };
 
   return (
     <FullWidthHeightCenteredContainer>
@@ -66,10 +108,21 @@ const DataMode = () => {
               onChange={() => setAutoscroll(!autoscroll)}
             />
             <div>Autoscroll</div>
+            <button onClick={onClear}>Clear output</button>
           </SettingsContainer>
         </DataStreamContainer>
         <TileCanvasContainer>
-          <DataModeTileCanvas />
+          {showChart ? (
+            <Chart
+              data={dataVar}
+              type={"line"}
+              width={400}
+              height={300}
+              options={CHART_OPTIONS}
+            />
+          ) : (
+            <DataModeTileCanvas />
+          )}
         </TileCanvasContainer>
       </PlayGroundParentContainer>
     </FullWidthHeightCenteredContainer>
