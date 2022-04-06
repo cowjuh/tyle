@@ -1,5 +1,6 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
+import { tileGridPressureToStream } from "../../../utils/helpers";
 import {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
@@ -35,17 +36,9 @@ const SettingsContainer = styled.div`
 `;
 
 const DataMode = () => {
-  const { pressureDataObject } = useContext(PressureDataContext);
+  const { streamString } = useContext(PressureDataContext);
   const textArea = useRef<HTMLTextAreaElement>(null);
   const [autoscroll, setAutoscroll] = useState<boolean>(true);
-
-  const textAreaValue = useMemo<string>(
-    () =>
-      pressureDataObject.length === 0
-        ? "No data to display"
-        : JSON.stringify(pressureDataObject),
-    [pressureDataObject]
-  );
 
   useEffect(() => {
     const area = textArea.current;
@@ -61,7 +54,11 @@ const DataMode = () => {
         <Sidebar />
         <DataStreamContainer>
           <h3>Data Stream</h3>
-          <DataStreamTextArea value={textAreaValue} readOnly ref={textArea} />
+          <DataStreamTextArea
+            value={streamString === "" ? "No data to display" : streamString}
+            readOnly
+            ref={textArea}
+          />
           <SettingsContainer>
             <input
               type={"checkbox"}

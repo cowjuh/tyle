@@ -564,7 +564,7 @@ export const constructTileGridObj = (shapeArr: number[][]): TileGridObject => {
  * @param tilePressureObj
  * @returns
  */
-const calculateArrayAvg = (tilePressureObj: TilePressure) => {
+const calculateArrayAvg = (tilePressureObj: TilePressure): number => {
   return (
     tilePressureObj.values.reduce((a, b) => a + b, 0) /
     tilePressureObj.values.length
