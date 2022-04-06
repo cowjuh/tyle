@@ -53,11 +53,14 @@ wss.on("connection", (ws) => {
   // EMITS EVERY SECOND TO ALL CLIENTS
   // ! FOR TESTING ONLY, THIS BEHAVIOUR SHOULD BE DONE BY THE ESP32 ITSELF
   setInterval(() => {
+    var strArr = Array.apply(null, Array(12)).map(
+      Number.prototype.valueOf,
+      Math.floor(Math.random() * 200)
+    );
+    console.log(strArr);
     sendWSObject(
       WSMessageType.pressure_data,
-      parseESP32PressureData(
-        `50 50 50 ${Math.floor(Math.random() * 200)} 50 50 50 50 50 50 50 50`
-      ),
+      parseESP32PressureData(strArr.join(" ")),
       ws
     );
   }, 1000);
