@@ -9,8 +9,10 @@ import {
   SingleLEDPattern,
   StateOperator,
   TileGridObject,
+  TileGridPressure,
   TileIdObject,
   TileObject,
+  TilePressure,
   TileRowObject,
 } from "./types";
 import { DRAW_MODE_TILE_GRID_LS_OBJ, RGB_STR_PADDING } from "./constants";
@@ -554,4 +556,32 @@ export const constructTileGridObj = (shapeArr: number[][]): TileGridObject => {
     }
   }
   return tileGridObj;
+};
+
+/**
+ * Given a TilePressure object, get its average pressure value
+ * ** This is a temporary implementation as the average is not what we're actually using
+ * @param tilePressureObj
+ * @returns
+ */
+const calculateArrayAvg = (tilePressureObj: TilePressure) => {
+  return (
+    tilePressureObj.values.reduce((a, b) => a + b, 0) /
+    tilePressureObj.values.length
+  );
+};
+
+/**
+ * Takes in the TileGridPressure object and transforms it into a
+ * string used for outputting/logging of data
+ * @param pressureObj
+ * @returns
+ */
+export const tileGridPressureToStream = (pressureObj: TileGridPressure) => {
+  var str = "";
+  for (let i = 0; i < pressureObj.length; i++) {
+    str += `${calculateArrayAvg(pressureObj[i])}    `;
+  }
+
+  return str;
 };
