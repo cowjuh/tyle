@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include "Tyle_Esp32.h"
 
-#define MAX_TILES 5
+#define MAX_TILES 3
 
 const char* ssid = "TestAP";                             // Enter YOUR SSID
 const char* password = "gvww7028";                        // Enter YOUR Password
@@ -16,12 +16,12 @@ WebsocketsClient client;
 
 int numTiles = 3;
 String tileNeighbours[MAX_TILES] = {};
-byte tileIDs[MAX_TILES] = {};
+byte tileIDs[MAX_TILES] = {0x01, 0x02, 0x03};
 
 int cellValues[MAX_TILES][4] = {};
 
 unsigned long lastPoll = 0;
-const int pollDelay = 500; //ms
+const int pollDelay = 200; //ms
 
 void setup()
 {

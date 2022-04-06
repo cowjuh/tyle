@@ -1,0 +1,9 @@
+#ifdef TWI_BUFFER_LENGTH
+#undef TWI_BUFFER_LENGTH
+#define TWI_BUFFER_LENGTH 96
+#endif
+
+#ifdef BUFFER_LENGTH
+#undef BUFFER_LENGTH
+#define BUFFER_LENGTH 96
+#endif

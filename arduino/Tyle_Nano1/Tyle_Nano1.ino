@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include "HX711.h"
 #include <Wire.h>
-#include "Tyle_Nano.h"
+#include "Tyle_Nano1.h"
 
 #define LEDPIN 10
 #define NUM_LED 32
@@ -22,6 +22,9 @@
 #define L4_S 4
 #define NUM_LC 4
 
+#define ID1 11
+#define ID2 12
+
 
 
 Adafruit_NeoPixel grid(NUM_LED, LEDPIN, NEO_GRB + NEO_KHZ800);
@@ -30,18 +33,22 @@ uint32_t ledValues[32] = {};
 byte tileID = I2C_ADDRESS;
 
 
-HX711 loadCells[NUM_LC] = {HX711(), HX711(), HX711(), HX711()};
+HX711 loadCells[NUM_LC] = {};
 int cellValues[NUM_LC] = {};
 float cellScaling[NUM_LC] = {};
 int bufferCount = 0;
 
-String neighbourString = "";
+String neighbourString = "m200";
+
+unsigned long lastNeighbour = 0;
+const int neighbourDelay = 500;
 
 void setup() {
   Wire.begin(I2C_ADDRESS);
   Wire.onRequest(sendEvent);
   Wire.onReceive(receiveEvent);
-
+  pinMode(ID1, INPUT_PULLUP);
+  pinMode(ID2, INPUT_PULLUP);
   initGrid();
   initLC();
 }
@@ -71,11 +78,18 @@ void initLC() {
 }
 
 void loop() {
-  delay(5);
+  if (millis() < lastNeighbour + neighbourDelay){
+    checkNeighbours();
+    lastNeighbour = millis();
+  }
 }
 
-void getNeighbours() {
-  //TODO
+void checkNeighbours() {
+  if (!digitalRead(ID1)){
+    neighbourString = "m200";
+  } else if (!digitalRead(ID2)){
+    neighbourString = "m002";
+  }
 }
 
 
