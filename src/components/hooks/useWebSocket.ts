@@ -25,7 +25,8 @@ export const useWebSocket = () => {
     useContext(ProgramModeContext);
   const { setDrawModeTileGridObject } = useContext(DrawModeContext);
   const { setGlobalTileGridObject } = useContext(GlobalContext);
-  const { setPressureDataObject } = useContext(PressureDataContext);
+  const { setPressureDataObject, setStreamString } =
+    useContext(PressureDataContext);
 
   const onMessage = () => {
     if (socket.readyState === WebSocket.CLOSED) {
@@ -46,6 +47,7 @@ export const useWebSocket = () => {
           setTempTileGridObject(tileGridObj);
           setGlobalTileGridObject(tileGridObj);
           setDrawModeTileGridObject(tileGridObj);
+          setStreamString("");
           setLocalStorageItem(
             LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ,
             tileGridObj
