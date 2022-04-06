@@ -24,15 +24,20 @@ const DataModeTileCanvas = () => {
               <TileNumberContainer>{rowIndex}</TileNumberContainer>
 
               {tileRow.map((tile, columnIndex) => {
-                console.log(tile);
                 const columnLetter = convertNumberToLetter(columnIndex);
                 const tileIdInternal: TileIdObject = {
                   letter: columnLetter,
                   num: rowIndex,
                 };
                 const value = pressureDataObject[tile.tileId - 1];
-                console.log("My OBJ:", pressureDataObject);
-                console.log(value);
+
+                const avg =
+                  (value &&
+                    value?.values.reduce((a, b) => a + b, 0) /
+                      value.values.length) ||
+                  0;
+
+                calculateArrayAvg(value);
                 return (
                   <TileColumnContainer key={columnIndex}>
                     {rowIndex === 0 && (
@@ -42,7 +47,7 @@ const DataModeTileCanvas = () => {
                       tileObject={tile}
                       tileIdInternal={tileIdInternal}
                       hideLEDs
-                      value={JSON.stringify(value?.values) || 0}
+                      value={avg || 0}
                     />
                   </TileColumnContainer>
                 );
@@ -55,3 +60,6 @@ const DataModeTileCanvas = () => {
 };
 
 export default DataModeTileCanvas;
+function calculateArrayAvg(value: TilePressure) {
+  throw new Error("Function not implemented.");
+}
