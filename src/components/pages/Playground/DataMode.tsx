@@ -16,6 +16,7 @@ import {
   CHART_OPTIONS,
 } from "../../../utils/constants";
 import { usePressureDataContext } from "../../hooks/usePressureDataContext";
+import { DataModeContext } from "../../context/dataModeContext";
 ChartJS.register(...registerables);
 
 const DataStreamTextArea = styled.textarea`
@@ -48,27 +49,31 @@ const dataStarter = {
   datasets: [],
 };
 
-const GRAPH_COLOURS = [];
+const GRAPH_COLOURS = ["#A7AEF1", "#72ED7E", "#50B6FF"];
 
 const DataMode = () => {
-  const { streamString, chartData } = useContext(PressureDataContext);
+  const { streamString, chartData, autoscroll } =
+    useContext(PressureDataContext);
+  const { showChart } = useContext(DataModeContext);
   const { resetData } = usePressureDataContext();
   const textArea = useRef<HTMLTextAreaElement>(null);
-  const [autoscroll, setAutoscroll] = useState<boolean>(true);
-  const [showChart, setShowChart] = useState<boolean>(true);
   const [dataVar, setDataVar] = useState<any>(dataStarter);
 
   useEffect(() => {
     var dataSetObjs = [];
     var length = 0;
+    var index = 0;
     for (var dataSet in chartData) {
       dataSetObjs.push({
         ...CHART_DEFAULT_SETTINGS,
         data: chartData[dataSet],
         label: `Tile ${dataSet}`,
-        backgroundColor: Math.floor(Math.random() * 16777215).toString(16),
+        borderColor: GRAPH_COLOURS[index],
+        pointBorderColor: GRAPH_COLOURS[index],
+        pointHoverBackgroundColor: GRAPH_COLOURS[index],
       });
       if (length === 0) length = chartData[dataSet].length;
+      index++;
     }
 
     setDataVar({
@@ -101,27 +106,17 @@ const DataMode = () => {
             readOnly
             ref={textArea}
           />
-          <SettingsContainer>
-            <input
-              type={"checkbox"}
-              checked={autoscroll}
-              onChange={() => setAutoscroll(!autoscroll)}
-            />
-            <div>Autoscroll</div>
-            <button onClick={onClear}>Clear output</button>
-          </SettingsContainer>
         </DataStreamContainer>
         <TileCanvasContainer>
-          {showChart ? (
+          <DataModeTileCanvas />
+          {showChart && (
             <Chart
               data={dataVar}
               type={"line"}
-              width={400}
-              height={300}
+              width={100}
+              height={50}
               options={CHART_OPTIONS}
             />
-          ) : (
-            <DataModeTileCanvas />
           )}
         </TileCanvasContainer>
       </PlayGroundParentContainer>
