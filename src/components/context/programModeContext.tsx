@@ -1,5 +1,10 @@
 import { createContext, ReactChild, useContext, useState } from "react";
-import { ProgramModeStatesObject, TileGridObject } from "../../utils/types";
+import { getLocalStorageItem } from "../../utils/helpers";
+import {
+  LocalStorageKeys,
+  ProgramModeStatesObject,
+  TileGridObject,
+} from "../../utils/types";
 import { GlobalContext } from "./globalContext";
 
 interface ProgramModeContextProps {
@@ -26,7 +31,10 @@ export const ProgramModeContextProvider = (
 ) => {
   const { globalTileGridObject } = useContext(GlobalContext);
   const [programModeStates, setProgramModeStates] =
-    useState<ProgramModeStatesObject>([]);
+    useState<ProgramModeStatesObject>(
+      getLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ) ||
+        []
+    );
 
   const [tempTileGridObject, setTempTileGridObject] =
     useState<TileGridObject>(globalTileGridObject);
