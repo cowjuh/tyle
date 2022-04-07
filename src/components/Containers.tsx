@@ -86,6 +86,11 @@ const HorizButtonContainer = styled.div`
   gap: 20px;
 `;
 
+const CheckBoxAndLabel = styled.div`
+  display: flex;
+  gap: 3px;
+`;
+
 export {
   FullWidthHeightCenteredContainer,
   PlayGroundParentContainer,
@@ -99,4 +104,5 @@ export {
   TileColumnContainer,
   HorizontalDivider,
   HorizButtonContainer,
+  CheckBoxAndLabel,
 };
