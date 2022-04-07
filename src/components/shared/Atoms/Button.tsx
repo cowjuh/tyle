@@ -7,6 +7,18 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
+const SECONDARY_VARIANT = `
+  border: 2px solid #50b6ff;
+  color: #50b6ff;
+  background: none;
+
+  :hover {
+    opacity: 0.8;
+    border: 2px solid white;
+    color: white;
+  }
+`;
+
 const ButtonStyled = styled.button<ButtonProps>`
   border: none;
   cursor: pointer;
@@ -24,6 +36,7 @@ const ButtonStyled = styled.button<ButtonProps>`
   :hover {
     opacity: 0.8;
   }
+  ${(p) => p.variant === "secondary" && SECONDARY_VARIANT}
 `;
 
 const Button: React.FC<ButtonProps & React.HTMLProps<HTMLButtonElement>> = ({
