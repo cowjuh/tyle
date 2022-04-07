@@ -89,6 +89,7 @@ export const useWebSocket = () => {
     }
     const messageStr = constructWSObject(WSMessageType.request_sync_grid, "");
     setGlobalTileGridObject([]);
+    setStreamString("");
     removeLocalStorageItem(LocalStorageKeys.DRAW_MODE_TILE_GRID_LS_OBJ);
     removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_STATES_LIST_LS_OBJ);
     removeLocalStorageItem(LocalStorageKeys.PROGRAM_MODE_TILE_GRID_LS_OBJ);
