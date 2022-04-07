@@ -15,6 +15,7 @@ import { TextButton } from "../Atoms/TextButton";
 import SidebarDrawMode from "./SidebarDrawMode";
 import SidebarProgramMode from "./SidebarProgramMode";
 import Tabs from "./Tabs";
+import SidebarDataMode from "./SidebarDataMode";
 
 const SidebarContainer = styled.div`
   border-right: 1px solid black;
@@ -77,6 +78,7 @@ const Sidebar = () => {
     <SidebarContainer>
       <UpperContainer>
         <Tabs />
+        {playgroundRoute === PlaygroundModeEnum.data && <SidebarDataMode />}
         {playgroundRoute === PlaygroundModeEnum.draw && <SidebarDrawMode />}
         {playgroundRoute === PlaygroundModeEnum.program && (
           <SidebarProgramMode />
