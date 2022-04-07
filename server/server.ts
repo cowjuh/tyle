@@ -8,6 +8,7 @@ const {
 } = require("./utils/helpers.ts");
 
 const PORT = 3001;
+const EMULATOR = true; // SET TO TRUE TO TEST OUT THE SOFTWARE W/O NEEDING AN ACTUAL ESP32
 
 // Terminal Font Colors
 const CYAN = "\x1b[36m%s\x1b[0m";
@@ -22,9 +23,11 @@ var wss = new WebSocketServer.Server({ port: PORT });
 var CLIENTS: WebSocketServer.WebSocket[] = [];
 
 // ! FOR EMULATION ONLY
-var tileShapeStr1 = "m02013000002";
-var tileShapeStr2 = "m02010302000";
-var shapeFlag = true;
+if (EMULATOR) {
+  var tileShapeStr1 = "m02013000002";
+  var tileShapeStr2 = "m02010302000";
+  var shapeFlag = true;
+}
 
 // Creating connection using websocket
 // ws repreesnts one single client
@@ -52,22 +55,24 @@ wss.on("connection", (ws) => {
 
   // EMITS EVERY SECOND TO ALL CLIENTS
   // ! FOR TESTING ONLY, THIS BEHAVIOUR SHOULD BE DONE BY THE ESP32 ITSELF
-  setInterval(() => {
-    // var strArr = Array.apply(null, Array(12)).map(
-    //   Number.prototype.valueOf,
-    //   Math.floor(Math.random() * 200)
-    // );
+  if (EMULATOR) {
+    setInterval(() => {
+      // var strArr = Array.apply(null, Array(12)).map(
+      //   Number.prototype.valueOf,
+      //   Math.floor(Math.random() * 200)
+      // );
 
-    var strArr = Array.from({ length: 12 }, () =>
-      Math.floor(Math.random() * 200)
-    );
-    console.log(strArr);
-    sendWSObject(
-      WSMessageType.pressure_data,
-      parseESP32PressureData(strArr.join(" ")),
-      ws
-    );
-  }, 1000);
+      var strArr = Array.from({ length: 12 }, () =>
+        Math.floor(Math.random() * 200)
+      );
+      console.log(strArr);
+      sendWSObject(
+        WSMessageType.pressure_data,
+        parseESP32PressureData(strArr.join(" ")),
+        ws
+      );
+    }, 500);
+  }
 });
 
 console.log(`The WebSocket server is running on port ${PORT}`);
@@ -99,13 +104,15 @@ function handleJSONMessage(ws: WebSocketServer.WebSocket, message: string) {
       console.log(CYAN, "[UI] REQUEST SYNC TILE GRID");
       broadcast(WSMessageType.request_sync_grid, "C", ws, true);
 
-      // ! DELETE BELOW WHEN FULLY IMPLEMENTED
-      var messageObjJSONStr: string = constructWSObject(
-        WSMessageType.request_sync_grid,
-        parseTileGridShape(tileShapeStr)
-      );
-      ws.send(messageObjJSONStr);
-      shapeFlag = !shapeFlag;
+      if (EMULATOR) {
+        // ! DELETE BELOW WHEN FULLY IMPLEMENTED
+        var messageObjJSONStr: string = constructWSObject(
+          WSMessageType.request_sync_grid,
+          parseTileGridShape(tileShapeStr)
+        );
+        ws.send(messageObjJSONStr);
+        shapeFlag = !shapeFlag;
+      }
       break;
 
     default:
