@@ -1,5 +1,4 @@
 import Button from "../Atoms/Button";
-import { CheckBoxAndLabel } from "../../Containers";
 import Checkbox from "../Atoms/Checkbox";
 import { useContext } from "react";
 import { PressureDataContext } from "../../context/pressureDataContext";
