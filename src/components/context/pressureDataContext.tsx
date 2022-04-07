@@ -13,6 +13,8 @@ interface IPressureDataContext {
   setStreamString: (str: string) => void;
   chartData: IHash;
   setChartData: (hash: IHash) => void;
+  autoscroll: boolean;
+  setAutoscroll: (checked: boolean) => void;
 }
 
 export const PressureDataContext = createContext<IPressureDataContext>({
@@ -22,6 +24,8 @@ export const PressureDataContext = createContext<IPressureDataContext>({
   setStreamString: () => {},
   chartData: {},
   setChartData: () => {},
+  autoscroll: true,
+  setAutoscroll: () => {},
 });
 
 interface IPressureDataProvider {
@@ -33,6 +37,7 @@ export const PressureDataProvider = (props: IPressureDataProvider) => {
     useState<TileGridPressure>([]);
   const [streamString, setStreamString] = useState<string>("");
   const [chartData, setChartData] = useState<IHash>({});
+  const [autoscroll, setAutoscroll] = useState<boolean>(true);
 
   useEffect(() => {
     if (pressureDataObject.length !== 0) {
@@ -50,6 +55,8 @@ export const PressureDataProvider = (props: IPressureDataProvider) => {
     setStreamString,
     chartData,
     setChartData,
+    autoscroll,
+    setAutoscroll,
   };
 
   return (
